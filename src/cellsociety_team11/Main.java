@@ -1,6 +1,6 @@
 package cellsociety_team11;
 
-import cellsociety.GUI;
+import cellsociety.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,9 +10,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        GUI display = new GUI();
+        Controller controller = new Controller();
         stage.setTitle(TITLE);
-        stage.setScene(display.getScene());
+        stage.setScene(controller.getScene());
         stage.show();
     }
     
