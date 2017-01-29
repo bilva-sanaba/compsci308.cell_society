@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 /**
- * Master class that sets up the scene, interacts with user and controls coordinates the simulation
+ * Master class that sets up the scene, interacts with user and coordinates the simulation
  * @author Mike Liu
  *
  */
@@ -62,17 +62,15 @@ public class Controller {
 
     private Node initInputPanel() {
         initButtons();
-        enableButtons();
         initSpeedChooser();
+        enableInput(model == null);
         HBox inputPanel = new HBox(INPUT_PANEL_SPACING, load, play, pause, step, speedLabel, speedSlider);
         inputPanel.setStyle("-fx-padding: 30;" + "-fx-border-color: grey;" + "-fx-alignment: center;");
         return inputPanel;
     }
 
     private void initButtons() {
-        load = createButton("Load", e -> {
-            
-        });
+        load = createButton("Load", e -> handleLoad());
         play = createButton("Play", e -> {
             animation.play();
         });
@@ -83,7 +81,7 @@ public class Controller {
             step();
         });
     }
-    
+
     private Button createButton(String label, EventHandler<ActionEvent> e) {
         Button b = new Button();
         b.setText(label);
@@ -91,10 +89,11 @@ public class Controller {
         return b;
     }
 
-    private void enableButtons() {
-        play.setDisable(model == null);
-        pause.setDisable(model == null);
-        step.setDisable(model == null);
+    private void enableInput(boolean disable) {
+        play.setDisable(disable);
+        pause.setDisable(disable);
+        step.setDisable(disable);
+        speedSlider.setDisable(disable);
     }
 
     private void initSpeedChooser() {
@@ -114,6 +113,10 @@ public class Controller {
         slider.setMajorTickUnit(1);
         slider.setMinorTickCount(3);
         return slider;
+    }
+    
+    private void handleLoad() {
+        // TODO Auto-generated method stub
     }
 
     private double getSpeed(Slider slider) {

@@ -12,6 +12,7 @@ public class Main extends Application {
         Controller controller = new Controller();
         stage.setTitle(TITLE);
         stage.setScene(controller.getScene());
+        stage.setResizable(false);
         stage.show();
     }
     

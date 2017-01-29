@@ -16,8 +16,8 @@ public class watorCell extends Cell {
     public static final int SHARK = 2;
     public static final Color[] COLORS = {Color.BLUE, Color.BISQUE, Color.GREY};
     
-    private watorCell(int type) {
-        super(type, COLORS[type]);
+    public watorCell() {
+        super(WATER, COLORS[WATER]);
     }
     
     public void toWater() {
@@ -30,17 +30,5 @@ public class watorCell extends Cell {
     
     public void toShark() {
         setState(SHARK, COLORS[SHARK]);
-    }
-    
-    public static watorCell getWater() {
-        return new watorCell(WATER);
-    }
-    
-    public static watorCell getFish() {
-        return new watorCell(FISH);
-    }
-    
-    public static watorCell getShark() {
-        return new watorCell(SHARK);
     }
 }
