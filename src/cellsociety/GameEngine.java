@@ -8,7 +8,6 @@ public abstract class GameEngine {
     
     public static final int FRAMES_PER_SECOND = 1;
     public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     
     private Timeline animation;
     private Grid grid;
@@ -25,13 +24,13 @@ public abstract class GameEngine {
         animation.pause();
     }
     
-    public abstract void step(double secondDelay);
+    public abstract void step();
     
     private Timeline getTimeline() {
         Timeline tl = new Timeline();
         tl.setCycleCount(Timeline.INDEFINITE);
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
+                e -> step());
         tl.getKeyFrames().add(frame);
         return tl;
     }
