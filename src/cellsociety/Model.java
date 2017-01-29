@@ -8,7 +8,7 @@ public abstract class Model {
     private Grid grid;
     
     public Model() {
-        
+        //TODO
     }
     
     public abstract void step();

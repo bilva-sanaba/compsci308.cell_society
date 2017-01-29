@@ -13,6 +13,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
+/**
+ * Master class that sets up the stage, interacts with user and controls coordinates the simulation
+ * @author Mike Liu
+ *
+ */
 public class Controller {
     
     public static final Dimension SCENE_SIZE = new Dimension(800, 600);
