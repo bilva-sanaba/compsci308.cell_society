@@ -1,0 +1,15 @@
+package cellsociety;
+
+public abstract class Model {
+    
+    public static final int FRAMES_PER_SECOND = 1;
+    public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    
+    private Grid grid;
+    
+    public Model() {
+        //TODO
+    }
+    
+    public abstract void step();
+}
