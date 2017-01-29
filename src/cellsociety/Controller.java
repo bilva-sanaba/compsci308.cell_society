@@ -37,10 +37,11 @@ public class Controller {
 
     public Controller() {
         BorderPane root = new BorderPane();
+        view = new View();
+        root.setCenter(view);
         root.setBottom(initInputPanel());
         scene = new Scene(root, SCENE_SIZE.width, SCENE_SIZE.height);
         animation = getTimeline();
-        view = new View();
     }
     
     public Scene getScene() {
