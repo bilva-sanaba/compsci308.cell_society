@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 /**
- * Master class that sets up the stage, interacts with user and controls coordinates the simulation
+ * Master class that sets up the scene, interacts with user and controls coordinates the simulation
  * @author Mike Liu
  *
  */
@@ -29,7 +29,6 @@ public class Controller {
 
     private Scene scene;
     private Timeline animation;
-    private KeyFrame frame;
     private Button load, play, pause, step;
     private Slider speedSlider;
     private Label speedLabel;
@@ -51,8 +50,7 @@ public class Controller {
     private Timeline getTimeline() {
         Timeline tl = new Timeline();
         tl.setCycleCount(Timeline.INDEFINITE);
-        frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step());
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
         tl.getKeyFrames().add(frame);
         return tl;
     }
@@ -100,10 +98,13 @@ public class Controller {
     }
 
     private void initSpeedChooser() {
-        speedLabel = new Label("Speed: 1.00");
+        speedLabel = new Label("Speed: 1.00x");
         speedSlider = createSpeedSlider();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            speedLabel.setText(String.format("Speed: %.2f", getSpeed(speedSlider)));
+            double speed = getSpeed(speedSlider);
+            speedLabel.setText(String.format("Speed: %.2fx", speed));
+            animation.getKeyFrames().clear();
+            animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLISECOND_DELAY/speed), e -> step()));
         });
     }
     
