@@ -4,6 +4,11 @@ import javafx.scene.paint.Color;
 
 import cellsociety.Cell;
 
+/**
+ * Cell for Wa-Tor simulation
+ * @author liuzj
+ *
+ */
 public class watorCell extends Cell {
 
     public static final int WATER = 0;

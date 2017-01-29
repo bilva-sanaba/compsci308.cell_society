@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
@@ -21,13 +23,16 @@ import javafx.util.Duration;
 public class Controller {
     
     public static final Dimension SCENE_SIZE = new Dimension(800, 600);
-    public static final double INPUT_PANEL_SPACING = 80;
+    public static final double INPUT_PANEL_SPACING = 50;
     public static final int FRAMES_PER_SECOND = 1;
     public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 
     private Scene scene;
     private Timeline animation;
+    private KeyFrame frame;
     private Button load, play, pause, step;
+    private Slider speedSlider;
+    private Label speedLabel;
     private Model model;
     private View view;
 
@@ -46,7 +51,7 @@ public class Controller {
     private Timeline getTimeline() {
         Timeline tl = new Timeline();
         tl.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+        frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
                 e -> step());
         tl.getKeyFrames().add(frame);
         return tl;
@@ -60,7 +65,8 @@ public class Controller {
     private Node initInputPanel() {
         initButtons();
         enableButtons();
-        HBox inputPanel = new HBox(INPUT_PANEL_SPACING, load, play, pause, step);
+        initSpeedChooser();
+        HBox inputPanel = new HBox(INPUT_PANEL_SPACING, load, play, pause, step, speedLabel, speedSlider);
         inputPanel.setStyle("-fx-padding: 30;" + "-fx-border-color: grey;" + "-fx-alignment: center;");
         return inputPanel;
     }
@@ -91,5 +97,25 @@ public class Controller {
         play.setDisable(model == null);
         pause.setDisable(model == null);
         step.setDisable(model == null);
+    }
+
+    private void initSpeedChooser() {
+        speedLabel = new Label("Speed: 1.00");
+        speedSlider = createSpeedSlider();
+        speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            speedLabel.setText(String.format("Speed: %.2f", getSpeed(speedSlider)));
+        });
+    }
+    
+    private Slider createSpeedSlider() {
+        Slider slider = new Slider(-2, 2, 0);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(1);
+        slider.setMinorTickCount(3);
+        return slider;
+    }
+
+    private double getSpeed(Slider slider) {
+        return Math.pow(2, slider.getValue());
     }
 }
