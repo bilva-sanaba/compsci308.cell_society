@@ -1,4 +1,3 @@
-package cellsociety_team11;
 
 import cellsociety.Controller;
 import javafx.application.Application;
