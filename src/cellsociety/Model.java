@@ -12,4 +12,8 @@ public abstract class Model {
     }
     
     public abstract void step();
+    
+    public static Model getModel() {
+        return null;
+    }
 }
