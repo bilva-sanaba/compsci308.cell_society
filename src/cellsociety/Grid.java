@@ -14,8 +14,8 @@ public abstract class Grid {
         return sim.length;
     }
     
-    public int numCols() {
-        return sim[0].length;
+    public int numCols(int row) {
+        return sim[row].length;
     }
     
     public Cell get(int row, int col) {
