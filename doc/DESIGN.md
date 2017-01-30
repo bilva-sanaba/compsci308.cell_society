@@ -20,7 +20,8 @@ Cells and finding their neighbors based on coordinates given.
 and change state and color according to the simulation it should be used in.
 * The XMLReader class reads the XML configuration file of simulations.
 * The essentials of this project, including Controller, Model, View, Grid and Cell are all in cellsociety package. XMLReader will
-be in util package. And the Model and Cell subclass for each simulation will be in a package for the corresponding simulation.  
+be in util package. Subclasses of Model will be in the model package, subclasses of Cell will be in the cell package and the
+subclasses of Grid will be in the grid package.  
 ![CRC](CRC.png "CRC")
 
 ## User Interface
@@ -57,8 +58,8 @@ different state color of that state.
 the grid appropriately, and then view is updated, which updates the visual representation of the grid on the screen. 
 * The View class extends Pane and is responsible for displaying the state of the simulation according to the information it gets
 from Model. In Controller, the View is initialized and will get a instance of Model when the model is loaded. In its constructor,
-View takes model and adds visual representations of the Model¡¯s grid to View¡¯s children, which will be displayed on the screen.
-When View is updated, it simply loops through its Model¡¯s grid and updates its representation of the grid. 
+View takes model and adds visual representations of the ModelÂ¡Â¯s grid to ViewÂ¡Â¯s children, which will be displayed on the screen.
+When View is updated, it simply loops through its ModelÂ¡Â¯s grid and updates its representation of the grid. 
 * The simulation continues until pause is pressed. An event handler in Controller pauses the timeline. If load is pressed,
 timeline is stopped, view is cleared and both View and Controller will get the newly loaded Model. If the speed slider is moved,
 an event handler sets the step delay accordingly.
@@ -71,13 +72,13 @@ middle cell and determine that it is not on the edge or corner by checking if it
 the method finds that it is a middle cell, the findNeighbors will find the 8 neighbors and return them as a Set<Cell>. This
 method would be called in GameOfLifeModel. From here, inside step(), the model would count the neighbors and update the cell to
 the dead state if there were less than three neighbors with non dead states (state according to the gameOfLifeCell class). This
-all occurs inside a loop that does this with each cell. Additionally, all of this occurs in the Controller¡¯s step method. In
+all occurs inside a loop that does this with each cell. Additionally, all of this occurs in the ControllerÂ¡Â¯s step method. In
 this step method, view.update() is also called which takes the just  updated grid with cell states and then updates the visual
 representation of the cells. 
 * This would work the same as above. In the findNeighbors method, if the cell was on the edge, the method would determine based
 on coordinates, and not store/check for the inexistent cells in the returned set of cell neighbors. 
 * As stated in the first use case, the updates for each cell occur in the step function for Controller. In the Model.update,
-the grid¡¯s cells are updated. After this, view.update() is called which will take the new grid, compare it to its current state,
+the gridÂ¡Â¯s cells are updated. After this, view.update() is called which will take the new grid, compare it to its current state,
 and change the views of any non-matching cells. 
 * XMLReader parses all the information from the XML file and saves it in XMLData according to the tags. XMLData is passed to
 Model, which calls a get method to retrieve propCatch from the XMLData instance and then sets the parameter.
