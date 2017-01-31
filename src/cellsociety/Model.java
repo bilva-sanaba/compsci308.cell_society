@@ -11,6 +11,10 @@ public abstract class Model {
         //TODO
     }
     
+    public Grid getGrid() {
+        return grid;
+    }
+    
     public abstract void step();
     
     public static Model getModel() {
