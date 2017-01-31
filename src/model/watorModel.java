@@ -1,4 +1,6 @@
-package cellsociety;
+package model;
+
+import cellsociety.Model;
 
 public class watorModel extends Model{
 
