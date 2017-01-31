@@ -20,6 +20,6 @@ public class View extends Pane {
     }
     
     public void update() {
-        
+        Grid grid = model.getGrid();
     }
 }
