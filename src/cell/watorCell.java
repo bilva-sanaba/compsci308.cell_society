@@ -14,21 +14,20 @@ public class watorCell extends Cell {
     public static final int WATER = 0;
     public static final int FISH = 1;
     public static final int SHARK = 2;
-    public static final Color[] COLORS = {Color.BLUE, Color.BISQUE, Color.GREY};
     
-    public watorCell() {
-        super(WATER, COLORS[WATER]);
+    private watorCell(int state, Color color) {
+        super(state, color);
     }
     
-    public void toWater() {
-        setState(WATER, COLORS[WATER]);
+    public static watorCell water() {
+        return new watorCell(WATER, Color.BLUE);
     }
     
-    public void toFish() {
-        setState(FISH, COLORS[FISH]);
+    public static watorCell fish() {
+        return new watorCell(FISH, Color.BISQUE);
     }
     
-    public void toShark() {
-        setState(SHARK, COLORS[SHARK]);
+    public static watorCell shark() {
+        return new watorCell(SHARK, Color.GREY);
     }
 }
