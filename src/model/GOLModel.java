@@ -14,8 +14,8 @@ public class GOLModel extends Model {
 
     @Override
     public void step() {
-        Grid newGrid = new RectangleGrid();
-        Grid grid = getGrid();
+        Grid<GOLCell> newGrid = new RectangleGrid<GOLCell>();
+        Grid<GOLCell> grid = (Grid<GOLCell>) getGrid();
         for(int row = 0; row < grid.numRows(); row++) {
             for(int col = 0; col < grid.numCols(row); col++) {
                 newGrid.set(row, col, changeState(grid.get(row, col), grid.findNeighbors(row, col)));
@@ -24,7 +24,7 @@ public class GOLModel extends Model {
         }
     }
 
-    private GOLCell changeState(Cell cell, Set<Cell> neighbors) {
+    private GOLCell changeState(GOLCell cell, Set<GOLCell> neighbors) {
         int count = 0;
         for(Cell n: neighbors) {
             if(n.getState() == GOLCell.LIVE) {

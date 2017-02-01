@@ -2,9 +2,9 @@ package cellsociety;
 
 import java.util.Set;
 
-public abstract class Grid {
+public abstract class Grid<E extends Cell> {
 
-    Cell[][] sim;
+    E[][] sim;
     
     public Grid() {
         //TODO: initialize sim
@@ -18,14 +18,14 @@ public abstract class Grid {
         return sim[row].length;
     }
     
-    public Cell get(int row, int col) {
+    public E get(int row, int col) {
         return sim[row][col];
     }
     
-    public void set(int row, int col, Cell cell) {
+    public void set(int row, int col, E cell) {
         sim[row][col] = cell;
     }
     
-    public abstract Set<Cell> findNeighbors(int row, int col);
+    public abstract Set<E> findNeighbors(int row, int col);
     
 }
