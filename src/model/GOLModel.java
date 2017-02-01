@@ -1,12 +1,17 @@
 package model;
 
-import java.util.Set;
+import java.util.Collection;
 
 import cell.GOLCell;
 import cellsociety.Cell;
 import cellsociety.Grid;
 import cellsociety.Model;
 
+/**
+ * Model for Game of Life simulation
+ * @author Mike Liu
+ *
+ */
 public class GOLModel extends Model {
     
     public static final int LOWER_THRESHOLD = 2;
@@ -19,12 +24,12 @@ public class GOLModel extends Model {
         for(int row = 0; row < grid.numRows(); row++) {
             for(int col = 0; col < grid.numCols(row); col++) {
                 newGrid.set(row, col, changeState(grid.get(row, col), grid.findNeighbors(row, col)));
-                
             }
         }
+        setGrid(newGrid);
     }
 
-    private GOLCell changeState(GOLCell cell, Set<GOLCell> neighbors) {
+    private GOLCell changeState(GOLCell cell, Collection<GOLCell> neighbors) {
         int count = 0;
         for(Cell n: neighbors) {
             if(n.getState() == GOLCell.LIVE) {

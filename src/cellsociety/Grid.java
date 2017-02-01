@@ -1,6 +1,6 @@
 package cellsociety;
 
-import java.util.Set;
+import java.util.Collection;
 
 public abstract class Grid<E extends Cell> {
 
@@ -26,6 +26,8 @@ public abstract class Grid<E extends Cell> {
         sim[row][col] = cell;
     }
     
-    public abstract Set<E> findNeighbors(int row, int col);
+    public abstract Collection<E> findNeighbors(int row, int col);
+    
+    public abstract ShapeGenerator getShapeGenerator(double width);
     
 }

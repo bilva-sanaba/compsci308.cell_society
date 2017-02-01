@@ -3,6 +3,11 @@ package cell;
 import cellsociety.Cell;
 import javafx.scene.paint.Color;
 
+/**
+ * Cell for Game of Life simulation
+ * @author Mike Liu
+ *
+ */
 public class GOLCell extends Cell {
 
     public static final int DEAD = 0;
