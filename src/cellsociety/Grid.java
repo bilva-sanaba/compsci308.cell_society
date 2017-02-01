@@ -22,6 +22,10 @@ public abstract class Grid {
         return sim[row][col];
     }
     
+    public void set(int row, int col, Cell cell) {
+        sim[row][col] = cell;
+    }
+    
     public abstract Set<Cell> findNeighbors(int row, int col);
     
 }
