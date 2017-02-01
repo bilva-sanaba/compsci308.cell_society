@@ -15,9 +15,14 @@ public abstract class Model {
         return grid;
     }
     
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+    
     public abstract void step();
     
     public static Model getModel() {
+        //TODO
         return null;
     }
 }

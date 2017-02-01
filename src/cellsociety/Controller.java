@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
@@ -66,7 +67,7 @@ public class Controller {
         initSpeedChooser();
         enableInput(model == null);
         HBox inputPanel = new HBox(INPUT_PANEL_SPACING, load, play, pause, step, speedLabel, speedSlider);
-        inputPanel.setStyle("-fx-padding: 30;" + "-fx-border-color: grey;" + "-fx-alignment: center;");
+        inputPanel.setStyle("-fx-padding: 30;" + "-fx-background-color: black;" + "-fx-alignment: center;");
         return inputPanel;
     }
 
@@ -98,7 +99,7 @@ public class Controller {
     }
 
     private void initSpeedChooser() {
-        speedLabel = new Label("Speed: 1.00x");
+        speedLabel = createSpeedLabel();
         speedSlider = createSpeedSlider();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             double speed = getSpeed(speedSlider);
@@ -106,6 +107,12 @@ public class Controller {
             animation.getKeyFrames().clear();
             animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLISECOND_DELAY/speed), e -> step()));
         });
+    }
+    
+    private Label createSpeedLabel() {
+        Label label = new Label("Speed: 1.00x");
+        label.setTextFill(Color.WHITE);
+        return label;
     }
     
     private Slider createSpeedSlider() {
