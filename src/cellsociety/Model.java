@@ -13,7 +13,7 @@ public abstract class Model {
     }
     
     public void setGrid(Grid<? extends Cell> grid) {
-        this.grid = grid;
+        //TODO
     }
     
     public abstract void step();

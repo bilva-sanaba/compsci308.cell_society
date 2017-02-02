@@ -1,6 +1,5 @@
 package cellsociety;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -12,11 +11,10 @@ import java.util.Set;
 public abstract class Grid<E extends Cell> {
 
     private E[][] sim;
-    private Collection<E>[][] neighborGraph;
     
     public Grid() {
         //TODO: create Grid based on XML Data, then loop through all cell coordinates and add neighbors
-        neighborGraph = buildNeighborGraph();
+        buildNeighborGraph();
     }
     
     public int numRows() {
@@ -31,14 +29,6 @@ public abstract class Grid<E extends Cell> {
         return sim[row][col];
     }
     
-    public void set(int row, int col, E cell) {
-        sim[row][col] = cell;
-    }
-    
-    public Collection<E> getNeighbors(int row, int col) {
-        return neighborGraph[row][col];
-    }
-    
     public abstract ShapeGenerator getShapeGenerator(double width);
     
     /**
@@ -51,14 +41,12 @@ public abstract class Grid<E extends Cell> {
      */
     protected abstract Set<E> findNeighbor(int row, int col);
     
-    private Collection<E>[][] buildNeighborGraph() {
-        Collection<E>[][] ret = (Collection<E>[][]) new Collection[numRows()][numCols()];
+    private void buildNeighborGraph() {
         for(int row = 0; row < sim.length; row++) {
             for(int col = 0; col < sim[0].length; col++) {
-                ret[row][col] = findNeighbor(row, col);
+                sim[row][col].setNeighbors(findNeighbor(row, col));
             }
         }
-        return ret;
     }
     
 }
