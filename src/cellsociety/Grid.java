@@ -3,6 +3,12 @@ package cellsociety;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Superclass of grid that contains cells in the simulation
+ * @author Mike Liu
+ *
+ * @param <E> The type of object that is contained by the grid. Must extend Cell.
+ */
 public abstract class Grid<E extends Cell> {
 
     private E[][] sim;

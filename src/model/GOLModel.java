@@ -6,7 +6,7 @@ import cell.GOLCell;
 import cellsociety.Cell;
 import cellsociety.Grid;
 import cellsociety.Model;
-import cellsociety.RectangleGrid;
+import grid.RectangleGrid;
 
 /**
  * Model for Game of Life simulation
@@ -17,6 +17,10 @@ public class GOLModel extends Model {
     
     public static final int LOWER_THRESHOLD = 2;
     public static final int UPPER_THRESHOLD = 3;
+    
+    public GOLModel() {
+        //TODO
+    }
 
     @Override
     public void step() {
