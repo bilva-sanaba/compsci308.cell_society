@@ -27,6 +27,11 @@ public class GOLModel extends Model {
                 changeState(grid.get(row, col));
             }
         }
+        for(int row = 0; row < grid.numRows(); row++) {
+            for(int col = 0; col < grid.numCols(); col++) {
+                grid.get(row, col).update();;
+            }
+        }
     }
 
     private void changeState(GOLCell cell) {

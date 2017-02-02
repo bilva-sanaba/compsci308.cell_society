@@ -3,6 +3,7 @@ package cellsociety;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import javafx.scene.paint.Color;
 
@@ -14,9 +15,9 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
     
-    private int state;
-    private Color color;
-    private Collection<? extends Cell> neighbors;
+    private int state, nextState;
+    private Color color, nextColor;
+    private Set<Cell> neighbors;
     
     public Cell() {
         this(0, Color.WHITE);
@@ -28,6 +29,11 @@ public abstract class Cell {
         this.color = color;
     }
     
+    public void update() {
+        state = nextState;
+        color = nextColor;
+    }
+    
     public int getState() {
         return state;
     }
@@ -37,15 +43,17 @@ public abstract class Cell {
     }
     
     public void setNeighbors(Collection<? extends Cell> neighbors) {
-        this.neighbors = neighbors;
+        this.neighbors.clear();
+        this.neighbors.addAll(neighbors);
     }
     
     public Collection<? extends Cell> getNeighbors() {
         return Collections.unmodifiableCollection(neighbors);
+        
     }
     
     protected void setState(int state, Color color) {
-        this.state = state;
-        this.color = color;
+        nextState = state;
+        nextColor = color;
     }
 }
