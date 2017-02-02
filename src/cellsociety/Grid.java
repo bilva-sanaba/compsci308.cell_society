@@ -10,7 +10,7 @@ public abstract class Grid {
     Map <Integer[], Set<Cell>> NeighborMap = new HashMap<Integer[], Set<Cell>>();
     
     public Grid() {
-        //TODO: create Grid based on XML Data, then loop through all cell coordinates and add neighbors
+        //TODO: create Grid based on XML Data, then loop through all cell coordinates and do add neighbors of each coordinates
     	
     }
     

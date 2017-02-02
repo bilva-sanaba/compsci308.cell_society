@@ -24,26 +24,34 @@ public class RectangleGrid extends Grid{
 		  Integer[] key = new Integer[2];
 		  key[0] = row;
 		  key[1] = col;
-//		    if (!isLeftEdge(row,col)){
-//		    	neighbors.add(sim[]))
-//		    	}
-//		    }
-//		    else {
-//		    	if (this.isOnEdge(row, col)){
-//		    		
-//		    		
-//		    	}
-//		    else{
-//		    	for (int r = -1; r<=1;r++){
-//		    		for (int c =-1; r<=1;c++){
-//		    		if (r!=0 && c!=0){
-//		    			neighbors.add(sim[row+r][col+c]);
-//		    		}
-//		    		}
-//		    	}
-//		    }
-		   NeighborMap.put(key,neighbors);
-		    
+		  NeighborMap.put(key, new HashSet<Cell>());
+		  if (!isLeftEdge(row,col)){
+			  neighbors.add(sim[row][col-1]);
+		  }
+		  if (!isRightEdge(row,col)){
+			  neighbors.add(sim[row][col+1]);
+		  }
+		  if (!isTopEdge(row,col)){
+			  neighbors.add(sim[row-1][col]);
+		  }
+		  if (!isBottomEdge(row,col)){
+			  neighbors.add(sim[row+1][col]);
+		  }
+		  if (!isLeftEdge(row,col) && !isTopEdge(row,col)){
+			  neighbors.add(sim[row-1][col-1]);
+		  }
+		  if (!isRightEdge(row,col) && !isTopEdge(row,col)){
+			  neighbors.add(sim[row-1][col+1]);
+		  }
+		  if (!isLeftEdge(row,col) && !isBottomEdge(row,col)){
+			  neighbors.add(sim[row+1][col-1]);
+		  }
+		  if (!isRightEdge(row,col) && !isBottomEdge(row,col)){
+			  neighbors.add(sim[row+1][col+1]);
+		  }
+		  for (Cell cell : neighbors){
+			  NeighborMap.get(key).add(cell);
+		  }
 		    
 		}
 	
