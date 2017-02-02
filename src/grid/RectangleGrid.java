@@ -11,7 +11,7 @@ import shapegenerator.SquareGenerator;
 public class RectangleGrid<E extends Cell> extends Grid<E> {
 		
 	private boolean isLeftEdge(int row, int col){
-		return (col ==0);
+		return (col == 0);
 	}
 	
 	private boolean isRightEdge(int row, int col){
@@ -23,7 +23,7 @@ public class RectangleGrid<E extends Cell> extends Grid<E> {
 	}
 	
 	private boolean isTopEdge(int row, int col){
-		return (row==0);
+		return (row == 0);
 	}
 	
     @Override
@@ -34,23 +34,30 @@ public class RectangleGrid<E extends Cell> extends Grid<E> {
     @Override
     protected Set<E> findNeighbor(int row, int col) {
         Set<E> neighbors = new HashSet<E>();
-//        if (!isLeftEdge(row,col)) {
-//            neighbors.add();
-//        }
-//        else {
-//            if (this.isOnEdge(row, col)) {
-//                
-//            }
-//            else {
-//                for (int r = -1; r<=1;r++){
-//                    for (int c =-1; r<=1;c++){
-//                        if (r!=0 && c!=0){
-//                            neighbors.add(sim[row+r][col+c]);
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        if (!isLeftEdge(row,col)){
+            neighbors.add(get(row,col-1));
+        }
+        if (!isRightEdge(row,col)){
+            neighbors.add(get(row,col+1));
+        }
+        if (!isTopEdge(row,col)){
+            neighbors.add(get(row-1,col));
+        }
+        if (!isBottomEdge(row,col)){
+            neighbors.add(get(row+1,col));
+        }
+        if (!isLeftEdge(row,col) && !isTopEdge(row,col)){
+            neighbors.add(get(row-1,col-1));
+        }
+        if (!isRightEdge(row,col) && !isTopEdge(row,col)){
+            neighbors.add(get(row-1,col+1));
+        }
+        if (!isLeftEdge(row,col) && !isBottomEdge(row,col)){
+            neighbors.add(get(row+1,col-1));
+        }
+        if (!isRightEdge(row,col) && !isBottomEdge(row,col)){
+            neighbors.add(get(row+1,col+1));
+        }
         return neighbors;
     }
 	
