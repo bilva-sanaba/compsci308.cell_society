@@ -29,11 +29,6 @@ public abstract class Cell {
         this.color = color;
     }
     
-    public void update() {
-        state = nextState;
-        color = nextColor;
-    }
-    
     public int getState() {
         return state;
     }
@@ -49,10 +44,19 @@ public abstract class Cell {
     
     public Collection<? extends Cell> getNeighbors() {
         return Collections.unmodifiableCollection(neighbors);
-        
     }
     
-    protected void setState(int state, Color color) {
+    /**
+     * Updates the cell to the set next state
+     * User should set the next state of all cells and then call update on all cells
+     * to perform simultaneous update
+     */
+    public void update() {
+        state = nextState;
+        color = nextColor;
+    }
+    
+    protected void setNextState(int state, Color color) {
         nextState = state;
         nextColor = color;
     }

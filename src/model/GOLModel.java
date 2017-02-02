@@ -2,7 +2,6 @@ package model;
 
 import cell.GOLCell;
 import cellsociety.Cell;
-import cellsociety.Grid;
 import cellsociety.Model;
 
 /**
@@ -20,18 +19,13 @@ public class GOLModel extends Model {
     }
 
     @Override
-    public void step() {
-        Grid<GOLCell> grid = (Grid<GOLCell>) getGrid();
-        for(int row = 0; row < grid.numRows(); row++) {
-            for(int col = 0; col < grid.numCols(); col++) {
-                changeState(grid.get(row, col));
+    public void update() {
+        for(int row = 0; row < getGrid().numRows(); row++) {
+            for(int col = 0; col < getGrid().numCols(); col++) {
+                changeState((GOLCell)getGrid().get(row, col));
             }
         }
-        for(int row = 0; row < grid.numRows(); row++) {
-            for(int col = 0; col < grid.numCols(); col++) {
-                grid.get(row, col).update();;
-            }
-        }
+        getGrid().update();
     }
 
     private void changeState(GOLCell cell) {

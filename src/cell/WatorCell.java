@@ -23,15 +23,15 @@ public class WatorCell extends Cell {
     }
     
     public void toWater() {
-        setState(WATER, WATER_COLOR);
+        setNextState(WATER, WATER_COLOR);
     }
     
     public void toFish() {
-        setState(FISH, FISH_COLOR);
+        setNextState(FISH, FISH_COLOR);
     }
     
     public void toShark() {
-        setState(SHARK, SHARK_COLOR);
+        setNextState(SHARK, SHARK_COLOR);
     }
     
     public static WatorCell water() {

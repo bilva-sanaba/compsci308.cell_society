@@ -16,7 +16,7 @@ public abstract class Model {
         //TODO
     }
     
-    public abstract void step();
+    public abstract void update();
     
     public static Model getModel() {
         //TODO

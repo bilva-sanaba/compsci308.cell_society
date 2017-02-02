@@ -7,7 +7,7 @@ public class WatorModel extends Model {
     private int sharkEnergy = 10;
     
     @Override
-    public void step() {
+    public void update() {
         // TODO Auto-generated method stub
 
     }

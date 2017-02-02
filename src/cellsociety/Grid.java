@@ -28,6 +28,14 @@ public abstract class Grid<E extends Cell> {
         return sim[row][col];
     }
     
+    public void update() {
+        for(int row = 0; row < numRows(); row++) {
+            for(int col = 0; col < numCols(); col++) {
+                sim[row][col].update();
+            }
+        }
+    }
+    
     public abstract ShapeGenerator getShapeGenerator(double width);
     
     /**

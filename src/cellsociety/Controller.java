@@ -59,7 +59,7 @@ public class Controller {
     }
     
     private void step() {
-        model.step();
+        model.update();
         view.update();
     }
 

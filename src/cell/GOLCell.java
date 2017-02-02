@@ -20,11 +20,11 @@ public class GOLCell extends Cell {
     }
     
     public void spawn() {
-        setState(DEAD, DEAD_COLOR);
+        setNextState(DEAD, DEAD_COLOR);
     }
     
     public void die() {
-        setState(LIVE, LIVE_COLOR);
+        setNextState(LIVE, LIVE_COLOR);
     }
     
     public static GOLCell dead() {

@@ -6,7 +6,7 @@ import cellsociety.Model;
 public class SegregationModel extends Model{
 
 	@Override
-	public void step() {
+	public void update() {
 		
 		
 	}
