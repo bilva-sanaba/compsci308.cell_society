@@ -13,7 +13,6 @@ public abstract class Grid<E extends Cell> {
     private E[][] sim;
     
     public Grid() {
-        //TODO: create Grid based on XML Data, then loop through all cell coordinates and add neighbors
         buildNeighborGraph();
     }
     
