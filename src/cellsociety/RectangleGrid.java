@@ -9,10 +9,10 @@ public class RectangleGrid extends Grid{
 		return (col ==0);
 	}
 	private boolean isRightEdge(int row, int col){
-		return (col == sim[0].length);
+		return (col == numCols());
 	}
 	private boolean isBottomEdge(int row, int col){
-		return (row == sim.length );
+		return (row == numRows() );
 	}
 	private boolean isTopEdge(int row, int col){
 		return (row==0);
@@ -21,41 +21,47 @@ public class RectangleGrid extends Grid{
 
 	public void addNeighbors(int row, int col) {
 		  Set<Cell> neighbors = new HashSet<Cell>();
-		  Integer[] key = new Integer[2];
-		  key[0] = row;
-		  key[1] = col;
-		  NeighborMap.put(key, new HashSet<Cell>());
 		  if (!isLeftEdge(row,col)){
-			  neighbors.add(sim[row][col-1]);
+			  neighbors.add(get(row,col-1));
 		  }
 		  if (!isRightEdge(row,col)){
-			  neighbors.add(sim[row][col+1]);
+			  neighbors.add(get(row,col+1));
 		  }
 		  if (!isTopEdge(row,col)){
-			  neighbors.add(sim[row-1][col]);
+			  neighbors.add(get(row-1,col));
 		  }
 		  if (!isBottomEdge(row,col)){
-			  neighbors.add(sim[row+1][col]);
+			  neighbors.add(get(row+1,col));
 		  }
 		  if (!isLeftEdge(row,col) && !isTopEdge(row,col)){
-			  neighbors.add(sim[row-1][col-1]);
+			  neighbors.add(get(row-1,col-1));
 		  }
 		  if (!isRightEdge(row,col) && !isTopEdge(row,col)){
-			  neighbors.add(sim[row-1][col+1]);
+			  neighbors.add(get(row-1,col+1));
 		  }
 		  if (!isLeftEdge(row,col) && !isBottomEdge(row,col)){
-			  neighbors.add(sim[row+1][col-1]);
+			  neighbors.add(get(row+1,col-1));
 		  }
 		  if (!isRightEdge(row,col) && !isBottomEdge(row,col)){
-			  neighbors.add(sim[row+1][col+1]);
+			  neighbors.add(get(row+1,col+1));
 		  }
-		  for (Cell cell : neighbors){
-			  NeighborMap.get(key).add(cell);
+		  get(row,col).setNeighbors(neighbors);
+			 
 		  }
+	@Override
+	public ShapeGenerator getShapeGenerator(double width) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	protected Set<Cell> findNeighbor(int row, int col) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 		    
 		}
 	
-}
+
 
 
 	
