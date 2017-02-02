@@ -3,7 +3,7 @@ package cellsociety;
 import javafx.scene.paint.Color;
 
 /**
- * Superclass for individual cell for the grid
+ * Superclass for individual cell in the grid
  * Keeps track of state and color
  * @author Mike Liu
  *

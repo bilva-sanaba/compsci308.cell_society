@@ -6,7 +6,7 @@ import cellsociety.Cell;
 
 /**
  * Cell for Wa-Tor simulation
- * @author liuzj
+ * @author Mike Liu
  *
  */
 public class WatorCell extends Cell {

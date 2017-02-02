@@ -25,7 +25,7 @@ public class Controller {
     
     public static final Dimension SCENE_SIZE = new Dimension(800, 600);
     public static final double INPUT_PANEL_SPACING = 50;
-    public static final int FRAMES_PER_SECOND = 1;
+    public static final int FRAMES_PER_SECOND = 5;
     public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 
     private Scene scene;
@@ -39,6 +39,7 @@ public class Controller {
     public Controller() {
         BorderPane root = new BorderPane();
         view = new View();
+        view.setPrefWidth(SCENE_SIZE.width);
         root.setCenter(view);
         root.setBottom(initInputPanel());
         scene = new Scene(root, SCENE_SIZE.width, SCENE_SIZE.height);
