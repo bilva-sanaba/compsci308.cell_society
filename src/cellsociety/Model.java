@@ -8,7 +8,7 @@ public abstract class Model {
     private Grid grid;
     
     public Model() {
-        //TODO
+        //create grid based on xml data
     }
     
     public Grid getGrid() {
