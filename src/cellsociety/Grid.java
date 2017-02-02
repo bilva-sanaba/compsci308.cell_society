@@ -46,7 +46,7 @@ public abstract class Grid<E extends Cell> {
     protected abstract Set<E> findNeighbor(int row, int col);
     
     private Collection<E>[][] buildNeighborGraph() {
-        Collection<E>[][] ret = (Collection<E>[][]) new Collection[sim.length][sim[0].length];
+        Collection<E>[][] ret = (Collection<E>[][]) new Collection[numRows()][numCols()];
         for(int row = 0; row < sim.length; row++) {
             for(int col = 0; col < sim[0].length; col++) {
                 ret[row][col] = findNeighbor(row, col);
