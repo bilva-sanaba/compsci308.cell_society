@@ -3,49 +3,53 @@ package cellsociety;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RectangleGrid extends Grid{
+import shapegenerator.SquareGenerator;
+
+public class RectangleGrid<E extends Cell> extends Grid<E> {
 		
 	private boolean isLeftEdge(int row, int col){
 		return (col ==0);
 	}
+	
 	private boolean isRightEdge(int row, int col){
-		return (col == sim[0].length);
+		return (col == numCols());
 	}
+	
 	private boolean isBottomEdge(int row, int col){
-		return (row == sim.length );
+		return (row == numRows());
 	}
+	
 	private boolean isTopEdge(int row, int col){
 		return (row==0);
 	}
 	
-
-	public void addNeighbors(int row, int col) {
-		  Set<Cell> neighbors = new HashSet<Cell>();
-		  Integer[] key = new Integer[2];
-		  key[0] = row;
-		  key[1] = col;
-//		    if (!isLeftEdge(row,col)){
-//		    	neighbors.add(sim[]))
-//		    	}
-//		    }
-//		    else {
-//		    	if (this.isOnEdge(row, col)){
-//		    		
-//		    		
-//		    	}
-//		    else{
-//		    	for (int r = -1; r<=1;r++){
-//		    		for (int c =-1; r<=1;c++){
-//		    		if (r!=0 && c!=0){
-//		    			neighbors.add(sim[row+r][col+c]);
-//		    		}
-//		    		}
-//		    	}
-//		    }
-		   NeighborMap.put(key,neighbors);
-		    
-		    
-		}
+    @Override
+    public ShapeGenerator getShapeGenerator(double width) {
+        return new SquareGenerator(width, this);
+    }
+    
+    @Override
+    protected Set<E> findNeighbor(int row, int col) {
+        Set<E> neighbors = new HashSet<E>();
+//        if (!isLeftEdge(row,col)) {
+//            neighbors.add();
+//        }
+//        else {
+//            if (this.isOnEdge(row, col)) {
+//                
+//            }
+//            else {
+//                for (int r = -1; r<=1;r++){
+//                    for (int c =-1; r<=1;c++){
+//                        if (r!=0 && c!=0){
+//                            neighbors.add(sim[row+r][col+c]);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        return neighbors;
+    }
 	
 }
 

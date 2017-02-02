@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
@@ -24,7 +25,7 @@ public class Controller {
     
     public static final Dimension SCENE_SIZE = new Dimension(800, 600);
     public static final double INPUT_PANEL_SPACING = 50;
-    public static final int FRAMES_PER_SECOND = 1;
+    public static final int FRAMES_PER_SECOND = 5;
     public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 
     private Scene scene;
@@ -38,6 +39,7 @@ public class Controller {
     public Controller() {
         BorderPane root = new BorderPane();
         view = new View();
+        view.setPrefWidth(SCENE_SIZE.width);
         root.setCenter(view);
         root.setBottom(initInputPanel());
         scene = new Scene(root, SCENE_SIZE.width, SCENE_SIZE.height);
@@ -66,7 +68,7 @@ public class Controller {
         initSpeedChooser();
         enableInput(model == null);
         HBox inputPanel = new HBox(INPUT_PANEL_SPACING, load, play, pause, step, speedLabel, speedSlider);
-        inputPanel.setStyle("-fx-padding: 30;" + "-fx-border-color: grey;" + "-fx-alignment: center;");
+        inputPanel.setStyle("-fx-padding: 30;" + "-fx-background-color: black;" + "-fx-alignment: center;");
         return inputPanel;
     }
 
@@ -98,7 +100,7 @@ public class Controller {
     }
 
     private void initSpeedChooser() {
-        speedLabel = new Label("Speed: 1.00x");
+        speedLabel = createSpeedLabel();
         speedSlider = createSpeedSlider();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             double speed = getSpeed(speedSlider);
@@ -106,6 +108,12 @@ public class Controller {
             animation.getKeyFrames().clear();
             animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLISECOND_DELAY/speed), e -> step()));
         });
+    }
+    
+    private Label createSpeedLabel() {
+        Label label = new Label("Speed: 1.00x");
+        label.setTextFill(Color.WHITE);
+        return label;
     }
     
     private Slider createSpeedSlider() {
