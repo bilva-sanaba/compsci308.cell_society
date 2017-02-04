@@ -12,8 +12,10 @@ import javafx.util.Duration;
  */
 public class Controller {
     
-    public static final int FRAMES_PER_SECOND = 5;
-    public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    public static final int MIN_SPEED = 1;
+    public static final int MAX_SPEED = 20;
+    public static final int DEFAULT_SPEED = 10;
+    public static final double MILLIS_PER_SECOND = 1000;
 
     private Timeline animation;
     private Model model;
@@ -26,13 +28,17 @@ public class Controller {
     
     public void load() {
         //TODO
-        //Add exception handling
+        try {
+            //model = new
+            //gridView.setShape()
+            //model.setGrid()
+        } catch(CAException e) {
+            model = null;
+        }
     }
     
     public void play() {
-        if(!hasModel()) {
-            throw new CAException(CAException.NO_MODEL);
-        }
+        validateModel();
         animation.play();
     }
     
@@ -41,16 +47,14 @@ public class Controller {
     }
     
     public void step() {
-        if(!hasModel()) {
-            throw new CAException(CAException.NO_MODEL);
-        }
+        validateModel();
         model.update();
         gridView.update();
     }
     
-    public void setSpeed(double speed) {
+    public void setSpeed(int fps) {
         animation.getKeyFrames().clear();
-        animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLISECOND_DELAY/speed), e -> step()));
+        animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLIS_PER_SECOND/fps), e -> step()));
     }
     
     public boolean hasModel() {
@@ -64,9 +68,14 @@ public class Controller {
     private Timeline getTimeline() {
         Timeline tl = new Timeline();
         tl.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLIS_PER_SECOND/DEFAULT_SPEED), e -> step());
         tl.getKeyFrames().add(frame);
         return tl;
     }
 
+    private void validateModel() {
+        if(!hasModel()) {
+            throw new CAException(CAException.NO_MODEL);
+        }
+    }
 }

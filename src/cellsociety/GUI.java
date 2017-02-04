@@ -95,37 +95,30 @@ public class GUI {
         play.setDisable(disable);
         pause.setDisable(disable);
         step.setDisable(disable);
-        speedSlider.setDisable(disable);
+        //speedSlider.setDisable(disable);
     }
 
     private void initSpeedChooser() {
         speedSlider = createSpeedSlider();
         speedLabel = createSpeedLabel();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            speedLabel.setText(getSpeedText());
-            controller.setSpeed(getSpeed(speedSlider));
+            speedLabel.setText(String.format(resources.getString("SpeedLabel"), (int)speedSlider.getValue()));
+            controller.setSpeed((int)speedSlider.getValue());
         });
     }
     
     private Label createSpeedLabel() {
-        Label label = new Label(getSpeedText());
+        Label label = new Label(String.format(resources.getString("SpeedLabel"), Controller.DEFAULT_SPEED));
         label.setTextFill(Color.WHITE);
         return label;
     }
     
-    private String getSpeedText() {
-        return String.format(resources.getString("SpeedLabel"), getSpeed(speedSlider));
-    }
-    
     private Slider createSpeedSlider() {
-        Slider slider = new Slider(-2, 2, 0);
+        Slider slider = new Slider(Controller.MIN_SPEED, Controller.MAX_SPEED, Controller.DEFAULT_SPEED);
+        slider.setMajorTickUnit(Controller.MAX_SPEED - Controller.MIN_SPEED);
+        slider.setMinorTickCount(Controller.MAX_SPEED - Controller.MIN_SPEED - 1);
         slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(1);
-        slider.setMinorTickCount(3);
+        slider.setSnapToTicks(true);
         return slider;
-    }
-
-    private double getSpeed(Slider slider) {
-        return Math.pow(2, slider.getValue());
     }
 }
