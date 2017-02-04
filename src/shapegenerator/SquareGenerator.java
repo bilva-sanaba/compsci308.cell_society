@@ -1,7 +1,5 @@
 package shapegenerator;
 
-import cellsociety.Cell;
-import cellsociety.Grid;
 import cellsociety.ShapeGenerator;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -17,8 +15,8 @@ public class SquareGenerator extends ShapeGenerator {
     public static final Color STROKE = Color.BLACK;
     public static final Color ALTERNATIVE_STROKE = Color.WHITE;
 
-    public SquareGenerator(double cellWidth, Grid<? extends Cell> grid) {
-        super(cellWidth, grid);
+    public SquareGenerator() {
+        super();
     }
 
     @Override

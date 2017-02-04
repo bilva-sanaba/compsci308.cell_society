@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 public class GridView extends Pane {
     
     private Model model;
+    private ShapeGenerator generator;
     
     public GridView(double width) {
         super();
@@ -20,14 +21,15 @@ public class GridView extends Pane {
         this.model = model;
     }
     
+    public void setShape(ShapeGenerator generator) {
+        this.generator = generator;
+    }
+    
     /**
      * Updates the display
      */
     public void update() {
         getChildren().clear();
-//        ShapeGenerator generator = model.getGrid().getShapeGenerator(getPrefWidth());
-//        for(Shape shape: generator) {
-//            getChildren().add(shape);
-//        }
+        getChildren().addAll(generator.generate(getPrefWidth(), model.getGrid()));
     }
 }

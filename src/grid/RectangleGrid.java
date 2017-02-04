@@ -5,8 +5,6 @@ import java.util.Set;
 
 import cellsociety.Cell;
 import cellsociety.Grid;
-import cellsociety.ShapeGenerator;
-import shapegenerator.SquareGenerator;
 
 public class RectangleGrid<E extends Cell> extends Grid<E> {
 		

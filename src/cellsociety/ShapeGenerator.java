@@ -1,6 +1,8 @@
 package cellsociety;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -10,40 +12,19 @@ import javafx.scene.shape.Shape;
  * @author Mike Liu
  *
  */
-public abstract class ShapeGenerator implements Iterable<Shape> {
+public abstract class ShapeGenerator {
     
-    private double cellWidth;
-    private Grid<? extends Cell> grid;
+    public ShapeGenerator() {}
     
-    public ShapeGenerator(double cellWidth, Grid<? extends Cell> grid) {
-        this.cellWidth = cellWidth;
-        this.grid = grid;
-    }
-
-    @Override
-    public Iterator<Shape> iterator() {
-        return new Iterator<Shape>() {
-
-            private int row = 0;
-            private int col = 0;
-            
-            @Override
-            public boolean hasNext() {
-                return row < grid.numRows() || col < grid.numCols();
+    public Collection<Shape> generate(double gridWidth, Grid<? extends Cell> grid) {
+        List<Shape> shapes = new ArrayList<Shape>();
+        double width = gridWidth/grid.numCols();
+        for(int row = 0; row < grid.numRows(); row++) {
+            for(int col = 0; col < grid.numCols(); col++) {
+                shapes.add(getShape(row, col, width, grid.get(row, col).getColor()));
             }
-
-            @Override
-            public Shape next() {
-                Shape shape = getShape(row, col, cellWidth, grid.get(row, col).getColor());
-                if(col < grid.numCols()-1) {
-                    col++;
-                } else {
-                    row++;
-                    col = 0;
-                }
-                return shape;
-            }
-        };
+        }
+        return shapes;
     }
     
     /**
