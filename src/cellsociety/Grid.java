@@ -15,7 +15,7 @@ public abstract class Grid {
     private Cell[][] sim;
     
     public Grid(CellGenerator generator) {
-        
+        //TODO init with xml
         buildNeighborGraph();
     }
     

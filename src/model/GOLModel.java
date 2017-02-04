@@ -1,8 +1,10 @@
 package model;
 
 import cell.GOLCell;
+import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
+import grid.RectangleGrid;
 
 /**
  * Model for Game of Life simulation
@@ -15,7 +17,7 @@ public class GOLModel extends Model {
     public static final int UPPER_THRESHOLD = 3;
     
     public GOLModel() {
-        super(GOLCell.getGenerator());
+        super(new RectangleGrid(WatorCell.getGenerator()));
     }
 
     @Override
