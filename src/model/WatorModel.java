@@ -10,12 +10,10 @@ import cellsociety.Model;
 import grid.CardinalRectangleGrid;
 
 public class WatorModel extends Model {
-
+	private Random rand = new Random();
     public WatorModel() {
         super(new CardinalRectangleGrid(WatorCell.getGenerator()));
     }
-    
-	private Random rand = new Random();
 	private Cell pickRandomCell(Set<Cell> fish){
 		int i = 0;
 		int random = rand.nextInt(fish.size());
@@ -27,8 +25,12 @@ public class WatorModel extends Model {
 		}
 		return null;
 	}
+	
     private void moveShark(WatorCell cell){
     	if (cell.inState(WatorCell.SHARK)){
+    		if (cell.getEnergy()==0){
+    			cell.toWater();
+    		}else{
     		Set<Cell> fish = new HashSet<Cell>();
     		Set<Cell> water = new HashSet<Cell>();
     		for (Cell neighbor : cell.getNeighbors()){
@@ -52,16 +54,49 @@ public class WatorModel extends Model {
                     randomWater.toShark();
                     randomWater.setEnergy(cell.getEnergy()-1);
                     randomWater.setSharkDays(cell.getSharkDays()-1);
+                    if (cell.canReproduce()){
+                    	cell.setEnergy(WatorCell.energyMax);
+                    	cell.setSharkDays(WatorCell.sharkReproductionPeriod);
+                    	randomWater.setSharkDays(WatorCell.sharkReproductionPeriod);
+                    }else{
                     cell.toWater();
+                    }
                 }
     			cell.setSharkDays(cell.getSharkDays()-1);
     			cell.setEnergy(cell.getEnergy()-1);
     		}	
     	}
+    	}
     }
     private void moveFish(WatorCell cell){
-    	//move fish and check to make sure water is included in find neighbors add this to update function 
-    	//make sure update function does so twice
+    	if (cell.inState(WatorCell.FISH)){
+    		if (cell.getEnergy()==0){
+    			cell.toWater();
+    		}else{
+    		Set<Cell> water = new HashSet<Cell>();
+    		for (Cell neighbor : cell.getNeighbors()){
+    			if(neighbor.inState(WatorCell.WATER)) {
+    			        water.add(neighbor);
+    			    }
+    		}
+    		
+    		WatorCell randomWater = (WatorCell) pickRandomCell(water);
+            if(randomWater != null) {
+             randomWater.toFish();
+                    randomWater.setEnergy(cell.getEnergy()-1);
+                    randomWater.setFishDays(cell.getFishDays()-1);
+                    if (cell.canReproduce()){
+                    	cell.setFishDays(WatorCell.fishReproductionPeriod);
+                    	randomWater.setFishDays(WatorCell.fishReproductionPeriod);
+                    }else{
+                    cell.toWater();
+                    }
+             }else{
+    			cell.setFishDays(cell.getFishDays()-1);
+    			cell.setEnergy(cell.getEnergy()-1);
+    		}
+    	}
+    	}
     }
     
     @Override
