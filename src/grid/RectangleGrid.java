@@ -1,14 +1,19 @@
 package grid;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cellsociety.Cell;
 import cellsociety.Grid;
 
-public class RectangleGrid<E extends Cell> extends Grid<E> {
+public class RectangleGrid extends Grid {
 		
-	private boolean isLeftEdge(int row, int col){
+	public RectangleGrid(List<Cell> cells) {
+        super(cells);
+    }
+
+    private boolean isLeftEdge(int row, int col){
 		return (col == 0);
 	}
 	
@@ -25,8 +30,8 @@ public class RectangleGrid<E extends Cell> extends Grid<E> {
 	}
     
     @Override
-    protected Set<E> findNeighbor(int row, int col) {
-        Set<E> neighbors = new HashSet<E>();
+    protected Set<Cell> findNeighbor(int row, int col) {
+        Set<Cell> neighbors = new HashSet<Cell>();
         if (!isLeftEdge(row,col)){
             neighbors.add(get(row,col-1));
         }

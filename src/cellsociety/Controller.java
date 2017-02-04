@@ -1,5 +1,7 @@
 package cellsociety;
 
+import java.util.ResourceBundle;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
@@ -11,6 +13,11 @@ import javafx.util.Duration;
  *
  */
 public class Controller {
+    
+    public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+    public static final String EXCEPTION_PROPERTIES = "exception";
+    public static final ResourceBundle EXCEPTION_RESOURCES =
+            ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + EXCEPTION_PROPERTIES);
 
     public static final int FRAMES_PER_SECOND = 5;
     public static final double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;

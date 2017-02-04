@@ -22,11 +22,12 @@ import javafx.stage.Stage;
 public class GUI {
     
     public static final String TITLE = "Cell Automata";
-    public static final double SCENE_WIDTH = 800;
-    public static final double SCENE_HEIGHT = 600;
     public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
     public static final String STYLESHEET = "default.css";
     public static final String PROPERTIES = "default";
+
+    public static final double SCENE_WIDTH = 800;
+    public static final double SCENE_HEIGHT = 600;
     public static final double INPUT_PANEL_HEIGHT = 80;
 
     private Scene scene;

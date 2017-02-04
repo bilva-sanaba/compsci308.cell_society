@@ -1,6 +1,7 @@
 package cellsociety;
 
 import javafx.scene.layout.Pane;
+import shapegenerator.ShapeGenerator;
 
 /**
  * Displays the animation of the simulation
@@ -21,8 +22,8 @@ public class GridView extends Pane {
         this.model = model;
     }
     
-    public void setShape(ShapeGenerator generator) {
-        this.generator = generator;
+    public void setShape(String shape) {
+        ShapeGenerator.getShapeGenerator(shape);
     }
     
     /**

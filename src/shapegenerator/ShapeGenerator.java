@@ -1,9 +1,11 @@
-package cellsociety;
+package shapegenerator;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cellsociety.Controller;
+import cellsociety.Grid;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
@@ -14,9 +16,16 @@ import javafx.scene.shape.Shape;
  */
 public abstract class ShapeGenerator {
     
-    public ShapeGenerator() {}
+    public static final String SQUARE = "square";
     
-    public Collection<Shape> generate(double gridWidth, Grid<? extends Cell> grid) {
+    public static ShapeGenerator getShapeGenerator(String shape) {
+        if(shape.toLowerCase().equals(SQUARE)) {
+            return new SquareGenerator();
+        }
+        throw new IllegalArgumentException(Controller.EXCEPTION_RESOURCES.getString("InvalidShape"));
+    }
+    
+    public Collection<Shape> generate(double gridWidth, Grid grid) {
         List<Shape> shapes = new ArrayList<Shape>();
         double width = gridWidth/grid.numCols();
         for(int row = 0; row < grid.numRows(); row++) {

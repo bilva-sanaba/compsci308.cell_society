@@ -14,12 +14,15 @@ public class SegregationCell extends Cell{
     private SegregationCell(int state, Color color) {
         super(state, color);
     }
+    
     public void leave() {
     	setNextState(EMPTY,EMPTY_COLOR);
     }
+    
     public void fillRed(){
     	setNextState(RED,RED_COLOR);
     }
+    
     public void fillBlue(){
     	setNextState(BLUE,BLUE_COLOR);
     }
@@ -31,6 +34,7 @@ public class SegregationCell extends Cell{
     public static SegregationCell blue() {
         return new SegregationCell(BLUE, BLUE_COLOR);
     }
+    
     public static SegregationCell empty() {
         return new SegregationCell(EMPTY, EMPTY_COLOR);
     }

@@ -1,5 +1,6 @@
 package cellsociety;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -8,11 +9,14 @@ import java.util.Set;
  *
  * @param <E> The type of object that is contained by the grid. Must extend Cell.
  */
-public abstract class Grid<E extends Cell> {
+public abstract class Grid {
 
-    private E[][] sim;
+    private Cell[][] sim;
     
-    public Grid() {
+    public Grid(List<Cell> cells) {
+        if(cells.size() != numRows() * numCols()) {
+            throw new IllegalArgumentException(Controller.EXCEPTION_RESOURCES.getString("WrongCellNumber"));
+        }
         buildNeighborGraph();
     }
     
@@ -24,7 +28,7 @@ public abstract class Grid<E extends Cell> {
         return sim[0].length;
     }
     
-    public E get(int row, int col) {
+    public Cell get(int row, int col) {
         return sim[row][col];
     }
     
@@ -44,7 +48,7 @@ public abstract class Grid<E extends Cell> {
      * @param col - the column of grid that the cell is in
      * @return
      */
-    protected abstract Set<E> findNeighbor(int row, int col);
+    protected abstract Set<Cell> findNeighbor(int row, int col);
     
     private void buildNeighborGraph() {
         for(int row = 0; row < sim.length; row++) {

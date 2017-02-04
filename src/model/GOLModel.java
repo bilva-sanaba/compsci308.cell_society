@@ -3,6 +3,7 @@ package model;
 import cell.GOLCell;
 import cellsociety.Cell;
 import cellsociety.Model;
+import cellsociety.cellgenerator.GOLCellGenerator;
 
 /**
  * Model for Game of Life simulation
@@ -15,7 +16,7 @@ public class GOLModel extends Model {
     public static final int UPPER_THRESHOLD = 3;
     
     public GOLModel() {
-        //TODO
+        super(new GOLCellGenerator());
     }
 
     @Override
