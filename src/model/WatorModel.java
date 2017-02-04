@@ -14,7 +14,7 @@ public class WatorModel extends Model {
         super(WatorCell.getGenerator());
     }
 	private Random rand = new Random();
-	private Cell pickRandomFish(Set<Cell> fish){
+	private Cell pickRandomCell(Set<Cell> fish){
 		int i = 0;
 		int random = rand.nextInt(fish.size());
 		for(Cell neighbor : fish)
@@ -28,18 +28,30 @@ public class WatorModel extends Model {
     private void moveShark(WatorCell cell){
     	if (cell.inState(WatorCell.SHARK)){
     		Set<Cell> fish = new HashSet<Cell>();
+    		Set<Cell> water = new HashSet<Cell>();
     		for (Cell neighbor : cell.getNeighbors()){
     			if (neighbor.inState(WatorCell.FISH)){
     				fish.add(neighbor);
+    			} else {
+    			    if(neighbor.inState(WatorCell.WATER)) {
+    			        water.add(neighbor);
+    			    }
     			}
     		}
-    		WatorCell randomFish = (WatorCell) pickRandomFish(fish);
+    		WatorCell randomFish = (WatorCell) pickRandomCell(fish);
     		if (randomFish!=null){
     		randomFish.toShark();
     		randomFish.setEnergy(cell.getEnergy()+WatorCell.energyPerFish-1);
     		randomFish.setSharkDays(cell.getSharkDays()-1);
     		cell.toWater();
     		}else{
+    		    WatorCell randomWater = (WatorCell) pickRandomCell(water);
+                if(randomWater != null) {
+                    randomWater.toShark();
+                    randomWater.setEnergy(cell.getEnergy()-1);
+                    randomWater.setSharkDays(cell.getSharkDays()-1);
+                    cell.toWater();
+                }
     			cell.setSharkDays(cell.getSharkDays()-1);
     			cell.setEnergy(cell.getEnergy()-1);
     		}	
