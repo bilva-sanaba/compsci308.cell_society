@@ -33,7 +33,15 @@ public class WatorCell extends Cell {
     public int getEnergy(){
     	return energy;
     }
-    
+    public boolean canReproduce(){
+		if (this.inState(WatorCell.SHARK)){
+			return (this.getSharkDays()==0);
+		}
+		if (this.inState(WatorCell.FISH)){
+			return (this.getFishDays()==0);
+		}
+		return false;
+	}
     public void setEnergy(int newEnergy){
     	energy= newEnergy;
     }
