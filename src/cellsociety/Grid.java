@@ -36,7 +36,7 @@ public abstract class Grid<E extends Cell> {
         }
     }
     
-    public abstract ShapeGenerator getShapeGenerator(double width);
+    //public abstract ShapeGenerator getShapeGenerator(double gridWidth);
     
     /**
      * Finds the neighbors of the cell at location (row, col)

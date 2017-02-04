@@ -1,19 +1,19 @@
 package cellsociety;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
 
 /**
  * Displays the animation of the simulation
  * @author Mike Liu
  *
  */
-public class View extends Pane {
+public class GridView extends Pane {
     
     private Model model;
     
-    public View() {
+    public GridView(double width) {
         super();
+        setPrefWidth(width);
     }
     
     public void setModel(Model model) {
@@ -25,9 +25,9 @@ public class View extends Pane {
      */
     public void update() {
         getChildren().clear();
-        ShapeGenerator generator = model.getGrid().getShapeGenerator(getPrefWidth());
-        for(Shape shape: generator) {
-            getChildren().add(shape);
-        }
+//        ShapeGenerator generator = model.getGrid().getShapeGenerator(getPrefWidth());
+//        for(Shape shape: generator) {
+//            getChildren().add(shape);
+//        }
     }
 }

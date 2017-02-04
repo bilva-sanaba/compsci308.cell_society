@@ -25,11 +25,6 @@ public class RectangleGrid<E extends Cell> extends Grid<E> {
 	private boolean isTopEdge(int row, int col){
 		return (row == 0);
 	}
-	
-    @Override
-    public ShapeGenerator getShapeGenerator(double width) {
-        return new SquareGenerator(width, this);
-    }
     
     @Override
     protected Set<E> findNeighbor(int row, int col) {

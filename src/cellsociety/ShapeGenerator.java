@@ -15,18 +15,9 @@ public abstract class ShapeGenerator implements Iterable<Shape> {
     private double cellWidth;
     private Grid<? extends Cell> grid;
     
-    public ShapeGenerator(double gridWidth, Grid<? extends Cell> grid) {
-        cellWidth = gridWidth / grid.numCols();
+    public ShapeGenerator(double cellWidth, Grid<? extends Cell> grid) {
+        this.cellWidth = cellWidth;
         this.grid = grid;
-    }
-    
-    /**
-     * Returns the width of a single shape
-     * Should only be called by subclasses
-     * @return the width of a single shape
-     */
-    protected double getWidth() {
-        return cellWidth;
     }
 
     @Override
@@ -43,7 +34,7 @@ public abstract class ShapeGenerator implements Iterable<Shape> {
 
             @Override
             public Shape next() {
-                Shape shape = getShape(row, col, grid.get(row, col).getColor());
+                Shape shape = getShape(row, col, cellWidth, grid.get(row, col).getColor());
                 if(col < grid.numCols()-1) {
                     col++;
                 } else {
@@ -51,11 +42,6 @@ public abstract class ShapeGenerator implements Iterable<Shape> {
                     col = 0;
                 }
                 return shape;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
             }
         };
     }
@@ -67,5 +53,5 @@ public abstract class ShapeGenerator implements Iterable<Shape> {
      * @param color - the color of the shape
      * @return the shape that is produced for the given row, col and color
      */
-    protected abstract Shape getShape(int row, int col, Color color);
+    protected abstract Shape getShape(int row, int col, double width, Color color);
 }
