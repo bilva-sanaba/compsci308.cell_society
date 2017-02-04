@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import cell.CellState;
 import javafx.scene.paint.Color;
 
 /**
@@ -15,26 +16,24 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
     
-    private int state, nextState;
-    private Color color, nextColor;
+    private CellState myState, nextState;
     private Set<Cell> neighbors;
     
-    public Cell() {
-        this(0, Color.WHITE);
+    public Cell(CellState state) {
+        myState = state;
         neighbors = new HashSet<Cell>();
     }
     
-    public Cell(int state, Color color) {
-        this.state = state;
-        this.color = color;
+    public boolean inState(CellState state) {
+        return myState.equals(state);
     }
     
-    public int getState() {
-        return state;
+    public boolean hasSameState(Cell other) {
+        return myState == other.myState;
     }
     
     public Color getColor() {
-        return color;
+        return myState.getColor();
     }
     
     public void setNeighbors(Collection<? extends Cell> neighbors) {
@@ -52,12 +51,10 @@ public abstract class Cell {
      * to perform simultaneous update
      */
     public void update() {
-        state = nextState;
-        color = nextColor;
+        myState = nextState;
     }
     
-    protected void setNextState(int state, Color color) {
+    protected void setNextState(CellState state) {
         nextState = state;
-        nextColor = color;
     }
 }

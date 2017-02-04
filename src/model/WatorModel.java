@@ -1,12 +1,12 @@
 package model;
 
+import cell.WatorCell;
 import cellsociety.Model;
-import cellsociety.cellgenerator.WatorCellGenerator;
 
 public class WatorModel extends Model {
 
     public WatorModel() {
-        super(new WatorCellGenerator());
+        super(WatorCell.getGenerator());
     }
 
     private int sharkEnergy = 10;

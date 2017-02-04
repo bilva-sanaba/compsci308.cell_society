@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cellsociety.Controller;
+import cellsociety.CAException;
 import cellsociety.Grid;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -22,7 +22,7 @@ public abstract class ShapeGenerator {
         if(shape.toLowerCase().equals(SQUARE)) {
             return new SquareGenerator();
         }
-        throw new IllegalArgumentException(Controller.EXCEPTION_RESOURCES.getString("InvalidShape"));
+        throw new CAException(CAException.INVALID_SHAPE);
     }
     
     public Collection<Shape> generate(double gridWidth, Grid grid) {

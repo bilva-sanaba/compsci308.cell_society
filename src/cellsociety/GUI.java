@@ -6,9 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -66,7 +68,17 @@ public class GUI {
     }
 
     private void initButtons() {
-        load = createButton(resources.getString("LoadButton"), e -> controller.load());
+        load = createButton(resources.getString("LoadButton"), e -> {
+            try {
+                controller.load();
+            } catch(CAException ce) {
+                Alert a = new Alert(AlertType.ERROR);
+                a.setContentText(ce.getMessage());
+                a.showAndWait();
+            }
+            enableInput(controller.hasModel());
+            
+        });
         play = createButton(resources.getString("PlayButton"), e -> controller.play());
         pause = createButton(resources.getString("PauseButton"), e -> controller.pause());
         step = createButton(resources.getString("StepButton"), e -> controller.step());

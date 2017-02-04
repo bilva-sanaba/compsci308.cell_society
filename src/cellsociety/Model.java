@@ -1,6 +1,6 @@
 package cellsociety;
 
-import cellsociety.cellgenerator.CellGenerator;
+import cell.CellGenerator;
 
 public abstract class Model {
     

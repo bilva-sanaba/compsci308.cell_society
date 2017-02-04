@@ -1,16 +1,16 @@
 package grid;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import cell.CellGenerator;
 import cellsociety.Cell;
 import cellsociety.Grid;
 
 public class RectangleGrid extends Grid {
 		
-	public RectangleGrid(List<Cell> cells) {
-        super(cells);
+	public RectangleGrid(CellGenerator generator) {
+        super(generator);
     }
 
     private boolean isLeftEdge(int row, int col){

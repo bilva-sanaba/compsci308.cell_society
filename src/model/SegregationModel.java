@@ -3,7 +3,6 @@ package model;
 import cell.SegregationCell;
 import cellsociety.Cell;
 import cellsociety.Model;
-import cellsociety.cellgenerator.SegregationCellGenerator;
 
 public class SegregationModel extends Model {
 
@@ -12,7 +11,7 @@ public class SegregationModel extends Model {
     public static final double happyPercent = .3;
 
     public SegregationModel() {
-        super(new SegregationCellGenerator());
+        super(SegregationCell.getGenerator());
     }
 
     @Override
@@ -31,14 +30,14 @@ public class SegregationModel extends Model {
             for (int col = 0; col < getGrid().numCols(); col++) {
                 while (relocateRed != 0) {
                     SegregationCell currentCell = (SegregationCell) getGrid().get(row, col);
-                    if (currentCell.getState() == SegregationCell.EMPTY) {
+                    if (currentCell.inState(SegregationCell.EMPTY)) {
                         currentCell.fillRed();
                         relocateRed--;
                     }
                 }
                 while (relocateBlue != 0) {
                     SegregationCell currentCell = (SegregationCell) getGrid().get(row, col);
-                    if (currentCell.getState() == SegregationCell.EMPTY) {
+                    if (currentCell.inState(SegregationCell.EMPTY)) {
                         currentCell.fillBlue();
                         relocateBlue--;
                     }
@@ -50,15 +49,15 @@ public class SegregationModel extends Model {
     private void removeUnhappy(SegregationCell cell) {
         int numberOfNeighbors = 0;
         int numberSameNeighbors = 0;
-        if (cell.getState() != SegregationCell.EMPTY) {
+        if (!cell.inState(SegregationCell.EMPTY)) {
             for (Cell c : cell.getNeighbors()) {
                 numberOfNeighbors++;
-                if (cell.getState() == c.getState()) {
+                if (cell.hasSameState(c)) {
                     numberSameNeighbors++;
                 }
             }
             if ((double) numberSameNeighbors / (double) numberOfNeighbors < happyPercent) {
-                if (cell.getState() == SegregationCell.RED) {
+                if (cell.inState(SegregationCell.RED)) {
                     relocateRed++;
                 } else {
                     relocateBlue++;

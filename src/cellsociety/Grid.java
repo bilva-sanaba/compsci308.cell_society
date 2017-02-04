@@ -1,7 +1,8 @@
 package cellsociety;
 
-import java.util.List;
 import java.util.Set;
+
+import cell.CellGenerator;
 
 /**
  * Superclass of grid that contains cells in the simulation
@@ -13,10 +14,13 @@ public abstract class Grid {
 
     private Cell[][] sim;
     
-    public Grid(List<Cell> cells) {
-        if(cells.size() != numRows() * numCols()) {
-            throw new IllegalArgumentException(Controller.EXCEPTION_RESOURCES.getString("WrongCellNumber"));
-        }
+    public Grid(CellGenerator generator) {
+        
+        buildNeighborGraph();
+    }
+    
+    public Grid(Grid other) {
+        sim = other.sim;
         buildNeighborGraph();
     }
     

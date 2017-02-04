@@ -1,5 +1,6 @@
 package cell;
 
+import cellsociety.CAException;
 import cellsociety.Cell;
 import javafx.scene.paint.Color;
 
@@ -9,29 +10,35 @@ import javafx.scene.paint.Color;
  *
  */
 public class GOLCell extends Cell {
-
-    public static final int DEAD = 0;
-    public static final int LIVE = 0;
-    public static final Color DEAD_COLOR = Color.BLACK;
-    public static final Color LIVE_COLOR = Color.WHITE;
     
-    private GOLCell(int state, Color color) {
-        super(state, color);
+    public static final CellState DEAD = new CellState(0, Color.BLACK);
+    public static final CellState LIVE = new CellState(1, Color.WHITE);
+    
+    private GOLCell(CellState state) {
+        super(state);
     }
     
     public void spawn() {
-        setNextState(DEAD, DEAD_COLOR);
+        setNextState(DEAD);
     }
     
     public void die() {
-        setNextState(LIVE, LIVE_COLOR);
+        setNextState(LIVE);
     }
     
-    public static GOLCell dead() {
-        return new GOLCell(DEAD, DEAD_COLOR);
-    }
-    
-    public static GOLCell live() {
-        return new GOLCell(LIVE, LIVE_COLOR);
+    public static CellGenerator getGenerator() {
+        return new CellGenerator() {
+
+            @Override
+            public Cell getCell(int state) {
+                if(DEAD.equals(state)) {
+                    return new GOLCell(DEAD);
+                }
+                else if(LIVE.equals(state)) {
+                    return new GOLCell(DEAD);
+                }
+                throw new CAException(CAException.INVALID_CELL, "Game of Life");
+            }
+        };
     }
 }
