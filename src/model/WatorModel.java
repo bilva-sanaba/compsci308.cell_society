@@ -7,12 +7,14 @@ import java.util.Set;
 import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
+import grid.CardinalRectangleGrid;
 
 public class WatorModel extends Model {
 
     public WatorModel() {
-        super(WatorCell.getGenerator());
+        super(new CardinalRectangleGrid(WatorCell.getGenerator()));
     }
+    
 	private Random rand = new Random();
 	private Cell pickRandomCell(Set<Cell> fish){
 		int i = 0;

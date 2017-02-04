@@ -1,8 +1,10 @@
 package model;
 
 import cell.SegregationCell;
+import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
+import grid.RectangleGrid;
 
 public class SegregationModel extends Model {
 
@@ -11,7 +13,7 @@ public class SegregationModel extends Model {
     public static final double happyPercent = .3;
 
     public SegregationModel() {
-        super(SegregationCell.getGenerator());
+        super(new RectangleGrid(WatorCell.getGenerator()));
     }
 
     @Override
