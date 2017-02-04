@@ -17,11 +17,39 @@ public class WatorCell extends Cell {
     public static final Color WATER_COLOR = Color.BLUE;
     public static final Color FISH_COLOR = Color.BISQUE;
     public static final Color SHARK_COLOR = Color.GREY;
+    public static final int energyMax=10;
+    public static final int sharkReproductionPeriod=10;
+    public static final int fishReproductionPeriod=5;
+    public static final int energyPerFish = 5;
+    
+    private int energy;
+    private int fishReproduction; 
+    private int sharkReproduction;
     
     private WatorCell(int state, Color color) {
         super(state, color);
+        energy = energyMax;
+        fishReproduction = fishReproductionPeriod;  
+        sharkReproduction = sharkReproductionPeriod;
     }
-    
+    public int getEnergy(){
+    	return energy;
+    }
+    public void setEnergy(int newEnergy){
+    	energy= newEnergy;
+    }
+    public void setSharkDays(int daysTillReproduce ){
+    	sharkReproduction = daysTillReproduce;
+    }
+    public void setFishDays(int daysTillReproduce ){
+    	fishReproduction = daysTillReproduce;
+    }
+    public int getSharkDays(){
+    	return sharkReproduction;
+    }
+    public int getFishDays(){
+    	return fishReproduction;
+    }
     public void toWater() {
         setNextState(WATER, WATER_COLOR);
     }
