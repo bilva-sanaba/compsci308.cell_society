@@ -2,17 +2,25 @@ package cellsociety;
 
 import java.util.Set;
 
+import cell.CellGenerator;
+
 /**
  * Superclass of grid that contains cells in the simulation
  * @author Mike Liu
  *
  * @param <E> The type of object that is contained by the grid. Must extend Cell.
  */
-public abstract class Grid<E extends Cell> {
+public abstract class Grid {
 
-    private E[][] sim;
+    private Cell[][] sim;
     
-    public Grid() {
+    public Grid(CellGenerator generator) {
+        
+        buildNeighborGraph();
+    }
+    
+    public Grid(Grid other) {
+        sim = other.sim;
         buildNeighborGraph();
     }
     
@@ -24,7 +32,7 @@ public abstract class Grid<E extends Cell> {
         return sim[0].length;
     }
     
-    public E get(int row, int col) {
+    public Cell get(int row, int col) {
         return sim[row][col];
     }
     
@@ -36,8 +44,6 @@ public abstract class Grid<E extends Cell> {
         }
     }
     
-    public abstract ShapeGenerator getShapeGenerator(double width);
-    
     /**
      * Finds the neighbors of the cell at location (row, col)
      * Implemented by subclasses only for the purpose of build neighbor graph
@@ -46,7 +52,7 @@ public abstract class Grid<E extends Cell> {
      * @param col - the column of grid that the cell is in
      * @return
      */
-    protected abstract Set<E> findNeighbor(int row, int col);
+    protected abstract Set<Cell> findNeighbor(int row, int col);
     
     private void buildNeighborGraph() {
         for(int row = 0; row < sim.length; row++) {

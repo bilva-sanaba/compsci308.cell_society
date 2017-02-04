@@ -4,12 +4,15 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import cell.SegregationCell;
 import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
 
 public class WatorModel extends Model {
+
+    public WatorModel() {
+        super(WatorCell.getGenerator());
+    }
 	private Random rand = new Random();
 	private Cell pickRandomFish(Set<Cell> fish){
 		int i = 0;
@@ -23,10 +26,10 @@ public class WatorModel extends Model {
 		return null;
 	}
     private void moveShark(WatorCell cell){
-    	if (cell.getState()== WatorCell.SHARK){
+    	if (cell.inState(WatorCell.SHARK)){
     		Set<Cell> fish = new HashSet<Cell>();
     		for (Cell neighbor : cell.getNeighbors()){
-    			if (neighbor.getState() == WatorCell.FISH){
+    			if (neighbor.inState(WatorCell.FISH)){
     				fish.add(neighbor);
     			}
     		}

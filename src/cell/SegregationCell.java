@@ -1,38 +1,48 @@
 package cell;
 
+import cellsociety.CAException;
 import cellsociety.Cell;
 import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell{
-	public static final int EMPTY = 0;
-    public static final int RED = 1;
-    public static final int BLUE = 2;
-    public static final Color RED_COLOR = Color.RED;
-    public static final Color BLUE_COLOR = Color.BLUE;
-    public static final Color EMPTY_COLOR = Color.WHITE;
     
-    private SegregationCell(int state, Color color) {
-        super(state, color);
+    public static final CellState EMPTY = new CellState(0, Color.WHITE);
+    public static final CellState RED = new CellState(1, Color.RED);
+    public static final CellState BLUE = new CellState(2, Color.BLUE);
+    
+    private SegregationCell(CellState state) {
+        super(state);
     }
+    
     public void leave() {
-    	setNextState(EMPTY,EMPTY_COLOR);
-    }
-    public void fillRed(){
-    	setNextState(RED,RED_COLOR);
-    }
-    public void fillBlue(){
-    	setNextState(BLUE,BLUE_COLOR);
-    }
- 
-    public static SegregationCell red() {
-        return new SegregationCell(RED, RED_COLOR);
+    	setNextState(EMPTY);
     }
     
-    public static SegregationCell blue() {
-        return new SegregationCell(BLUE, BLUE_COLOR);
+    public void fillRed(){
+    	setNextState(RED);
     }
-    public static SegregationCell empty() {
-        return new SegregationCell(EMPTY, EMPTY_COLOR);
+    
+    public void fillBlue(){
+    	setNextState(BLUE);
+    }
+    
+    public static CellGenerator getGenerator() {
+        return new CellGenerator() {
+
+            @Override
+            public Cell getCell(int state) {
+                if(EMPTY.equals(state)) {
+                    return new SegregationCell(EMPTY);
+                }
+                else if(RED.equals(state)) {
+                    return new SegregationCell(RED);
+                }
+                else if(BLUE.equals(state)) {
+                    return new SegregationCell(BLUE);
+                }
+                throw new CAException(CAException.INVALID_CELL, "segregation");
+            }
+        };
     }
 }
 

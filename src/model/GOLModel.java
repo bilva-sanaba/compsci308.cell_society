@@ -15,7 +15,7 @@ public class GOLModel extends Model {
     public static final int UPPER_THRESHOLD = 3;
     
     public GOLModel() {
-        //TODO
+        super(GOLCell.getGenerator());
     }
 
     @Override
@@ -31,14 +31,14 @@ public class GOLModel extends Model {
     private void changeState(GOLCell cell) {
         int count = 0;
         for(Cell c: cell.getNeighbors()) {
-            if(c.getState() == GOLCell.LIVE) {
+            if(c.inState(GOLCell.LIVE)) {
                 count++;
             }
         }
-        if(cell.getState() == GOLCell.LIVE && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
+        if(cell.inState(GOLCell.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
             cell.die();
         }
-        else if(cell.getState() == GOLCell.DEAD && count == UPPER_THRESHOLD) {
+        else if(cell.inState(GOLCell.DEAD) && count == UPPER_THRESHOLD) {
             cell.spawn();
         }
     }

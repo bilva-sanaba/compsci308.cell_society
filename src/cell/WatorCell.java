@@ -1,8 +1,8 @@
 package cell;
 
-import javafx.scene.paint.Color;
-
+import cellsociety.CAException;
 import cellsociety.Cell;
+import javafx.scene.paint.Color;
 
 /**
  * Cell for Wa-Tor simulation
@@ -10,13 +10,10 @@ import cellsociety.Cell;
  *
  */
 public class WatorCell extends Cell {
-
-    public static final int WATER = 0;
-    public static final int FISH = 1;
-    public static final int SHARK = 2;
-    public static final Color WATER_COLOR = Color.BLUE;
-    public static final Color FISH_COLOR = Color.BISQUE;
-    public static final Color SHARK_COLOR = Color.GREY;
+    
+    public static final CellState WATER = new CellState(0, Color.BLUE);
+    public static final CellState FISH = new CellState(1, Color.BISQUE);
+    public static final CellState SHARK = new CellState(2, Color.GREY);
     public static final int energyMax=10;
     public static final int sharkReproductionPeriod=10;
     public static final int fishReproductionPeriod=5;
@@ -26,51 +23,65 @@ public class WatorCell extends Cell {
     private int fishReproduction; 
     private int sharkReproduction;
     
-    private WatorCell(int state, Color color) {
-        super(state, color);
+    private WatorCell(CellState state) {
+        super(state);
         energy = energyMax;
         fishReproduction = fishReproductionPeriod;  
         sharkReproduction = sharkReproductionPeriod;
     }
+    
     public int getEnergy(){
     	return energy;
     }
+    
     public void setEnergy(int newEnergy){
     	energy= newEnergy;
     }
+    
     public void setSharkDays(int daysTillReproduce ){
     	sharkReproduction = daysTillReproduce;
     }
+    
     public void setFishDays(int daysTillReproduce ){
     	fishReproduction = daysTillReproduce;
     }
+    
     public int getSharkDays(){
     	return sharkReproduction;
     }
+    
     public int getFishDays(){
     	return fishReproduction;
     }
+    
     public void toWater() {
-        setNextState(WATER, WATER_COLOR);
+        setNextState(WATER);
     }
     
     public void toFish() {
-        setNextState(FISH, FISH_COLOR);
+        setNextState(FISH);
     }
     
     public void toShark() {
-        setNextState(SHARK, SHARK_COLOR);
+        setNextState(SHARK);
     }
     
-    public static WatorCell water() {
-        return new WatorCell(WATER, WATER_COLOR);
-    }
-    
-    public static WatorCell fish() {
-        return new WatorCell(FISH, FISH_COLOR);
-    }
-    
-    public static WatorCell shark() {
-        return new WatorCell(SHARK, SHARK_COLOR);
+    public static CellGenerator getGenerator() {
+        return new CellGenerator() {
+
+            @Override
+            public Cell getCell(int state) {
+                if(WATER.equals(state)) {
+                    return new WatorCell(WATER);
+                }
+                else if(FISH.equals(state)) {
+                    return new WatorCell(FISH);
+                }
+                else if(SHARK.equals(state)) {
+                    return new WatorCell(SHARK);
+                }
+                throw new CAException(CAException.INVALID_CELL, "Wa-Tor");
+            }
+        };
     }
 }

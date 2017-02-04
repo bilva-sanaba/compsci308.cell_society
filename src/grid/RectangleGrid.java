@@ -3,14 +3,17 @@ package grid;
 import java.util.HashSet;
 import java.util.Set;
 
+import cell.CellGenerator;
 import cellsociety.Cell;
 import cellsociety.Grid;
-import cellsociety.ShapeGenerator;
-import shapegenerator.SquareGenerator;
 
-public class RectangleGrid<E extends Cell> extends Grid<E> {
+public class RectangleGrid extends Grid {
 		
-	private boolean isLeftEdge(int row, int col){
+	public RectangleGrid(CellGenerator generator) {
+        super(generator);
+    }
+
+    private boolean isLeftEdge(int row, int col){
 		return (col == 0);
 	}
 	
@@ -25,15 +28,10 @@ public class RectangleGrid<E extends Cell> extends Grid<E> {
 	private boolean isTopEdge(int row, int col){
 		return (row == 0);
 	}
-	
-    @Override
-    public ShapeGenerator getShapeGenerator(double width) {
-        return new SquareGenerator(width, this);
-    }
     
     @Override
-    protected Set<E> findNeighbor(int row, int col) {
-        Set<E> neighbors = new HashSet<E>();
+    protected Set<Cell> findNeighbor(int row, int col) {
+        Set<Cell> neighbors = new HashSet<Cell>();
         if (!isLeftEdge(row,col)){
             neighbors.add(get(row,col-1));
         }

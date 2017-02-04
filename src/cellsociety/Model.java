@@ -1,19 +1,23 @@
 package cellsociety;
 
+import cell.CellGenerator;
+
 public abstract class Model {
     
-    private Grid<? extends Cell> grid;
+    private Grid grid;
+    CellGenerator generator;
     
-    public Model() {
-        //create grid based on xml data
+    public Model(CellGenerator generator) {
+        this.generator = generator;
+        //TODO create grid based on xml data
     }
     
-    public Grid<? extends Cell> getGrid() {
+    public Grid getGrid() {
         return grid;
     }
     
-    public void setGrid(Grid<? extends Cell> grid) {
-        //TODO
+    protected void setGrid(Grid grid) {
+        this.grid = grid;
     }
     
     public abstract void update();
