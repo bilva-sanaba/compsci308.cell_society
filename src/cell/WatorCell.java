@@ -1,5 +1,8 @@
 package cell;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cellsociety.CAException;
 import cellsociety.Cell;
 import javafx.scene.paint.Color;
@@ -29,9 +32,20 @@ public class WatorCell extends Cell {
         fishReproduction = fishReproductionPeriod;  
         sharkReproduction = sharkReproductionPeriod;
     }
-    
+    public Set<Cell> getCertainNeighbors(CellState state){
+    	Set<Cell> certainNeighbors = new HashSet<Cell>();
+    	for (Cell neighbor : this.getNeighbors()){
+    		if (neighbor.inState(state)){
+    			certainNeighbors.add(neighbor);
+    		}
+    	}
+    	return certainNeighbors;
+    }
     public int getEnergy(){
     	return energy;
+    }
+    public boolean shouldDie(){
+		return this.getEnergy()==0;
     }
     public boolean canReproduce(){
 		if (this.inState(WatorCell.SHARK)){
