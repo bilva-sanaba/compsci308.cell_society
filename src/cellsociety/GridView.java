@@ -11,12 +11,15 @@ import shapegenerator.ShapeGenerator;
  */
 public class GridView extends ScrollPane {
     
+    private Group root;
     private Model myModel;
     private ShapeGenerator myGenerator;
     
-    public GridView(double width, double height) {
+    public GridView(double width) {
         super();
-        setPrefSize(width, height);
+        setPrefWidth(width);
+        root = new Group();
+        setContent(root);
     }
     
     public void setModel(Model model) {
@@ -31,7 +34,7 @@ public class GridView extends ScrollPane {
      * Updates the display
      */
     public void update() {
-        getChildren().clear();
-        getChildren().addAll(myGenerator.generate(getPrefWidth(), myModel.getGrid()));
+        root.getChildren().clear();
+        root.getChildren().addAll(myGenerator.generate(getPrefWidth(), myModel.getGrid()));
     }
 }

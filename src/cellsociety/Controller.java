@@ -26,8 +26,8 @@ public class Controller {
     private Model model;
     private GridView gridView;
     
-    public Controller(double gridWidth, double gridHeight) {
-        gridView = new GridView(gridWidth, gridHeight);
+    public Controller(double gridWidth) {
+        gridView = new GridView(gridWidth);
         animation = getTimeline();
     }
     

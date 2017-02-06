@@ -32,7 +32,7 @@ public class GUI {
     public static final String PROPERTIES = "default";
     public static final String DATA_FILE_EXTENSION = "*.xml";
 
-    public static final double SCENE_WIDTH = 500;
+    public static final double SCENE_WIDTH = 600;
     public static final double SCENE_HEIGHT = 580;
     public static final double INPUT_PANEL_HEIGHT = 80;
 
@@ -48,7 +48,7 @@ public class GUI {
 
     public GUI() {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
-        myController = new Controller(SCENE_WIDTH, SCENE_HEIGHT - INPUT_PANEL_HEIGHT);
+        myController = new Controller(SCENE_WIDTH);
         myRoot = new BorderPane();
         myRoot.setBottom(initInputPanel(INPUT_PANEL_HEIGHT));
         enableInput(!myController.hasModel());
