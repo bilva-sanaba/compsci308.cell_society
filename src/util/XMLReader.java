@@ -8,6 +8,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class XMLReader {
 	private DocumentBuilder builder;
@@ -18,12 +20,7 @@ public class XMLReader {
 	private int columns;
 	
 	public XMLReader() throws ParserConfigurationException {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			builder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
+			builder = getDocumentBuilder();
 	}
 	
 	public XMLData readData(String fileName) throws SAXException, IOException {
@@ -89,6 +86,14 @@ public class XMLReader {
 	
 	private String readTag(String tag) {
 		return doc.getElementsByTagName(tag).item(0).getTextContent();
+	}
+	
+	private static DocumentBuilder getDocumentBuilder() {
+		try {
+			return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		} catch(ParserConfigurationException e) {
+			throw new XMLException(e);
+		}
 	}
 	
 	// Debugging
