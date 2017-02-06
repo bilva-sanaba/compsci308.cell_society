@@ -14,10 +14,10 @@ public class WatorCell extends Cell {
     public static final CellState WATER = new CellState(0, Color.BLUE);
     public static final CellState FISH = new CellState(1, Color.BISQUE);
     public static final CellState SHARK = new CellState(2, Color.GREY);
-    public static final int energyMax=10;
-    public static final int sharkReproductionPeriod=10;
-    public static final int fishReproductionPeriod=5;
-    public static final int energyPerFish = 5;
+    public static final int ENERGY_MAX=10;
+    public static final int SHARK_BREED_PERIOD=10;
+    public static final int FISH_BREED_PERIOD=5;
+    public static final int FISH_ENERGY = 5;
     
     private int energy;
     private int fishReproduction; 
@@ -25,9 +25,9 @@ public class WatorCell extends Cell {
     
     private WatorCell(CellState state) {
         super(state);
-        energy = energyMax;
-        fishReproduction = fishReproductionPeriod;  
-        sharkReproduction = sharkReproductionPeriod;
+        energy = ENERGY_MAX;
+        fishReproduction = FISH_BREED_PERIOD;  
+        sharkReproduction = SHARK_BREED_PERIOD;
     }
     
     public int getEnergy(){
@@ -76,6 +76,11 @@ public class WatorCell extends Cell {
     
     public static CellGenerator getGenerator() {
         return new CellGenerator() {
+
+            @Override
+            public Cell getBasicCell() {
+                return new WatorCell(WATER);
+            }
 
             @Override
             public Cell getCell(int state) {

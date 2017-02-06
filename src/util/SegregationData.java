@@ -1,17 +1,37 @@
 package util;
 
-public class SegregationData extends XMLData {
-	private int threshold;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 
+ * @author Mike Liu
+ * @author Justin Yang
+ *
+ */
+public class SegregationData extends CAData {
+    
+    public static final double DEFAULT_THRESHOLD = 0.5;
+    public static final List<String> EXTRA_FIELDS = Arrays.asList(new String[] {
+            "threshold"
+        });
 	
-	public SegregationData(int numRows, int numColumns) {
-		super(numRows, numColumns);
+	public SegregationData(Map<String, String> data) {
+		super(data);
 	}
 	
-	public int getThreshold() {
-		return threshold;
+	public double getThreshold() {
+	    try {
+	        return Double.parseDouble(getField(EXTRA_FIELDS.get(0)));
+	    } catch(NullPointerException e) {
+	        return DEFAULT_THRESHOLD;
+	    }
 	}
-	
-	public void setThreshold(int newThreshold) {
-		threshold = newThreshold;
-	}
+
+    @Override
+    public Collection<String> getExtraField() {
+        return EXTRA_FIELDS;
+    }
 }

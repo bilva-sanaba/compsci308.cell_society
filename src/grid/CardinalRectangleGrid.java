@@ -1,16 +1,18 @@
 package grid;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import cell.CellConfig;
 import cell.CellGenerator;
 import cellsociety.Cell;
 import cellsociety.Grid;
 
 public class CardinalRectangleGrid extends Grid {
     
-    public CardinalRectangleGrid(CellGenerator generator) {
-        super(generator);
+    public CardinalRectangleGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
+        super(row, col, cellConfig, generator);
     }
     
 	private boolean isLeftEdge(int row, int col){

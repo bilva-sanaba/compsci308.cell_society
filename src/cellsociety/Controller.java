@@ -1,9 +1,14 @@
 package cellsociety;
 
+import java.io.File;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 import javafx.util.Duration;
+import shapegenerator.SquareGenerator;
+import util.CAData;
+import util.XMLReader;
 
 /**
  * Regulates the simulation and coordinates model and view
@@ -26,15 +31,17 @@ public class Controller {
         animation = getTimeline();
     }
     
-    public void load() {
-        //TODO
+    public void load(File dataFile) {
         try {
-            //model = new
-            //gridView.setShape()
-            //model.setGrid()
+            CAData data = new XMLReader().readData(dataFile);
+            model = Model.getModel(data.getName(), data.numRows(), data.numCols(), data.getCell());
+            gridView.setModel(model);
+            gridView.setShape(new SquareGenerator());
         } catch(CAException e) {
             model = null;
+            throw new CAException(e);
         }
+        gridView.update();
     }
     
     public void play() {
@@ -61,7 +68,7 @@ public class Controller {
         return model != null;
     }
     
-    public Pane getGridView() {
+    public Parent getGridView() {
         return gridView;
     }
     

@@ -1,5 +1,6 @@
 package cellsociety;
 
+import java.io.File;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -14,7 +15,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * User interface that sets up the display and lets user interact with the simulation
@@ -27,33 +30,37 @@ public class GUI {
     public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
     public static final String STYLESHEET = "default.css";
     public static final String PROPERTIES = "default";
+    public static final String DATA_FILE_EXTENSION = "*.xml";
 
-    public static final double SCENE_WIDTH = 800;
-    public static final double SCENE_HEIGHT = 600;
+    public static final double SCENE_WIDTH = 600;
+    public static final double SCENE_HEIGHT = 580;
     public static final double INPUT_PANEL_HEIGHT = 80;
 
-    private Scene scene;
-    private BorderPane root;
+    private Stage myStage;
+    private Scene myScene;
+    private BorderPane myRoot;
     private Button load, play, pause, step;
     private Slider speedSlider;
     private Label speedLabel;
-    private Controller controller;
-    private ResourceBundle resources;
+    private Controller myController;
+    private ResourceBundle myResources;
+    private FileChooser myChooser;
 
     public GUI() {
-        resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
-        controller = new Controller(SCENE_WIDTH);
-        root = new BorderPane();
-        root.setBottom(initInputPanel(INPUT_PANEL_HEIGHT));
-        enableInput(!controller.hasModel());
-        scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
+        myController = new Controller(SCENE_WIDTH);
+        myRoot = new BorderPane();
+        myRoot.setBottom(initInputPanel(INPUT_PANEL_HEIGHT));
+        enableInput(!myController.hasModel());
+        myScene = new Scene(myRoot, SCENE_WIDTH, SCENE_HEIGHT);
+        myScene.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
+        myChooser = makeChooser(DATA_FILE_EXTENSION);
     }
     
     public void show(Stage stage) {
-        root.setCenter(controller.getGridView());
+        myRoot.setCenter(myController.getGridView());
         stage.setTitle(TITLE);
-        stage.setScene(scene);
+        stage.setScene(myScene);
         stage.setResizable(false);
         stage.show();
     }
@@ -68,20 +75,20 @@ public class GUI {
     }
 
     private void initButtons() {
-        load = createButton(resources.getString("LoadButton"), e -> {
+        load = createButton(myResources.getString("LoadButton"), e -> {
             try {
-                controller.load();
+                File dataFile = myChooser.showOpenDialog(myStage);
+                if(dataFile != null) {
+                    myController.load(dataFile);
+                }
             } catch(CAException ce) {
-                Alert a = new Alert(AlertType.ERROR);
-                a.setContentText(ce.getMessage());
-                a.showAndWait();
+                showError(ce.getMessage());
             }
-            enableInput(controller.hasModel());
-            
+            enableInput(!myController.hasModel());
         });
-        play = createButton(resources.getString("PlayButton"), e -> controller.play());
-        pause = createButton(resources.getString("PauseButton"), e -> controller.pause());
-        step = createButton(resources.getString("StepButton"), e -> controller.step());
+        play = createButton(myResources.getString("PlayButton"), e -> myController.play());
+        pause = createButton(myResources.getString("PauseButton"), e -> myController.pause());
+        step = createButton(myResources.getString("StepButton"), e -> myController.step());
     }
 
     private Button createButton(String label, EventHandler<ActionEvent> e) {
@@ -95,20 +102,20 @@ public class GUI {
         play.setDisable(disable);
         pause.setDisable(disable);
         step.setDisable(disable);
-        //speedSlider.setDisable(disable);
+        speedSlider.setDisable(disable);
     }
 
     private void initSpeedChooser() {
         speedSlider = createSpeedSlider();
         speedLabel = createSpeedLabel();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            speedLabel.setText(String.format(resources.getString("SpeedLabel"), (int)speedSlider.getValue()));
-            controller.setSpeed((int)speedSlider.getValue());
+            speedLabel.setText(String.format(myResources.getString("SpeedLabel"), (int)speedSlider.getValue()));
+            myController.setSpeed((int)speedSlider.getValue());
         });
     }
     
     private Label createSpeedLabel() {
-        Label label = new Label(String.format(resources.getString("SpeedLabel"), Controller.DEFAULT_SPEED));
+        Label label = new Label(String.format(myResources.getString("SpeedLabel"), Controller.DEFAULT_SPEED));
         label.setTextFill(Color.WHITE);
         return label;
     }
@@ -120,5 +127,21 @@ public class GUI {
         slider.setShowTickMarks(true);
         slider.setSnapToTicks(true);
         return slider;
+    }
+
+    // set some sensible defaults when the FileChooser is created
+    private FileChooser makeChooser(String extensionAccepted) {
+        FileChooser result = new FileChooser();
+        result.setTitle("Open Data File");
+        // pick a reasonable place to start searching for files
+        result.setInitialDirectory(new File(System.getProperty("user.dir")));
+        result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
+        return result;
+    }
+    
+    private void showError(String message) {
+        Alert a = new Alert(AlertType.ERROR);
+        a.setContentText(message);
+        a.showAndWait();
     }
 }
