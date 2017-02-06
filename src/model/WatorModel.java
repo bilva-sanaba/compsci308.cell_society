@@ -45,7 +45,7 @@ public class WatorModel extends Model {
     		WatorCell randomFish = (WatorCell) pickRandomCell(fish);
     		if (randomFish!=null){
     		randomFish.toShark();
-    		randomFish.setEnergy(cell.getEnergy()+WatorCell.energyPerFish-1);
+    		randomFish.setEnergy(cell.getEnergy()+WatorCell.FISH_ENERGY-1);
     		randomFish.setSharkDays(cell.getSharkDays()-1);
     		cell.toWater();
     		}else{
@@ -55,9 +55,9 @@ public class WatorModel extends Model {
                     randomWater.setEnergy(cell.getEnergy()-1);
                     randomWater.setSharkDays(cell.getSharkDays()-1);
                     if (cell.canReproduce()){
-                    	cell.setEnergy(WatorCell.energyMax);
-                    	cell.setSharkDays(WatorCell.sharkReproductionPeriod);
-                    	randomWater.setSharkDays(WatorCell.sharkReproductionPeriod);
+                    	cell.setEnergy(WatorCell.ENERGY_MAX);
+                    	cell.setSharkDays(WatorCell.SHARK_BREED_PERIOD);
+                    	randomWater.setSharkDays(WatorCell.SHARK_BREED_PERIOD);
                     }else{
                     cell.toWater();
                     }
@@ -86,8 +86,8 @@ public class WatorModel extends Model {
                     randomWater.setEnergy(cell.getEnergy()-1);
                     randomWater.setFishDays(cell.getFishDays()-1);
                     if (cell.canReproduce()){
-                    	cell.setFishDays(WatorCell.fishReproductionPeriod);
-                    	randomWater.setFishDays(WatorCell.fishReproductionPeriod);
+                    	cell.setFishDays(WatorCell.FISH_BREED_PERIOD);
+                    	randomWater.setFishDays(WatorCell.FISH_BREED_PERIOD);
                     }else{
                     cell.toWater();
                     }

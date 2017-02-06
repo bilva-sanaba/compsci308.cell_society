@@ -1,9 +1,13 @@
 package cellsociety;
 
+import java.io.File;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import util.CAData;
+import util.XMLReader;
 
 /**
  * Regulates the simulation and coordinates model and view
@@ -26,14 +30,15 @@ public class Controller {
         animation = getTimeline();
     }
     
-    public void load() {
-        //TODO
+    public void load(File dataFile) {
         try {
+            CAData data = new XMLReader().readData(dataFile);
             //model = new
             //gridView.setShape()
             //model.setGrid()
         } catch(CAException e) {
             model = null;
+            throw new CAException(e);
         }
     }
     

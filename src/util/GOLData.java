@@ -1,7 +1,25 @@
 package util;
 
-public class GOLData extends XMLData {
-	public GOLData(int numRows, int numColumns) {
-		super(numRows, numColumns);
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+/**
+ * 
+ * @author Mike Liu
+ * @author Justin Yang
+ *
+ */
+public class GOLData extends CAData {
+    
+    public static final String NAME = "gol";
+    
+	public GOLData(Map<String, String> data) {
+		super(data);
 	}
+
+    @Override
+    public Collection<String> getExtraField() {
+        return new ArrayList<String>();
+    }
 }
