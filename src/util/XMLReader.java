@@ -35,10 +35,8 @@ public class XMLReader {
 			else if (title.equals("Segregation")) return readSegregation();
 			else if (title.equals("GOL")) return readGOL();
 			else return readFire();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (SAXException | IOException e) {
+			throw new XMLException(e);
 		}
 		return null;
 	}
@@ -103,13 +101,11 @@ public class XMLReader {
 				System.out.println(data.getColumns());
 				System.out.println(data.getTitle());
 				System.out.println(data.getCells().toString());
-			} catch (SAXException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (SAXException | IOException e) {
+				throw new XMLException(e);
 			}
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			throw new XMLException(e);
 		}
 	}
 }
