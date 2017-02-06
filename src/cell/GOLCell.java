@@ -30,12 +30,17 @@ public class GOLCell extends Cell {
         return new CellGenerator() {
 
             @Override
+            public Cell getBasicCell() {
+                return new GOLCell(DEAD);
+            }
+
+            @Override
             public Cell getCell(int state) {
                 if(DEAD.equals(state)) {
                     return new GOLCell(DEAD);
                 }
                 else if(LIVE.equals(state)) {
-                    return new GOLCell(DEAD);
+                    return new GOLCell(LIVE);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Game of Life");
             }

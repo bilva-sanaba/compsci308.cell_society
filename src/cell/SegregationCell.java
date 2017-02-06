@@ -30,6 +30,11 @@ public class SegregationCell extends Cell{
         return new CellGenerator() {
 
             @Override
+            public Cell getBasicCell() {
+                return new SegregationCell(EMPTY);
+            }
+
+            @Override
             public Cell getCell(int state) {
                 if(EMPTY.equals(state)) {
                     return new SegregationCell(EMPTY);

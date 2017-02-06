@@ -4,8 +4,9 @@ import java.io.File;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 import javafx.util.Duration;
+import shapegenerator.SquareGenerator;
 import util.CAData;
 import util.XMLReader;
 
@@ -25,21 +26,22 @@ public class Controller {
     private Model model;
     private GridView gridView;
     
-    public Controller(double gridWidth) {
-        gridView = new GridView(gridWidth);
+    public Controller(double gridWidth, double gridHeight) {
+        gridView = new GridView(gridWidth, gridHeight);
         animation = getTimeline();
     }
     
     public void load(File dataFile) {
         try {
             CAData data = new XMLReader().readData(dataFile);
-            //model = new
-            //gridView.setShape()
-            //model.setGrid()
+            model = Model.getModel(data.getName(), data.numRows(), data.numCols(), data.getCell());
+            gridView.setModel(model);
+            gridView.setShape(new SquareGenerator());
         } catch(CAException e) {
             model = null;
             throw new CAException(e);
         }
+        gridView.update();
     }
     
     public void play() {
@@ -66,7 +68,7 @@ public class Controller {
         return model != null;
     }
     
-    public Pane getGridView() {
+    public Parent getGridView() {
         return gridView;
     }
     

@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public class WatorData extends CAData {
     
-    public static final String NAME = "wator";
-    
 	public WatorData(Map<String, String> data) {
 		super(data);
 	}

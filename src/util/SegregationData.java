@@ -13,7 +13,6 @@ import java.util.Map;
  */
 public class SegregationData extends CAData {
     
-    public static final String NAME = "segregation";
     public static final double DEFAULT_THRESHOLD = 0.5;
     public static final List<String> EXTRA_FIELDS = Arrays.asList(new String[] {
             "threshold"

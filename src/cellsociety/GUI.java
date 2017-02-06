@@ -32,8 +32,8 @@ public class GUI {
     public static final String PROPERTIES = "default";
     public static final String DATA_FILE_EXTENSION = "*.xml";
 
-    public static final double SCENE_WIDTH = 800;
-    public static final double SCENE_HEIGHT = 600;
+    public static final double SCENE_WIDTH = 500;
+    public static final double SCENE_HEIGHT = 580;
     public static final double INPUT_PANEL_HEIGHT = 80;
 
     private Stage myStage;
@@ -48,7 +48,7 @@ public class GUI {
 
     public GUI() {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
-        myController = new Controller(SCENE_WIDTH);
+        myController = new Controller(SCENE_WIDTH, SCENE_HEIGHT - INPUT_PANEL_HEIGHT);
         myRoot = new BorderPane();
         myRoot.setBottom(initInputPanel(INPUT_PANEL_HEIGHT));
         enableInput(!myController.hasModel());
@@ -84,7 +84,7 @@ public class GUI {
             } catch(CAException ce) {
                 showError(ce.getMessage());
             }
-            enableInput(myController.hasModel());
+            enableInput(!myController.hasModel());
         });
         play = createButton(myResources.getString("PlayButton"), e -> myController.play());
         pause = createButton(myResources.getString("PauseButton"), e -> myController.pause());
@@ -102,7 +102,7 @@ public class GUI {
         play.setDisable(disable);
         pause.setDisable(disable);
         step.setDisable(disable);
-        //speedSlider.setDisable(disable);
+        speedSlider.setDisable(disable);
     }
 
     private void initSpeedChooser() {

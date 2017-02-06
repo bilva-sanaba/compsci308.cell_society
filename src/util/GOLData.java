@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public class GOLData extends CAData {
     
-    public static final String NAME = "gol";
-    
 	public GOLData(Map<String, String> data) {
 		super(data);
 	}

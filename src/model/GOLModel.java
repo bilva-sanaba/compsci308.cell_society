@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Collection;
+
+import cell.CellConfig;
 import cell.GOLCell;
 import cell.WatorCell;
 import cellsociety.Cell;
@@ -13,11 +16,12 @@ import grid.RectangleGrid;
  */
 public class GOLModel extends Model {
     
+    public static final String NAME = "gol";
     public static final int LOWER_THRESHOLD = 2;
     public static final int UPPER_THRESHOLD = 3;
     
-    public GOLModel() {
-        super(new RectangleGrid(WatorCell.getGenerator()));
+    public GOLModel(int row, int col, Collection<CellConfig> cellConfig) {
+        super(new RectangleGrid(row, col, cellConfig, WatorCell.getGenerator()));
     }
 
     @Override

@@ -78,6 +78,11 @@ public class WatorCell extends Cell {
         return new CellGenerator() {
 
             @Override
+            public Cell getBasicCell() {
+                return new WatorCell(WATER);
+            }
+
+            @Override
             public Cell getCell(int state) {
                 if(WATER.equals(state)) {
                     return new WatorCell(WATER);

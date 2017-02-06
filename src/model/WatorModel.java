@@ -1,18 +1,24 @@
 package model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import cell.CellConfig;
 import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
 import grid.CardinalRectangleGrid;
 
 public class WatorModel extends Model {
+    
+    public static final String NAME = "wator";
+    
 	private Random rand = new Random();
-    public WatorModel() {
-        super(new CardinalRectangleGrid(WatorCell.getGenerator()));
+	
+    public WatorModel(int row, int col, Collection<CellConfig> cellConfig) {
+        super(new CardinalRectangleGrid(row, col, cellConfig, WatorCell.getGenerator()));
     }
 	private Cell pickRandomCell(Set<Cell> fish){
 		int i = 0;

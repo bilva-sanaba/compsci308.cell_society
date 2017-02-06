@@ -1,7 +1,9 @@
 package cellsociety;
 
+import java.util.Collection;
 import java.util.Set;
 
+import cell.CellConfig;
 import cell.CellGenerator;
 
 /**
@@ -14,11 +16,15 @@ public abstract class Grid {
 
     private Cell[][] sim;
     
-    public Grid(CellGenerator generator) {
-        //TODO init with xml
+    public Grid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
+        sim = new Cell[row][col];
+        for(CellConfig config: cellConfig) {
+            sim[config.getRow()][config.getCol()] = generator.getCell(config.getState());
+        }
+        fillEmpty(generator);
         buildNeighborGraph();
     }
-    
+
     public Grid(Grid other) {
         sim = other.sim;
         buildNeighborGraph();
@@ -53,6 +59,16 @@ public abstract class Grid {
      * @return
      */
     protected abstract Set<Cell> findNeighbor(int row, int col);
+
+    private void fillEmpty(CellGenerator generator) {
+        for(int i = 0; i < numRows(); i++) {
+            for(int j = 0; j < numCols(); j++) {
+                if(sim[i][j] == null) {
+                    sim[i][j] = generator.getBasicCell();
+                }
+            }
+        }
+    }
     
     private void buildNeighborGraph() {
         for(int row = 0; row < sim.length; row++) {

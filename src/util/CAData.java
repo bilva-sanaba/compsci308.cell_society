@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +10,9 @@ import java.util.Scanner;
 
 import cell.CellConfig;
 import cellsociety.CAException;
+import model.GOLModel;
+import model.SegregationModel;
+import model.WatorModel;
 
 /**
  * 
@@ -33,6 +37,7 @@ public abstract class CAData {
 	
 	public CAData(Map<String, String> data) {
 	    myData = data;
+	    myCellConfig = new ArrayList<CellConfig>();
 	    parseCellConfig(data.get(DATA_FIELDS.get(5)));
 	}
 	
@@ -85,16 +90,16 @@ public abstract class CAData {
 	
 	public static CAData getModelData(Map<String, String> data) {
 	    String name = data.get(DATA_FIELDS.get(0)).toLowerCase();
-	    if(name.equals(SegregationData.NAME)) {
+	    if(name.equals(SegregationModel.NAME)) {
 	        return new SegregationData(data);
 	    }
-        else if(name.equals(WatorData.NAME)) {
+        else if(name.equals(WatorModel.NAME)) {
             return new WatorData(data);
         }
         else if(name.equals(FireData.NAME)) {
             return new FireData(data);
         }
-        else if(name.equals(GOLData.NAME)) {
+        else if(name.equals(GOLModel.NAME)) {
             return new GOLData(data);
         }
         throw new CAException(CAException.INVALID_MODEL, name);
