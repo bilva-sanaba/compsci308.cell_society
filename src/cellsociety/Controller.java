@@ -2,6 +2,7 @@ package cellsociety;
 
 import java.io.File;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
@@ -52,18 +53,23 @@ public class Controller {
         animation.play();
     }
     
-    public void pause() {
-        animation.pause();
+    public void stop() {
+        animation.stop();
     }
     
     public void step() {
-        pause();
+        stop();
         update();
     }
     
     public void setSpeed(int fps) {
+        boolean wasRunning = (animation.getStatus() == Animation.Status.RUNNING);
+        stop();
         animation.getKeyFrames().clear();
         animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLIS_PER_SECOND/fps), e -> update()));
+        if(wasRunning) {
+            play();
+        }
     }
     
     public boolean hasModel() {
