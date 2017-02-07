@@ -20,7 +20,7 @@ public abstract class Cell {
     private Set<Cell> neighbors;
     
     public Cell(CellState state) {
-        myState = state;
+        myState = nextState = state;
         neighbors = new HashSet<Cell>();
     }
     

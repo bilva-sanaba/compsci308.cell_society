@@ -16,8 +16,8 @@ import model.WatorModel;
 
 /**
  * 
- * @author Mike Liu
  * @author Justin Yang
+ * @author Mike Liu
  *
  */
 public abstract class CAData {
