@@ -18,8 +18,8 @@ import cellsociety.CAException;
 
 /**
  * 
- * @author Mike Liu
  * @author Justin Yang
+ * @author Mike Liu
  *
  */
 public class XMLReader {

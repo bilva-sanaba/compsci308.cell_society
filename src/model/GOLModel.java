@@ -1,13 +1,10 @@
 package model;
 
-import java.util.Collection;
-
-import cell.CellConfig;
 import cell.GOLCell;
-import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
 import grid.RectangleGrid;
+import util.CAData;
 
 /**
  * Model for Game of Life simulation
@@ -20,8 +17,8 @@ public class GOLModel extends Model {
     public static final int LOWER_THRESHOLD = 2;
     public static final int UPPER_THRESHOLD = 3;
     
-    public GOLModel(int row, int col, Collection<CellConfig> cellConfig) {
-        super(new RectangleGrid(row, col, cellConfig, WatorCell.getGenerator()));
+    public GOLModel(CAData data) {
+        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), GOLCell.getGenerator()));
     }
 
     @Override

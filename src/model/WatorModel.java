@@ -1,15 +1,14 @@
 package model;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import cell.CellConfig;
 import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
 import grid.CardinalRectangleGrid;
+import util.CAData;
 
 public class WatorModel extends Model {
     
@@ -17,8 +16,8 @@ public class WatorModel extends Model {
     
 	private Random rand = new Random();
 	
-    public WatorModel(int row, int col, Collection<CellConfig> cellConfig) {
-        super(new CardinalRectangleGrid(row, col, cellConfig, WatorCell.getGenerator()));
+    public WatorModel(CAData data) {
+        super(new CardinalRectangleGrid(data.numRows(), data.numCols(), data.getCell(), WatorCell.getGenerator()));
     }
 	private Cell pickRandomCell(Set<Cell> fish){
 		int i = 0;

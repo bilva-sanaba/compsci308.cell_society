@@ -33,7 +33,7 @@ public class GUI {
     public static final String DATA_FILE_EXTENSION = "*.xml";
 
     public static final double SCENE_WIDTH = 600;
-    public static final double SCENE_HEIGHT = 580;
+    public static final double SCENE_HEIGHT = 680;
     public static final double INPUT_PANEL_HEIGHT = 80;
 
     private Stage myStage;
@@ -129,11 +129,9 @@ public class GUI {
         return slider;
     }
 
-    // set some sensible defaults when the FileChooser is created
     private FileChooser makeChooser(String extensionAccepted) {
         FileChooser result = new FileChooser();
         result.setTitle("Open Data File");
-        // pick a reasonable place to start searching for files
         result.setInitialDirectory(new File(System.getProperty("user.dir")));
         result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
         return result;

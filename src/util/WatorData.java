@@ -6,8 +6,8 @@ import java.util.Map;
 
 /**
  * 
- * @author Mike Liu
  * @author Justin Yang
+ * @author Mike Liu
  *
  */
 public class WatorData extends CAData {

@@ -22,6 +22,11 @@ public abstract class Grid {
         }
         fillEmpty(generator);
         buildNeighborGraph();
+        for(int i = 0; i < numRows(); i++) {
+            for(int j = 0; j < numCols(); j++) {
+                
+            }
+        }
     }
 
     public Grid(Grid other) {

@@ -5,15 +5,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import model.SegregationModel;
+
 /**
  * 
- * @author Mike Liu
  * @author Justin Yang
+ * @author Mike Liu
  *
  */
 public class SegregationData extends CAData {
     
-    public static final double DEFAULT_THRESHOLD = 0.5;
     public static final List<String> EXTRA_FIELDS = Arrays.asList(new String[] {
             "threshold"
         });
@@ -26,7 +27,7 @@ public class SegregationData extends CAData {
 	    try {
 	        return Double.parseDouble(getField(EXTRA_FIELDS.get(0)));
 	    } catch(NullPointerException e) {
-	        return DEFAULT_THRESHOLD;
+	        return SegregationModel.DEFAULT_THRESHOLD;
 	    }
 	}
 
