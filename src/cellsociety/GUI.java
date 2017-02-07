@@ -87,7 +87,7 @@ public class GUI {
             enableInput(!myController.hasModel());
         });
         play = createButton(myResources.getString("PlayButton"), e -> myController.play());
-        pause = createButton(myResources.getString("PauseButton"), e -> myController.pause());
+        pause = createButton(myResources.getString("StopButton"), e -> myController.stop());
         step = createButton(myResources.getString("StepButton"), e -> myController.step());
     }
 
