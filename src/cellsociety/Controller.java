@@ -23,7 +23,7 @@ public class Controller {
     
     public static final int MIN_SPEED = 1;
     public static final int MAX_SPEED = 20;
-    public static final int DEFAULT_SPEED = 10;
+    public static final int DEFAULT_FPS = 10;
     public static final double MILLIS_PER_SECOND = 1000;
 
     private Timeline animation;
@@ -53,23 +53,17 @@ public class Controller {
         animation.play();
     }
     
-    public void stop() {
-        animation.stop();
+    public void pause() {
+        animation.pause();
     }
     
     public void step() {
-        stop();
+        pause();
         update();
     }
     
     public void setSpeed(int fps) {
-        boolean wasRunning = (animation.getStatus() == Animation.Status.RUNNING);
-        stop();
-        animation.getKeyFrames().clear();
-        animation.getKeyFrames().add(new KeyFrame(Duration.millis(MILLIS_PER_SECOND/fps), e -> update()));
-        if(wasRunning) {
-            play();
-        }
+        animation.setRate(fps/(double)DEFAULT_FPS);
     }
     
     public boolean hasModel() {
@@ -89,7 +83,7 @@ public class Controller {
     private Timeline getTimeline() {
         Timeline tl = new Timeline();
         tl.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLIS_PER_SECOND/DEFAULT_SPEED), e -> update());
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLIS_PER_SECOND/DEFAULT_FPS), e -> update());
         tl.getKeyFrames().add(frame);
         return tl;
     }

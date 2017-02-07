@@ -87,7 +87,7 @@ public class GUI {
             enableInput(!myController.hasModel());
         });
         play = createButton(myResources.getString("PlayButton"), e -> myController.play());
-        pause = createButton(myResources.getString("StopButton"), e -> myController.stop());
+        pause = createButton(myResources.getString("PauseButton"), e -> myController.pause());
         step = createButton(myResources.getString("StepButton"), e -> myController.step());
     }
 
@@ -115,13 +115,13 @@ public class GUI {
     }
     
     private Label createSpeedLabel() {
-        Label label = new Label(String.format(myResources.getString("SpeedLabel"), Controller.DEFAULT_SPEED));
+        Label label = new Label(String.format(myResources.getString("SpeedLabel"), Controller.DEFAULT_FPS));
         label.setTextFill(Color.WHITE);
         return label;
     }
     
     private Slider createSpeedSlider() {
-        Slider slider = new Slider(Controller.MIN_SPEED, Controller.MAX_SPEED, Controller.DEFAULT_SPEED);
+        Slider slider = new Slider(Controller.MIN_SPEED, Controller.MAX_SPEED, Controller.DEFAULT_FPS);
         slider.setMajorTickUnit(Controller.MAX_SPEED - Controller.MIN_SPEED);
         slider.setMinorTickCount(Controller.MAX_SPEED - Controller.MIN_SPEED - 1);
         slider.setShowTickMarks(true);
