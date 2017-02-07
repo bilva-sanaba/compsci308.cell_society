@@ -19,11 +19,11 @@ public class GOLCell extends Cell {
     }
     
     public void spawn() {
-        setNextState(DEAD);
+        setNextState(LIVE);
     }
     
     public void die() {
-        setNextState(LIVE);
+        setNextState(DEAD);
     }
     
     public static CellGenerator getGenerator() {
