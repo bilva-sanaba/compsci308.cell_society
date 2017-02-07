@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cellsociety.CAException;
 import cellsociety.Grid;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -16,14 +15,14 @@ import javafx.scene.shape.Shape;
  */
 public abstract class ShapeGenerator {
     
-    public static final String SQUARE = "square";
-    
-    public static ShapeGenerator getShapeGenerator(String shape) {
-        if(shape.toLowerCase().equals(SQUARE)) {
-            return new SquareGenerator();
-        }
-        throw new CAException(CAException.INVALID_SHAPE);
-    }
+//    public static final String SQUARE = "square";
+//    
+//    public static ShapeGenerator getShapeGenerator(String shape) {
+//        if(shape.toLowerCase().equals(SQUARE)) {
+//            return new SquareGenerator();
+//        }
+//        throw new CAException(CAException.INVALID_SHAPE);
+//    }
     
     public Collection<Shape> generate(double gridWidth, Grid grid) {
         List<Shape> shapes = new ArrayList<Shape>();

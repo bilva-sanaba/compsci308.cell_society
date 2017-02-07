@@ -1,6 +1,7 @@
 package cellsociety;
 
-import javafx.scene.layout.Pane;
+import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
 import shapegenerator.ShapeGenerator;
 
 /**
@@ -8,29 +9,32 @@ import shapegenerator.ShapeGenerator;
  * @author Mike Liu
  *
  */
-public class GridView extends Pane {
+public class GridView extends ScrollPane {
     
-    private Model model;
-    private ShapeGenerator generator;
+    private Group root;
+    private Model myModel;
+    private ShapeGenerator myGenerator;
     
     public GridView(double width) {
         super();
         setPrefWidth(width);
+        root = new Group();
+        setContent(root);
     }
     
     public void setModel(Model model) {
-        this.model = model;
+        this.myModel = model;
     }
     
-    public void setShape(String shape) {
-        ShapeGenerator.getShapeGenerator(shape);
+    public void setShape(ShapeGenerator generator) {
+        myGenerator = generator;
     }
     
     /**
      * Updates the display
      */
     public void update() {
-        getChildren().clear();
-        getChildren().addAll(generator.generate(getPrefWidth(), model.getGrid()));
+        root.getChildren().clear();
+        root.getChildren().addAll(myGenerator.generate(getPrefWidth(), myModel.getGrid()));
     }
 }
