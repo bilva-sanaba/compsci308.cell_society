@@ -20,11 +20,11 @@ public class CardinalRectangleGrid extends Grid {
 	}
 	
 	private boolean isRightEdge(int row, int col){
-		return (col == numCols());
+		return (col == numCols()-1);
 	}
 	
 	private boolean isBottomEdge(int row, int col){
-		return (row == numRows());
+		return (row == numRows()-1);
 	}
 	
 	private boolean isTopEdge(int row, int col){

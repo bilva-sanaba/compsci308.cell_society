@@ -1,5 +1,8 @@
 package cell;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cellsociety.CAException;
 import cellsociety.Cell;
 import javafx.scene.paint.Color;
@@ -14,8 +17,8 @@ public class WatorCell extends Cell {
     public static final CellState WATER = new CellState(0, Color.BLUE);
     public static final CellState FISH = new CellState(1, Color.BISQUE);
     public static final CellState SHARK = new CellState(2, Color.GREY);
-    public static final int ENERGY_MAX=10;
-    public static final int SHARK_BREED_PERIOD=10;
+    public static final int ENERGY_MAX=5;
+    public static final int SHARK_BREED_PERIOD=25;
     public static final int FISH_BREED_PERIOD=5;
     public static final int FISH_ENERGY = 5;
     
@@ -29,16 +32,27 @@ public class WatorCell extends Cell {
         fishReproduction = FISH_BREED_PERIOD;  
         sharkReproduction = SHARK_BREED_PERIOD;
     }
-    
+    public Set<Cell> getCertainNeighbors(CellState state){
+    	Set<Cell> certainNeighbors = new HashSet<Cell>();
+    	for (Cell neighbor : this.getNeighbors()){
+    		if (neighbor.inState(state)){
+    			certainNeighbors.add(neighbor);
+    		}
+    	}
+    	return certainNeighbors;
+    }
     public int getEnergy(){
     	return energy;
     }
+    public boolean shouldDie(){
+		return this.getEnergy()==0;
+    }
     public boolean canReproduce(){
 		if (this.inState(WatorCell.SHARK)){
-			return (this.getSharkDays()==0);
+			return (this.getSharkDays()<=0);
 		}
 		if (this.inState(WatorCell.FISH)){
-			return (this.getFishDays()==0);
+			return (this.getFishDays()<=0);
 		}
 		return false;
 	}
