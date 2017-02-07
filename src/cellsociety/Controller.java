@@ -2,7 +2,7 @@ package cellsociety;
 
 import java.io.File;
 
-import javafx.animation.Animation;
+import cellsociety.handler.LoadHandler;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
@@ -10,6 +10,7 @@ import javafx.util.Duration;
 import model.GOLModel;
 import model.SegregationModel;
 import model.WatorModel;
+import model.input.ModelInput;
 import shapegenerator.SquareGenerator;
 import util.CAData;
 import util.XMLReader;
@@ -35,10 +36,11 @@ public class Controller {
         animation = getTimeline();
     }
     
-    public void load(File dataFile) {
+    public void load(File dataFile, LoadHandler handler) {
         try {
             CAData data = new XMLReader().readData(dataFile);
             model = chooseModel(data);
+            handler.setModelInput(new ModelInput(GUI.MODEL_INPUT_WIDTH));
         } catch(CAException e) {
             model = null;
             throw new CAException(e);

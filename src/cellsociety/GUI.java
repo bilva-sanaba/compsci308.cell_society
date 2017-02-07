@@ -3,21 +3,23 @@ package cellsociety;
 import java.io.File;
 import java.util.ResourceBundle;
 
+import cellsociety.handler.LoadHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 /**
  * User interface that sets up the display and lets user interact with the simulation
@@ -32,9 +34,12 @@ public class GUI {
     public static final String PROPERTIES = "default";
     public static final String DATA_FILE_EXTENSION = "*.xml";
 
-    public static final double SCENE_WIDTH = 600;
+    public static final double SCENE_WIDTH = 800;
     public static final double SCENE_HEIGHT = 680;
     public static final double INPUT_PANEL_HEIGHT = 80;
+    
+    public static final double MODEL_INPUT_WIDTH = SCENE_WIDTH/4;
+    public static final double GRID_WIDTH = SCENE_WIDTH - MODEL_INPUT_WIDTH;
 
     private Stage myStage;
     private Scene myScene;
@@ -48,7 +53,7 @@ public class GUI {
 
     public GUI() {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
-        myController = new Controller(SCENE_WIDTH);
+        myController = new Controller(GRID_WIDTH);
         myRoot = new BorderPane();
         myRoot.setBottom(initInputPanel(INPUT_PANEL_HEIGHT));
         enableInput(!myController.hasModel());
@@ -79,7 +84,14 @@ public class GUI {
             try {
                 File dataFile = myChooser.showOpenDialog(myStage);
                 if(dataFile != null) {
-                    myController.load(dataFile);
+                    myController.load(dataFile, new LoadHandler() {
+
+                        @Override
+                        public void setModelInput(Region p) {
+                            p.setPrefWidth(MODEL_INPUT_WIDTH);
+                            myRoot.setLeft(p);
+                        }
+                    });
                 }
             } catch(CAException ce) {
                 showError(ce.getMessage());
