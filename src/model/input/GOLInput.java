@@ -6,8 +6,8 @@ public class GOLInput extends ModelInput {
     
     GOLModel myModel;
 
-    public GOLInput(GOLModel model, double width) {
-        super(width);
+    public GOLInput(GOLModel model) {
+        super();
         myModel = model;
     }
 

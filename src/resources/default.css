@@ -3,3 +3,9 @@
     -fx-background-color: black;
     -fx-alignment: center;
 }
+
+#model-input {
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+}

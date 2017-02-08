@@ -87,9 +87,10 @@ public class GUI {
                     myController.load(dataFile, new LoadHandler() {
 
                         @Override
-                        public void setModelInput(Region p) {
-                            p.setPrefWidth(MODEL_INPUT_WIDTH);
-                            myRoot.setLeft(p);
+                        public void setModelInput(Region region) {
+                            region.setId("model-input");
+                            region.setPrefWidth(MODEL_INPUT_WIDTH);
+                            myRoot.setLeft(region);
                         }
                     });
                 }
@@ -121,8 +122,8 @@ public class GUI {
         speedSlider = createSpeedSlider();
         speedLabel = createSpeedLabel();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            speedLabel.setText(String.format(myResources.getString("SpeedLabel"), (int)speedSlider.getValue()));
-            myController.setSpeed((int)speedSlider.getValue());
+            speedLabel.setText(String.format(myResources.getString("SpeedLabel"), newValue.intValue()));
+            myController.setSpeed(newValue.intValue());
         });
     }
     

@@ -13,4 +13,11 @@ public abstract class ModelManager {
         myInput = input;
     }
     
+    public Model getModel() {
+        return myModel;
+    }
+    
+    public ModelInput getInput() {
+        return myInput;
+    }
 }

@@ -1,12 +1,17 @@
 package model.input;
 
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
-public class ModelInput extends ScrollPane {
+public abstract class ModelInput extends VBox {
 
-    public ModelInput(double width) {
+    public ModelInput() {
         super();
-        setPrefWidth(width);
     }
     
+    protected void addElement(String labelText, Node node) {
+        Label label = new Label(labelText);
+        getChildren().addAll(label, node);
+    }
 }

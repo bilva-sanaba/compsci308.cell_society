@@ -6,12 +6,12 @@ import util.CAData;
 
 public class GOLManager extends ModelManager {
 
-    public GOLManager(CAData data, double width) {
-        this(new GOLModel(data), width);
+    public GOLManager(CAData data) {
+        this(new GOLModel(data));
     }
     
-    private GOLManager(GOLModel model, double width) {
-        super(model, new GOLInput(model, width));
+    private GOLManager(GOLModel model) {
+        super(model, new GOLInput(model));
     }
 
 }

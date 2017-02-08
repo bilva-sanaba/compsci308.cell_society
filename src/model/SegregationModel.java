@@ -24,6 +24,10 @@ public class SegregationModel extends Model {
 		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), SegregationCell.getGenerator()));
 		happyPercent = ((SegregationData)data).getThreshold();
 	}
+	
+	public void setThreshold(double threshold) {
+	    happyPercent = threshold;
+	}
 
 	@Override
 	public void update() {
