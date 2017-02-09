@@ -4,10 +4,10 @@ import javafx.scene.paint.Color;
 
 public class CellState {
     
-    private int myState;
+    private String myState;
     private Color myColor;
     
-    public CellState(int state, Color color) {
+    public CellState(String state, Color color) {
         myState = state;
         myColor = color;
     }
@@ -16,8 +16,8 @@ public class CellState {
         return myColor;
     }
     
-    public boolean equals(int state) {
-        return state == myState;
+    public boolean equals(String state) {
+        return state.equals(myState);
     }
     
     @Override

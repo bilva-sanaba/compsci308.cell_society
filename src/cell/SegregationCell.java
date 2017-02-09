@@ -6,9 +6,9 @@ import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell{
     
-    public static final CellState EMPTY = new CellState(0, Color.WHITE);
-    public static final CellState RED = new CellState(1, Color.RED);
-    public static final CellState BLUE = new CellState(2, Color.BLUE);
+    public static final CellState EMPTY = new CellState("Empty", Color.WHITE);
+    public static final CellState RED = new CellState("Red", Color.RED);
+    public static final CellState BLUE = new CellState("Blue", Color.BLUE);
     
     private SegregationCell(CellState state) {
         super(state);

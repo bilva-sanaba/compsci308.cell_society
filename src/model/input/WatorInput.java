@@ -9,5 +9,6 @@ public class WatorInput extends ModelInput {
     public WatorInput(WatorModel model) {
         super();
         myModel = model;
+        
     }
 }

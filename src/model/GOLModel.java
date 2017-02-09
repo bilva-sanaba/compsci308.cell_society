@@ -34,14 +34,14 @@ public class GOLModel extends Model {
     private void changeState(GOLCell cell) {
         int count = 0;
         for(Cell c: cell.getNeighbors()) {
-            if(c.inState(GOLCell.LIVE)) {
+            if(c.is(GOLCell.LIVE)) {
                 count++;
             }
         }
-        if(cell.inState(GOLCell.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
+        if(cell.is(GOLCell.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
             cell.die();
         }
-        else if(cell.inState(GOLCell.DEAD) && count == UPPER_THRESHOLD) {
+        else if(cell.is(GOLCell.DEAD) && count == UPPER_THRESHOLD) {
             cell.spawn();
         }
     }

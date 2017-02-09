@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
  */
 public class WatorCell extends Cell {
     
-    public static final CellState WATER = new CellState(0, Color.BLUE);
-    public static final CellState FISH = new CellState(1, Color.BISQUE);
-    public static final CellState SHARK = new CellState(2, Color.GREY);
+    public static final CellState WATER = new CellState("Water", Color.BLUE);
+    public static final CellState FISH = new CellState("Fish", Color.BISQUE);
+    public static final CellState SHARK = new CellState("Shark", Color.GREY);
     public static final int ENERGY_MAX=5;
     public static final int SHARK_BREED_PERIOD=25;
     public static final int FISH_BREED_PERIOD=5;
@@ -35,7 +35,7 @@ public class WatorCell extends Cell {
     public Set<Cell> getCertainNeighbors(CellState state){
     	Set<Cell> certainNeighbors = new HashSet<Cell>();
     	for (Cell neighbor : this.getNeighbors()){
-    		if (neighbor.inState(state)){
+    		if (neighbor.is(state)){
     			certainNeighbors.add(neighbor);
     		}
     	}
@@ -48,10 +48,10 @@ public class WatorCell extends Cell {
 		return this.getEnergy()==0;
     }
     public boolean canReproduce(){
-		if (this.inState(WatorCell.SHARK)){
+		if (this.is(WatorCell.SHARK)){
 			return (this.getSharkDays()<=0);
 		}
-		if (this.inState(WatorCell.FISH)){
+		if (this.is(WatorCell.FISH)){
 			return (this.getFishDays()<=0);
 		}
 		return false;

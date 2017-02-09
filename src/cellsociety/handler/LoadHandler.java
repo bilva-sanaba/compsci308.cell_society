@@ -4,6 +4,6 @@ import javafx.scene.layout.Region;
 
 public interface LoadHandler {
 
-    public void setModelInput(Region region);
+    public void setModelInput(Region root);
     
 }

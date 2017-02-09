@@ -57,7 +57,7 @@ public class SegregationModel extends Model {
 	List<Cell> emptyCells = new ArrayList<Cell>();
 		for (int row = 0; row < getGrid().numRows(); row++) {
 			for (int col = 0; col < getGrid().numCols(); col++) {
-				if (getGrid().get(row, col).inState(SegregationCell.EMPTY)){
+				if (getGrid().get(row, col).is(SegregationCell.EMPTY)){
 					emptyCells.add((SegregationCell) getGrid().get(row, col));
 				}
 			}
@@ -87,11 +87,11 @@ public class SegregationModel extends Model {
 	private boolean isUnhappy(SegregationCell cell){
 		int numberOfNeighbors = 0;
 		int numberSameNeighbors = 0;
-		if (!cell.inState(SegregationCell.EMPTY)) {
+		if (!cell.is(SegregationCell.EMPTY)) {
 			for (Cell c : cell.getNeighbors()) {
-				if (!c.inState(SegregationCell.EMPTY)) {
+				if (!c.is(SegregationCell.EMPTY)) {
 					numberOfNeighbors++;
-					if (cell.hasSameState(c)) {
+					if (cell.equals(c)) {
 						numberSameNeighbors++;
 					}
 				}
@@ -103,7 +103,7 @@ public class SegregationModel extends Model {
 	}
 			private void removeUnhappy(SegregationCell cell) {
 				if (isUnhappy(cell)){
-						if (cell.inState(SegregationCell.RED)) {
+						if (cell.is(SegregationCell.RED)) {
 							relocateRed++;
 						} else {
 							relocateBlue++;

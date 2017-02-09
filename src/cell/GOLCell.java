@@ -11,8 +11,8 @@ import javafx.scene.paint.Color;
  */
 public class GOLCell extends Cell {
     
-    public static final CellState DEAD = new CellState(0, Color.BLACK);
-    public static final CellState LIVE = new CellState(1, Color.WHITE);
+    public static final CellState DEAD = new CellState("Dead", Color.BLACK);
+    public static final CellState LIVE = new CellState("Live", Color.WHITE);
     
     private GOLCell(CellState state) {
         super(state);

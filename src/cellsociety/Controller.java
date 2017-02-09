@@ -44,7 +44,7 @@ public class Controller {
             CAData data = new XMLReader().readData(dataFile);
             ModelManager manager = chooseModel(data);
             model = manager.getModel();
-            handler.setModelInput(manager.getInput());
+            handler.setModelInput(manager.getInput().getRoot());
         } catch(CAException e) {
             model = null;
             throw new CAException(e);
