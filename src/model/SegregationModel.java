@@ -48,11 +48,11 @@ public class SegregationModel extends Model {
 	}
 	private void moveUnhappy() {
 		while (relocateRed != 0) {
-			((SegregationCell) pickRandomCell(getCertainCells(SegregationCell.EMPTY))).fillRed();
+			((SegregationCell) pickRandomCell(getGrid().getCells(SegregationCell.EMPTY))).fillRed();
 			relocateRed--;
 		}
 		while (relocateBlue != 0) {
-			((SegregationCell) pickRandomCell(getCertainCells(SegregationCell.EMPTY))).fillBlue();
+			((SegregationCell) pickRandomCell(getGrid().getCells(SegregationCell.EMPTY))).fillBlue();
 			relocateBlue--;
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import cell.CellConfig;
 import cell.CellGenerator;
+import cell.CellState;
 import grid.NeighborOffset;
 
 /**
@@ -57,6 +58,18 @@ public abstract class Grid {
                 sim[row][col].setNeighbors(findNeighbor(row, col, diagonal));
             }
         }
+    }
+    
+    public Collection<Cell> getCells(CellState state){
+        Collection<Cell> cells = new HashSet<Cell>();
+        for (int row = 0; row < numRows(); row++) {
+            for (int col = 0; col < numCols(); col++) {
+                if (get(row, col).is(state)){
+                    cells.add(get(row, col));
+                }
+            }
+        }
+        return cells;
     }
     
     /**

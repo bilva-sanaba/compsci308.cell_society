@@ -1,11 +1,9 @@
 package cellsociety;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
 import cell.CellGenerator;
-import cell.CellState;
 
 public abstract class Model {
     private Random rand = new Random();
@@ -51,16 +49,5 @@ public abstract class Model {
 			i++;
 		}
 		return null;
-	}
-    protected Collection<Cell> getCertainCells(CellState state){
-		Collection<Cell> cells = new ArrayList<Cell>();
-		for (int row = 0; row < getGrid().numRows(); row++) {
-			for (int col = 0; col < getGrid().numCols(); col++) {
-				if (getGrid().get(row, col).is(state)){
-					cells.add(getGrid().get(row, col));
-				}
-			}
-		}
-		return cells;
 	}
 }

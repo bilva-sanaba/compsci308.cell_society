@@ -35,11 +35,11 @@ public class WatorModel extends Model {
     }
     @Override
     public void update() {
-    	for (Cell shark : getCertainCells(WatorCell.SHARK)){
+    	for (Cell shark : getGrid().getCells(WatorCell.SHARK)){
 	            moveShark((WatorCell) shark);
     			getGrid().update();
     	}
-    	for(Cell fish : getCertainCells(WatorCell.FISH)){
+    	for(Cell fish : getGrid().getCells(WatorCell.FISH)){
 	            moveFish((WatorCell) fish);
 	            getGrid().update();
 	            }
