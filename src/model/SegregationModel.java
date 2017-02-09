@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import cell.SegregationCell;
 import cellsociety.Cell;
 import cellsociety.Model;
@@ -18,7 +15,6 @@ public class SegregationModel extends Model {
 	private int relocateRed = 0;
 	private int relocateBlue = 0;
 	private double happyPercent;
-	private Random rand = new Random();
 
 	public SegregationModel(CAData data) {
 		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), SegregationCell.getGenerator()));
@@ -39,52 +35,29 @@ public class SegregationModel extends Model {
 		moveUnhappy();
 		getGrid().update();
 	}
-	private Cell pickRandomCell(List<Cell> blocks){
-		int i = 0;
-		if (blocks.size()==0){
-			return null;
-		}
-		int random = rand.nextInt(blocks.size());
-		for(Cell cell : blocks)
-			{
-		    if (i == random)
-		        return cell;
-		    i++;
-		}
-		return null;
-	}
-	private List<Cell> getEmptyCells(){
-	List<Cell> emptyCells = new ArrayList<Cell>();
-		for (int row = 0; row < getGrid().numRows(); row++) {
-			for (int col = 0; col < getGrid().numCols(); col++) {
-				if (getGrid().get(row, col).is(SegregationCell.EMPTY)){
-					emptyCells.add((SegregationCell) getGrid().get(row, col));
-				}
-			}
-		}
-	return emptyCells;
-	}
 	
+	private void removeUnhappy(SegregationCell cell) {
+		if (isUnhappy(cell)){
+			if (cell.is(SegregationCell.RED)) {
+				relocateRed++;
+			} else {
+				relocateBlue++;
+			}
+			cell.leave();
+		}
+	}
 	private void moveUnhappy() {
-				while (relocateRed != 0) {
-					List<Cell> currentEmptyCells = getEmptyCells();
-					Cell currentCell = pickRandomCell(currentEmptyCells);
-						((SegregationCell) currentCell).fillRed();
-						relocateRed--;
-					}
-				
-				while (relocateBlue != 0) {
-					List<Cell> currentEmptyCells = getEmptyCells();
-					Cell currentCell = pickRandomCell(currentEmptyCells);
-						((SegregationCell) currentCell).fillBlue();
-						relocateBlue--;
-					}
-					
-				
-			}
-		
-	
-	private boolean isUnhappy(SegregationCell cell){
+		while (relocateRed != 0) {
+			((SegregationCell) pickRandomCell(getCertainCells(SegregationCell.EMPTY))).fillRed();
+			relocateRed--;
+		}
+		while (relocateBlue != 0) {
+			((SegregationCell) pickRandomCell(getCertainCells(SegregationCell.EMPTY))).fillBlue();
+			relocateBlue--;
+		}
+	}
+
+	private boolean isUnhappy(Cell cell){
 		int numberOfNeighbors = 0;
 		int numberSameNeighbors = 0;
 		if (!cell.is(SegregationCell.EMPTY)) {
@@ -96,19 +69,8 @@ public class SegregationModel extends Model {
 					}
 				}
 			}
-
 			return (numberOfNeighbors>0 && (double) numberSameNeighbors / (double) numberOfNeighbors < happyPercent); 
-			}
+		}
 		return false;
 	}
-			private void removeUnhappy(SegregationCell cell) {
-				if (isUnhappy(cell)){
-						if (cell.is(SegregationCell.RED)) {
-							relocateRed++;
-						} else {
-							relocateBlue++;
-						}
-						cell.leave();
-					}
-			}
-		}
+}

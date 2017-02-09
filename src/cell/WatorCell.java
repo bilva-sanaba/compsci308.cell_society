@@ -13,24 +13,18 @@ import javafx.scene.paint.Color;
  *
  */
 public class WatorCell extends Cell {
-    
+  
     public static final CellState WATER = new CellState("Water", Color.BLUE);
     public static final CellState FISH = new CellState("Fish", Color.BISQUE);
     public static final CellState SHARK = new CellState("Shark", Color.GREY);
-    public static final int ENERGY_MAX=5;
-    public static final int SHARK_BREED_PERIOD=25;
-    public static final int FISH_BREED_PERIOD=5;
-    public static final int FISH_ENERGY = 5;
     
-    private int energy;
-    private int fishReproduction; 
-    private int sharkReproduction;
+    private int energy, fishReproduction, sharkReproduction;
     
     private WatorCell(CellState state) {
         super(state);
-        energy = ENERGY_MAX;
-        fishReproduction = FISH_BREED_PERIOD;  
-        sharkReproduction = SHARK_BREED_PERIOD;
+//        energy = ENERGY_MAX;
+//        fishReproduction = FISH_BREED_PERIOD;  
+//        sharkReproduction = SHARK_BREED_PERIOD;
     }
     public Set<Cell> getCertainNeighbors(CellState state){
     	Set<Cell> certainNeighbors = new HashSet<Cell>();
