@@ -1,8 +1,6 @@
 package cellsociety;
 
 import java.io.File;
-
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
