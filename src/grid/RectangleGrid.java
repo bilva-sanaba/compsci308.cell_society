@@ -3,9 +3,9 @@ package grid;
 import java.util.Arrays;
 import java.util.Collection;
 
+import cell.Cell;
 import cell.CellConfig;
-import cell.CellGenerator;
-import cellsociety.Cell;
+import cell.generator.CellGenerator;
 import cellsociety.Grid;
 
 /**
@@ -33,13 +33,7 @@ public class RectangleGrid extends Grid {
 	
     @Override
     protected Collection<Cell> findNeighbor(int row, int col, boolean diagonal) {
-        Collection<Cell> neighbors = findNeighbor(row, col, cardinalOffset);
-        for(int i = 0; i < cardinalOffset.length(); i++) {
-        }
-        if(diagonal) {
-            neighbors.addAll(findNeighbor(row, col, diagonalOffset));
-        }
-        return neighbors;
+        return findNeighbor(row, col, diagonal, cardinalOffset, diagonalOffset);
     }
 }
 

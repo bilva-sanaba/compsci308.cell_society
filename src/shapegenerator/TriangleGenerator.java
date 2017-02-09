@@ -17,16 +17,21 @@ public class TriangleGenerator extends ShapeGenerator {
     @Override
     protected Shape getShape(int row, int col, double width) {
         double height = getHeight(width);
+        double leftX = (col)/2. * width;
+        double midX = (col+1)/2. * width;
+        double rightX = (col/2.+1) * width;
+        double topY = row * height;
+        double botY = (row+1) * height;
         if((row + col) % 2 == 0) {
             return new Polygon(
-                    col/2. * width, row * height,
-                    (col/2.+1) * width, row * height,
-                    (col+1) * width/2., (row+1) * height);
+                    leftX, topY,
+                    rightX, topY,
+                    midX, botY);
         } else {
             return new Polygon(
-                    (col+1) * width/2., row * height,
-                    (col)/2. * width, (row+1) * height,
-                    (col/2.+1) * width, (row+1) * height);
+                    midX, topY,
+                    leftX, botY,
+                    rightX, botY);
         }
     }
 

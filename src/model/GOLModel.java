@@ -1,7 +1,9 @@
 package model;
 
+import cell.Cell;
 import cell.GOLCell;
-import cellsociety.Cell;
+import cell.generator.GOLCellGenerator;
+import cell.state.GOLState;
 import cellsociety.Model;
 import grid.RectangleGrid;
 import util.CAData;
@@ -18,7 +20,7 @@ public class GOLModel extends Model {
     public static final int UPPER_THRESHOLD = 3;
     
     public GOLModel(CAData data) {
-        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), GOLCell.getGenerator(), true));
+        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), new GOLCellGenerator(), true));
     }
 
     @Override
@@ -34,14 +36,14 @@ public class GOLModel extends Model {
     private void changeState(GOLCell cell) {
         int count = 0;
         for(Cell c: cell.getNeighbors()) {
-            if(c.is(GOLCell.LIVE)) {
+            if(c.is(GOLState.LIVE)) {
                 count++;
             }
         }
-        if(cell.is(GOLCell.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
+        if(cell.is(GOLState.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
             cell.die();
         }
-        else if(cell.is(GOLCell.DEAD) && count == UPPER_THRESHOLD) {
+        else if(cell.is(GOLState.DEAD) && count == UPPER_THRESHOLD) {
             cell.spawn();
         }
     }

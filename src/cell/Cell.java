@@ -1,11 +1,11 @@
-package cellsociety;
+package cell;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import cell.CellState;
+import cell.state.CellState;
 import javafx.scene.paint.Color;
 
 /**
@@ -26,6 +26,10 @@ public abstract class Cell {
     
     public boolean is(CellState state) {
         return myState.equals(state);
+    }
+    
+    public void rotateState() {
+        myState = nextState = myState.rotate();
     }
     
     @Override

@@ -1,6 +1,6 @@
-package cell;
+package cell.generator;
 
-import cellsociety.Cell;
+import cell.Cell;
 
 public interface CellGenerator {
     

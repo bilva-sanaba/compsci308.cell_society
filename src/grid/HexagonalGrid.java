@@ -3,9 +3,9 @@ package grid;
 import java.util.Arrays;
 import java.util.Collection;
 
+import cell.Cell;
 import cell.CellConfig;
-import cell.CellGenerator;
-import cellsociety.Cell;
+import cell.generator.CellGenerator;
 import cellsociety.Grid;
 
 /**
