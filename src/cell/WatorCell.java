@@ -1,7 +1,7 @@
 package cell;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import cellsociety.CAException;
 import cellsociety.Cell;
@@ -26,8 +26,8 @@ public class WatorCell extends Cell {
 //        fishReproduction = FISH_BREED_PERIOD;  
 //        sharkReproduction = SHARK_BREED_PERIOD;
     }
-    public Set<Cell> getCertainNeighbors(CellState state){
-    	Set<Cell> certainNeighbors = new HashSet<Cell>();
+    public List<Cell> getCertainNeighbors(CellState state){
+    	List<Cell> certainNeighbors = new ArrayList<Cell>();
     	for (Cell neighbor : this.getNeighbors()){
     		if (neighbor.is(state)){
     			certainNeighbors.add(neighbor);

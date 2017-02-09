@@ -1,7 +1,8 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
@@ -106,7 +107,7 @@ public class WatorModel extends Model {
     }
     private void moveFish(WatorCell cell){
         if (cell.is(WatorCell.FISH)){
-            Set<Cell> water = new HashSet<Cell>();
+            List<Cell> water = new ArrayList<Cell>();
             for (Cell neighbor : cell.getNeighbors()){
                 if(neighbor.is(WatorCell.WATER)) {
                     water.add(neighbor);

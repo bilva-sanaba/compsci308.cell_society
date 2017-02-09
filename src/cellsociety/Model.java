@@ -1,14 +1,11 @@
 package cellsociety;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Random;
-
-import cell.CellGenerator;
 
 public abstract class Model {
     private Random rand = new Random();
     private Grid myGrid;
-    CellGenerator myGenerator;
     
     public Model(Grid grid) {
         myGrid = grid;
@@ -36,18 +33,19 @@ public abstract class Model {
         //TODO
     }
     
-    protected Cell pickRandomCell(Collection<Cell> cells){
-		int i = 0;
+    /**
+     * Picks a random cell from the list and removes it from the list
+     * Modifier
+     * @param cells
+     * @return
+     */
+    protected Cell pickRandomCell(List<Cell> cells){
 		if (cells.size()==0){
 			return null;
 		}
-		int random = rand.nextInt(cells.size());
-		for(Cell cell : cells){
-			if (i == random){
-				return cell;
-			}
-			i++;
-		}
-		return null;
+		int i = rand.nextInt(cells.size());
+		Cell ret = cells.get(i);
+		cells.remove(i);
+		return ret;
 	}
 }

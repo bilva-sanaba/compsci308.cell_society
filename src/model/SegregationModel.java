@@ -58,8 +58,8 @@ public class SegregationModel extends Model {
 	}
 
 	private boolean isUnhappy(Cell cell){
-		int numberOfNeighbors = 0;
-		int numberSameNeighbors = 0;
+		double numberOfNeighbors = 0;
+		double numberSameNeighbors = 0;
 		if (!cell.is(SegregationCell.EMPTY)) {
 			for (Cell c : cell.getNeighbors()) {
 				if (!c.is(SegregationCell.EMPTY)) {
@@ -69,7 +69,7 @@ public class SegregationModel extends Model {
 					}
 				}
 			}
-			return (numberOfNeighbors>0 && (double) numberSameNeighbors / (double) numberOfNeighbors < happyPercent); 
+			return (numberOfNeighbors>0 && numberSameNeighbors/numberOfNeighbors < happyPercent); 
 		}
 		return false;
 	}

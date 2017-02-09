@@ -1,7 +1,9 @@
 package cellsociety;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cell.CellConfig;
@@ -60,8 +62,8 @@ public abstract class Grid {
         }
     }
     
-    public Collection<Cell> getCells(CellState state){
-        Collection<Cell> cells = new HashSet<Cell>();
+    public List<Cell> getCells(CellState state){
+        List<Cell> cells = new ArrayList<Cell>();
         for (int row = 0; row < numRows(); row++) {
             for (int col = 0; col < numCols(); col++) {
                 if (get(row, col).is(state)){
