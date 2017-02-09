@@ -10,6 +10,7 @@ public class CAException extends RuntimeException {
     public static final String INVALID_CELL_CONFIG = "Invalid cell configuration format";
     public static final String LOAD_FAILURE = "ERROR reading file %s";
     public static final String WRONG_TYPE = "File does not represent %s";
+    public static final String MISMATCH_OFFSET = "Row and column offset must have same number of elements";
 
     /**
      * 

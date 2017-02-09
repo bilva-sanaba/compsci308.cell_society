@@ -1,6 +1,8 @@
 package cellsociety;
 
 import java.io.File;
+
+import cellsociety.handler.LoadHandler;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
@@ -8,6 +10,10 @@ import javafx.util.Duration;
 import model.GOLModel;
 import model.SegregationModel;
 import model.WatorModel;
+import model.manager.GOLManager;
+import model.manager.ModelManager;
+import model.manager.SegregationManager;
+import model.manager.WatorManager;
 import shapegenerator.SquareGenerator;
 import util.CAData;
 import util.XMLReader;
@@ -33,10 +39,12 @@ public class Controller {
         animation = getTimeline();
     }
     
-    public void load(File dataFile) {
+    public void load(File dataFile, LoadHandler handler) {
         try {
             CAData data = new XMLReader().readData(dataFile);
-            model = chooseModel(data);
+            ModelManager manager = chooseModel(data);
+            model = manager.getModel();
+            handler.setModelInput(manager.getInput().getRoot());
         } catch(CAException e) {
             model = null;
             throw new CAException(e);
@@ -86,16 +94,16 @@ public class Controller {
         return tl;
     }
     
-    private Model chooseModel(CAData data) {
+    private ModelManager chooseModel(CAData data) {
         String name = data.getName();
         if(name.equals(SegregationModel.NAME)) {
-            return new SegregationModel(data);
+            return new SegregationManager(data);
         }
         else if(name.equals(WatorModel.NAME)) {
-            return new WatorModel(data);
+            return new WatorManager(data);
         }
         else if(name.equals(GOLModel.NAME)) {
-            return new GOLModel(data);
+            return new GOLManager(data);
         }
         throw new CAException(CAException.INVALID_MODEL, name);
     }

@@ -1,7 +1,7 @@
 package cell;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import cellsociety.CAException;
 import cellsociety.Cell;
@@ -13,10 +13,10 @@ import javafx.scene.paint.Color;
  *
  */
 public class WatorCell extends Cell {
-    
-    public static final CellState WATER = new CellState(0, Color.BLUE);
-    public static final CellState FISH = new CellState(1, Color.BISQUE);
-    public static final CellState SHARK = new CellState(2, Color.GREY);
+  
+    public static final CellState WATER = new CellState("Water", Color.BLUE);
+    public static final CellState FISH = new CellState("Fish", Color.BISQUE);
+    public static final CellState SHARK = new CellState("Shark", Color.GREY);
     
     private int energy, fishReproduction, sharkReproduction;
     
@@ -26,10 +26,10 @@ public class WatorCell extends Cell {
 //        fishReproduction = FISH_BREED_PERIOD;  
 //        sharkReproduction = SHARK_BREED_PERIOD;
     }
-    public Set<Cell> getCertainNeighbors(CellState state){
-    	Set<Cell> certainNeighbors = new HashSet<Cell>();
+    public List<Cell> getCertainNeighbors(CellState state){
+    	List<Cell> certainNeighbors = new ArrayList<Cell>();
     	for (Cell neighbor : this.getNeighbors()){
-    		if (neighbor.inState(state)){
+    		if (neighbor.is(state)){
     			certainNeighbors.add(neighbor);
     		}
     	}
@@ -42,10 +42,10 @@ public class WatorCell extends Cell {
 		return this.getEnergy()==0;
     }
     public boolean canReproduce(){
-		if (this.inState(WatorCell.SHARK)){
+		if (this.is(WatorCell.SHARK)){
 			return (this.getSharkDays()<=0);
 		}
-		if (this.inState(WatorCell.FISH)){
+		if (this.is(WatorCell.FISH)){
 			return (this.getFishDays()<=0);
 		}
 		return false;
@@ -92,13 +92,13 @@ public class WatorCell extends Cell {
 
             @Override
             public Cell getCell(int state) {
-                if(WATER.equals(state)) {
+                if(state == 0) {
                     return new WatorCell(WATER);
                 }
-                else if(FISH.equals(state)) {
+                else if(state == 1) {
                     return new WatorCell(FISH);
                 }
-                else if(SHARK.equals(state)) {
+                else if(state == 2) {
                     return new WatorCell(SHARK);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Wa-Tor");

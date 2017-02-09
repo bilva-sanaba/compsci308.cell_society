@@ -17,8 +17,12 @@ public class SegregationModel extends Model {
 	private double happyPercent;
 
 	public SegregationModel(CAData data) {
-		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), SegregationCell.getGenerator()));
+		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), SegregationCell.getGenerator(), true));
 		happyPercent = ((SegregationData)data).getThreshold();
+	}
+	
+	public void setThreshold(double threshold) {
+	    happyPercent = threshold;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class SegregationModel extends Model {
 	
 	private void removeUnhappy(SegregationCell cell) {
 		if (isUnhappy(cell)){
-			if (cell.inState(SegregationCell.RED)) {
+			if (cell.is(SegregationCell.RED)) {
 				relocateRed++;
 			} else {
 				relocateBlue++;
@@ -44,28 +48,28 @@ public class SegregationModel extends Model {
 	}
 	private void moveUnhappy() {
 		while (relocateRed != 0) {
-			((SegregationCell) pickRandomCell(getCertainCells(SegregationCell.EMPTY))).fillRed();
+			((SegregationCell) pickRandomCell(getGrid().getCells(SegregationCell.EMPTY))).fillRed();
 			relocateRed--;
 		}
 		while (relocateBlue != 0) {
-			((SegregationCell) pickRandomCell(getCertainCells(SegregationCell.EMPTY))).fillBlue();
+			((SegregationCell) pickRandomCell(getGrid().getCells(SegregationCell.EMPTY))).fillBlue();
 			relocateBlue--;
 		}
 	}
 
 	private boolean isUnhappy(Cell cell){
-		int numberOfNeighbors = 0;
-		int numberSameNeighbors = 0;
-		if (!cell.inState(SegregationCell.EMPTY)) {
+		double numberOfNeighbors = 0;
+		double numberSameNeighbors = 0;
+		if (!cell.is(SegregationCell.EMPTY)) {
 			for (Cell c : cell.getNeighbors()) {
-				if (!c.inState(SegregationCell.EMPTY)) {
+				if (!c.is(SegregationCell.EMPTY)) {
 					numberOfNeighbors++;
-					if (cell.hasSameState(c)) {
+					if (cell.equals(c)) {
 						numberSameNeighbors++;
 					}
 				}
 			}
-			return (numberOfNeighbors>0 && (double) numberSameNeighbors / (double) numberOfNeighbors < happyPercent); 
+			return (numberOfNeighbors>0 && numberSameNeighbors/numberOfNeighbors < happyPercent); 
 		}
 		return false;
 	}

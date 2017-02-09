@@ -1,15 +1,11 @@
 package cellsociety;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Random;
-import cell.CellGenerator;
-import cell.CellState;
 
 public abstract class Model {
     private Random rand = new Random();
     private Grid myGrid;
-    CellGenerator myGenerator;
     
     public Model(Grid grid) {
         myGrid = grid;
@@ -25,29 +21,31 @@ public abstract class Model {
     
     public abstract void update();
     
-    protected Cell pickRandomCell(Collection<Cell> cells){
-		int i = 0;
+    public void toRectangle() {
+        //TODO
+    }
+    
+    public void toTriangle() {
+        //TODO
+    }
+    
+    public void toHexagon() {
+        //TODO
+    }
+    
+    /**
+     * Picks a random cell from the list and removes it from the list
+     * Modifier
+     * @param cells
+     * @return
+     */
+    protected Cell pickRandomCell(List<Cell> cells){
 		if (cells.size()==0){
 			return null;
 		}
-		int random = rand.nextInt(cells.size());
-		for(Cell cell : cells){
-			if (i == random){
-				return cell;
-			}
-			i++;
-		}
-		return null;
-	}
-    protected Collection<Cell> getCertainCells(CellState state){
-		Collection<Cell> cells = new ArrayList<Cell>();
-		for (int row = 0; row < getGrid().numRows(); row++) {
-			for (int col = 0; col < getGrid().numCols(); col++) {
-				if (getGrid().get(row, col).inState(state)){
-					cells.add(getGrid().get(row, col));
-				}
-			}
-		}
-		return cells;
+		int i = rand.nextInt(cells.size());
+		Cell ret = cells.get(i);
+		cells.remove(i);
+		return ret;
 	}
 }

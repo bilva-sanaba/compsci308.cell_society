@@ -11,8 +11,8 @@ import javafx.scene.paint.Color;
  */
 public class GOLCell extends Cell {
     
-    public static final CellState DEAD = new CellState(0, Color.BLACK);
-    public static final CellState LIVE = new CellState(1, Color.WHITE);
+    public static final CellState DEAD = new CellState("Dead", Color.BLACK);
+    public static final CellState LIVE = new CellState("Live", Color.WHITE);
     
     private GOLCell(CellState state) {
         super(state);
@@ -36,10 +36,10 @@ public class GOLCell extends Cell {
 
             @Override
             public Cell getCell(int state) {
-                if(DEAD.equals(state)) {
+                if(state == 0) {
                     return new GOLCell(DEAD);
                 }
-                else if(LIVE.equals(state)) {
+                else if(state == 1) {
                     return new GOLCell(LIVE);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Game of Life");

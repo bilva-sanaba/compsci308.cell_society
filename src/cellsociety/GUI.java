@@ -3,21 +3,23 @@ package cellsociety;
 import java.io.File;
 import java.util.ResourceBundle;
 
+import cellsociety.handler.LoadHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 /**
  * User interface that sets up the display and lets user interact with the simulation
@@ -34,43 +36,53 @@ public class GUI {
 
     public static final double SCENE_WIDTH = 600;
     public static final double SCENE_HEIGHT = 680;
-    public static final double INPUT_PANEL_HEIGHT = 80;
+    public static final double GRID_WIDTH = SCENE_WIDTH;
 
-    private Stage myStage;
-    private Scene myScene;
+    private Stage myStage, inputStage;
     private BorderPane myRoot;
-    private Button load, play, pause, step;
+    private Button load, play, pause, step, options;
     private Slider speedSlider;
     private Label speedLabel;
     private Controller myController;
     private ResourceBundle myResources;
     private FileChooser myChooser;
 
-    public GUI() {
+    public GUI(Stage stage) {
+        myStage = stage;
+        inputStage = new Stage();
+        inputStage.initOwner(myStage);
+        myController = new Controller(GRID_WIDTH);
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
-        myController = new Controller(SCENE_WIDTH);
-        myRoot = new BorderPane();
-        myRoot.setBottom(initInputPanel(INPUT_PANEL_HEIGHT));
+        myRoot = createRoot();
         enableInput(!myController.hasModel());
-        myScene = new Scene(myRoot, SCENE_WIDTH, SCENE_HEIGHT);
-        myScene.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
+        myStage.setTitle(TITLE);
+        myStage.setScene(createScene());
+        myStage.setResizable(false);
         myChooser = makeChooser(DATA_FILE_EXTENSION);
     }
     
-    public void show(Stage stage) {
-        myRoot.setCenter(myController.getGridView());
-        stage.setTitle(TITLE);
-        stage.setScene(myScene);
-        stage.setResizable(false);
-        stage.show();
+    public void show() {
+        myStage.show();
+    }
+    
+    private BorderPane createRoot() {
+        BorderPane bp = new BorderPane();
+        bp.setCenter(myController.getGridView());
+        bp.setBottom(initInputPanel());
+        return bp;
+    }
+    
+    private Scene createScene() {
+        Scene scene = new Scene(myRoot, SCENE_WIDTH, SCENE_HEIGHT);
+        scene.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
+        return scene;
     }
 
-    private Node initInputPanel(double height) {
+    private Node initInputPanel() {
         initButtons();
         initSpeedChooser();
-        HBox inputPanel = new HBox(load, play, pause, step, speedLabel, speedSlider);
+        HBox inputPanel = new HBox(load, play, pause, step, options, speedLabel, speedSlider);
         inputPanel.setId("input-panel");
-        inputPanel.setPrefHeight(height);
         return inputPanel;
     }
 
@@ -79,7 +91,16 @@ public class GUI {
             try {
                 File dataFile = myChooser.showOpenDialog(myStage);
                 if(dataFile != null) {
-                    myController.load(dataFile);
+                    myController.load(dataFile, new LoadHandler() {
+
+                        @Override
+                        public void setModelInput(Region root) {
+                            root.setId("model-input");
+                            Scene scene = new Scene(root);
+                            scene.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
+                            inputStage.setScene(scene);
+                        }
+                    });
                 }
             } catch(CAException ce) {
                 showError(ce.getMessage());
@@ -89,6 +110,10 @@ public class GUI {
         play = createButton(myResources.getString("PlayButton"), e -> myController.play());
         pause = createButton(myResources.getString("PauseButton"), e -> myController.pause());
         step = createButton(myResources.getString("StepButton"), e -> myController.step());
+        options = createButton(myResources.getString("OptionButton"), e -> {
+            inputStage.show();
+            inputStage.setX(myStage.getX() + myStage.getWidth());
+        });
     }
 
     private Button createButton(String label, EventHandler<ActionEvent> e) {
@@ -102,6 +127,7 @@ public class GUI {
         play.setDisable(disable);
         pause.setDisable(disable);
         step.setDisable(disable);
+        options.setDisable(disable);
         speedSlider.setDisable(disable);
     }
 
@@ -109,8 +135,8 @@ public class GUI {
         speedSlider = createSpeedSlider();
         speedLabel = createSpeedLabel();
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            speedLabel.setText(String.format(myResources.getString("SpeedLabel"), (int)speedSlider.getValue()));
-            myController.setSpeed((int)speedSlider.getValue());
+            speedLabel.setText(String.format(myResources.getString("SpeedLabel"), newValue.intValue()));
+            myController.setSpeed(newValue.intValue());
         });
     }
     
