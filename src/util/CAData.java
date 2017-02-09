@@ -29,7 +29,9 @@ public abstract class CAData {
             "author",
             "row",
             "col",
-            "cell"
+            "cell",
+            "cellPercent",
+            "cellNumber"
         });
     
     private Map<String, String> myData;
@@ -39,6 +41,8 @@ public abstract class CAData {
 	    myData = data;
 	    myCellConfig = new ArrayList<CellConfig>();
 	    parseCellConfig(data.get(DATA_FIELDS.get(5)));
+	    //else find number listed and add that many cells with randomly generated positions checking cases for overlap
+	    //else use probability distribution to generate cell configs 
 	}
 	
 	public void addExtraField(String field, String data) {

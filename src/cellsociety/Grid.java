@@ -1,10 +1,13 @@
 package cellsociety;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import cell.CellConfig;
 import cell.CellGenerator;
+import grid.Coordinates;
 
 /**
  * Superclass of grid that contains cells in the simulation
@@ -80,6 +83,50 @@ public abstract class Grid {
                 sim[row][col].setNeighbors(findNeighbor(row, col));
             }
         }
+    }
+	protected boolean isInBounds(int row, int col){
+		return (col >= 0 && row >=0 && col <= numCols()-1 && row <= numRows()-1);
+	} 
+	protected boolean pastTopEdge(int row){
+		return (row<0);
+	}
+	protected boolean pastLeftEdge(int col){
+		return (col<0);
+	}
+	protected boolean pastRightEdge(int col){
+		return (col>numRows()-1);
+	}
+	protected boolean pastBottomEdge(int row){
+		return (row>numCols()-1);
+	}
+	protected Coordinates warpCell(int r, int c){
+		if (pastTopEdge(r)){
+			r=numRows()-1;
+		}
+		if (pastBottomEdge(r)){
+			r=0;
+		}
+		if (pastRightEdge(c)){
+			c=0;
+		}
+		if (pastLeftEdge(c)){
+			c=numRows()-1;
+		}
+		return new Coordinates(r,c);
+	}
+    protected List<Coordinates> getToroidalNeighbors(int row, int col, Coordinates[] coordinates){
+    	List<Coordinates> toroidalNeighbors = new ArrayList<Coordinates>();
+        for (Coordinates coord : coordinates){
+        	int r = row + coord.getX();
+        	int c = col + coord.getY();
+        	if (isInBounds(r,c)){
+        		toroidalNeighbors.add(new Coordinates(r,c));
+        		
+        	}else{
+        		toroidalNeighbors.add(warpCell(r,c));
+        	}
+        }
+        return toroidalNeighbors;
     }
     
 }
