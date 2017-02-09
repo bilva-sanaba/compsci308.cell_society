@@ -36,13 +36,13 @@ public class SegregationCell extends Cell{
 
             @Override
             public Cell getCell(int state) {
-                if(EMPTY.equals(state)) {
+                if(state == 0) {
                     return new SegregationCell(EMPTY);
                 }
-                else if(RED.equals(state)) {
+                else if(state == 1) {
                     return new SegregationCell(RED);
                 }
-                else if(BLUE.equals(state)) {
+                else if(state == 2) {
                     return new SegregationCell(BLUE);
                 }
                 throw new CAException(CAException.INVALID_CELL, "segregation");

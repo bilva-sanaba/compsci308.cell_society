@@ -1,55 +1,59 @@
 package grid;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+
 import cell.CellConfig;
 import cell.CellGenerator;
 import cellsociety.Cell;
 import cellsociety.Grid;
 
+/**
+ * Grid that treats its cells as Triangles
+ * @author Mike Liu
+ *
+ */
 public class TriangleGrid extends Grid {
-	private int [] possibleXNeighbors; 
-	private int [] possibleYNeighbors; 
-	public TriangleGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
-        super(row, col, cellConfig, generator); 
+    
+    public static final NeighborOffset EVEN_CARDINAL = new NeighborOffset(
+            Arrays.asList(-1, 0, 0),
+            Arrays.asList(0, -1, 1));
+    public static final NeighborOffset EVEN_DIAGONAL = new NeighborOffset(
+            Arrays.asList(-1, -1, -1, -1, 0, 0, 1, 1, 1),
+            Arrays.asList(-1, -2, 1, 2, -2, 2, -1, 0, 1));
+    public static final NeighborOffset ODD_CARDINAL = new NeighborOffset(
+            Arrays.asList(0, 0, 1),
+            Arrays.asList(-1, 1, 0));
+    public static final NeighborOffset ODD_DIAGONAL = new NeighborOffset(
+            Arrays.asList(-1, -1, -1, 0, 0, 1, 1, 1, 1),
+            Arrays.asList(-1, 0, 1, -2, 2, -2, -1, 1, 2));
+    
+    private NeighborOffset evenCardinalOffset, evenDiagonalOffset, oddCardinalOffset, oddDiagonalOffset;
+    
+	public TriangleGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {
+        super(row, col, cellConfig, generator);
+        evenCardinalOffset = EVEN_CARDINAL;
+        evenDiagonalOffset = EVEN_DIAGONAL;
+        oddCardinalOffset = ODD_CARDINAL;
+        oddDiagonalOffset = ODD_DIAGONAL;
+        buildNeighborGraph(diagonal);
     }
 	
-	
-	private Coordinates[] createRegularNeighbors(){
-		Coordinates[] regularNeighbors = new Coordinates[12];
-		int i = 0;
-		possibleXNeighbors = new int[]{-2,-1,0,1,2};
-		possibleYNeighbors = new int[]{-1,0,1};
-		for (int x : possibleXNeighbors){	
-			for (int y : possibleYNeighbors){
-				if (y==-1){
-					if (Math.abs(x)!=2){
-					regularNeighbors[i] = new Coordinates(x,y);
-					i++;
-					}
-				}
-				if (y==0){
-					if (x!=0){
-						regularNeighbors[i] = new Coordinates(x,y);
-						i++;
-					}
-				}
-				if (y==1){
-					regularNeighbors[i] = new Coordinates(x,y);
-					i++;
-				}
-			}
-		}
-		return regularNeighbors;
-	}
     @Override
-    protected Set<Cell> findNeighbor(int row, int col) {
-        Set<Cell> neighbors = new HashSet<Cell>();
-        Coordinates[] regularNeighbors = createRegularNeighbors();
-        for (Coordinates coord : getToroidalNeighbors(row,col,regularNeighbors)){
-        	neighbors.add(get(coord.getX(),coord.getY()));
+    protected Collection<Cell> findNeighbor(int row, int col, boolean diagonal) {
+        if((row + col) % 2 == 0) {
+            return findNeighbor(row, col, diagonal, evenCardinalOffset, evenDiagonalOffset);
+        } else {
+            return findNeighbor(row, col, diagonal, oddCardinalOffset, oddDiagonalOffset);
+        }
+    }
+    
+    private Collection<Cell> findNeighbor(int row, int col, boolean diagonal,
+            NeighborOffset cardinalOffset, NeighborOffset diagonalOffset) {
+        Collection<Cell> neighbors = findNeighbor(row, col, cardinalOffset);
+        if(diagonal) {
+            neighbors.addAll(findNeighbor(row, col, diagonalOffset));
         }
         return neighbors;
-    }	
+    }
 }

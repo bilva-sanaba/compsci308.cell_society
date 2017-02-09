@@ -18,7 +18,7 @@ public class GOLModel extends Model {
     public static final int UPPER_THRESHOLD = 3;
     
     public GOLModel(CAData data) {
-        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), GOLCell.getGenerator()));
+        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), GOLCell.getGenerator(), true));
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SegregationModel extends Model {
 	private double happyPercent;
 
 	public SegregationModel(CAData data) {
-		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), SegregationCell.getGenerator()));
+		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), SegregationCell.getGenerator(), true));
 		happyPercent = ((SegregationData)data).getThreshold();
 	}
 	

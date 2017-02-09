@@ -36,10 +36,10 @@ public class GOLCell extends Cell {
 
             @Override
             public Cell getCell(int state) {
-                if(DEAD.equals(state)) {
+                if(state == 0) {
                     return new GOLCell(DEAD);
                 }
-                else if(LIVE.equals(state)) {
+                else if(state == 1) {
                     return new GOLCell(LIVE);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Game of Life");

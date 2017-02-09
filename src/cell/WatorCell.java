@@ -92,13 +92,13 @@ public class WatorCell extends Cell {
 
             @Override
             public Cell getCell(int state) {
-                if(WATER.equals(state)) {
+                if(state == 0) {
                     return new WatorCell(WATER);
                 }
-                else if(FISH.equals(state)) {
+                else if(state == 1) {
                     return new WatorCell(FISH);
                 }
-                else if(SHARK.equals(state)) {
+                else if(state == 2) {
                     return new WatorCell(SHARK);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Wa-Tor");

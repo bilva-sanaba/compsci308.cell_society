@@ -1,44 +1,42 @@
 package grid;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+
 import cell.CellConfig;
 import cell.CellGenerator;
 import cellsociety.Cell;
 import cellsociety.Grid;
 
+/**
+ * Grid that treats its cells as hexagons
+ * @author Mike Liu
+ *
+ */
 public class HexagonalGrid extends Grid {
-	private int [] possibleXNeighbors; 
-	private int [] possibleYNeighbors; 
+    
+    public static final NeighborOffset EVEN = new NeighborOffset(
+            Arrays.asList(-1, -1, 0, 0, 1, 1),
+            Arrays.asList(-1, 0, -1, 1, -1, 0));
+    public static final NeighborOffset ODD = new NeighborOffset(
+            Arrays.asList(-1, -1, 0, 0, 1, 1),
+            Arrays.asList(0, 1, -1, 1, 0, 1));
+    
+    private NeighborOffset evenOffset, oddOffset;
+    
 	public HexagonalGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
-        super(row, col, cellConfig, generator); 
+        super(row, col, cellConfig, generator);
+        evenOffset = EVEN;
+        oddOffset = ODD;
+        buildNeighborGraph(false);
     }
-	
-	
-	private Coordinates[] createRegularNeighbors(){
-		Coordinates[] regularNeighbors = new Coordinates[6];
-		int i = 0;
-		possibleXNeighbors = new int[]{-1,0,1};
-		possibleYNeighbors = new int[]{-1,0,1};
-		for (int x : possibleXNeighbors){	
-			for (int y : possibleYNeighbors){
-				if (!(x==-1 && y==-1) || !(x==0 && y==0) || !(x==-1 && y==1)){
-					regularNeighbors[i] = new Coordinates(x,y);
-					i++;
-				}
-			}
-		}
-		return regularNeighbors;
-	}
  
     @Override
-    protected Set<Cell> findNeighbor(int row, int col) {
-        Set<Cell> neighbors = new HashSet<Cell>();
-        Coordinates[] regularNeighbors = createRegularNeighbors();
-        for (Coordinates coord : getToroidalNeighbors(row,col,regularNeighbors)){
-        	neighbors.add(get(coord.getX(),coord.getY()));
+    protected Collection<Cell> findNeighbor(int row, int col, boolean diagonal) {
+        if(row % 2 == 0) {
+            return findNeighbor(row, col, evenOffset);
+        } else {
+            return findNeighbor(row, col, oddOffset);
         }
-        return neighbors;
     }	
 }

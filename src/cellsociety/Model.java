@@ -26,6 +26,18 @@ public abstract class Model {
     
     public abstract void update();
     
+    public void toRectangle() {
+        //TODO
+    }
+    
+    public void toTriangle() {
+        //TODO
+    }
+    
+    public void toHexagon() {
+        //TODO
+    }
+    
     protected Cell pickRandomCell(Collection<Cell> cells){
 		int i = 0;
 		if (cells.size()==0){

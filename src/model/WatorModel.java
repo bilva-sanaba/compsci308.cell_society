@@ -11,17 +11,18 @@ import util.CAData;
 public class WatorModel extends Model {
 
     public static final String NAME = "wator";
+    
     private int energyMax=5;
     private int sharkBreedPeriod=25;
     private int fishBreedPeriod=5;
     private int fishEnergy= 5;
     
     public WatorModel(CAData data) {
-        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), WatorCell.getGenerator()));
+        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), WatorCell.getGenerator(), false));
         for(int row = 0; row < getGrid().numRows(); row++) {
         	for(int col = 0; col < getGrid().numCols(); col++) {
         		if ((getGrid().get(row, col)).is(WatorCell.FISH)){
-        			WatorCell currentCell = (WatorCell) getGrid().get(row, col);
+        			WatorCell currentCell = (WatorCell)getGrid().get(row, col);
         			currentCell.setFishDays(fishBreedPeriod);
         		}else{
         			if (getGrid().get(row, col).is(WatorCell.SHARK)){
