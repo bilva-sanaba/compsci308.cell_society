@@ -1,8 +1,10 @@
-package cell;
+package cell.state;
+
+import java.util.List;
 
 import javafx.scene.paint.Color;
 
-public class CellState {
+public abstract class CellState {
     
     private String myState;
     private Color myColor;
@@ -25,6 +27,19 @@ public class CellState {
         if(other == null || !(other instanceof CellState)) {
             return false;
         }
-        return ((CellState)other).myState == myState;
+        return equals(((CellState)other).myState);
     }
+    
+    public CellState rotate() {
+        List<? extends CellState> states = getStates();
+        int len = states.size();
+        for(int i = 0; i < len; i++) {
+            if(this.equals(states.get(i))) {
+                return states.get((i+1) % len); 
+            }
+        }
+        return states.get(0);
+    }
+    
+    protected abstract List<? extends CellState> getStates();
 }

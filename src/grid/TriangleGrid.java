@@ -3,9 +3,9 @@ package grid;
 import java.util.Arrays;
 import java.util.Collection;
 
+import cell.Cell;
 import cell.CellConfig;
-import cell.CellGenerator;
-import cellsociety.Cell;
+import cell.generator.CellGenerator;
 import cellsociety.Grid;
 
 /**
@@ -46,14 +46,5 @@ public class TriangleGrid extends Grid {
         } else {
             return findNeighbor(row, col, diagonal, oddCardinalOffset, oddDiagonalOffset);
         }
-    }
-    
-    private Collection<Cell> findNeighbor(int row, int col, boolean diagonal,
-            NeighborOffset cardinalOffset, NeighborOffset diagonalOffset) {
-        Collection<Cell> neighbors = findNeighbor(row, col, cardinalOffset);
-        if(diagonal) {
-            neighbors.addAll(findNeighbor(row, col, diagonalOffset));
-        }
-        return neighbors;
     }
 }
