@@ -1,5 +1,12 @@
 #input-panel {
-    -fx-spacing: 50;
+    -fx-pref-height: 80;
+    -fx-spacing: 20;
     -fx-background-color: black;
     -fx-alignment: center;
+}
+
+#model-input {
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
 }

@@ -20,28 +20,32 @@ public abstract class Cell {
     private Set<Cell> neighbors;
     
     public Cell(CellState state) {
-        myState = state;
+        myState = nextState = state;
         neighbors = new HashSet<Cell>();
     }
     
-    public boolean inState(CellState state) {
+    public boolean is(CellState state) {
         return myState.equals(state);
     }
     
-    public boolean hasSameState(Cell other) {
-        return myState == other.myState;
+    @Override
+    public boolean equals(Object other) {
+        if(other == null || !(other instanceof Cell)) {
+            return false;
+        }
+        return myState.equals(((Cell)other).myState);
     }
     
     public Color getColor() {
         return myState.getColor();
     }
     
-    public void setNeighbors(Collection<? extends Cell> neighbors) {
+    public void setNeighbors(Collection<Cell> neighbors) {
         this.neighbors.clear();
         this.neighbors.addAll(neighbors);
     }
     
-    public Collection<? extends Cell> getNeighbors() {
+    public Collection<Cell> getNeighbors() {
         return Collections.unmodifiableCollection(neighbors);
     }
     

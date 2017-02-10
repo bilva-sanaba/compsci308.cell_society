@@ -1,117 +1,134 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
-import grid.CardinalRectangleGrid;
+import grid.RectangleGrid;
+import util.CAData;
 
 public class WatorModel extends Model {
-	private Random rand = new Random();
-    public WatorModel() {
-        super(new CardinalRectangleGrid(WatorCell.getGenerator()));
+
+    public static final String NAME = "wator";
+    
+    private int energyMax=5;
+    private int sharkBreedPeriod=25;
+    private int fishBreedPeriod=5;
+    private int fishEnergy= 5;
+    
+    public WatorModel(CAData data) {
+        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), WatorCell.getGenerator(), false));
+        for(int row = 0; row < getGrid().numRows(); row++) {
+        	for(int col = 0; col < getGrid().numCols(); col++) {
+        		if ((getGrid().get(row, col)).is(WatorCell.FISH)){
+        			WatorCell currentCell = (WatorCell)getGrid().get(row, col);
+        			currentCell.setFishDays(fishBreedPeriod);
+        		}else{
+        			if (getGrid().get(row, col).is(WatorCell.SHARK)){
+        				WatorCell currentCell = (WatorCell) getGrid().get(row, col);
+            			currentCell.setFishDays(sharkBreedPeriod);
+        			}
+        		}
+        	}
+        }
     }
-	private Cell pickRandomCell(Set<Cell> fish){
-		int i = 0;
-		int random = rand.nextInt(fish.size());
-		for(Cell neighbor : fish)
-			{
-		    if (i == random)
-		        return neighbor;
-		    i++;
-		}
-		return null;
+    @Override
+    public void update() {
+    	for (Cell shark : getGrid().getCells(WatorCell.SHARK)){
+	            moveShark((WatorCell) shark);
+    			getGrid().update();
+    	}
+    	for(Cell fish : getGrid().getCells(WatorCell.FISH)){
+	            moveFish((WatorCell) fish);
+	            getGrid().update();
+	            }
+    }
+    private void sharkMovement(WatorCell notShark, WatorCell shark){
+    	if (notShark!=null){
+    		notShark.toShark();
+    		if (notShark.is(WatorCell.FISH)){
+    			notShark.setEnergy(shark.getEnergy()+fishEnergy-1);
+    		}else{
+    			notShark.setEnergy(shark.getEnergy()-1);
+    		}
+			notShark.setSharkDays(shark.getSharkDays()-1);
+			handleReproduction(notShark,shark);
+    	}
+    		
+    }
+//	private void fishToShark(WatorCell fish, WatorCell shark){
+//		if (fish!=null){
+//			fish.toShark();
+//			fish.setEnergy(shark.getEnergy()+fishEnergy-1);
+//			fish.setSharkDays(shark.getSharkDays()-1);
+//			handleReproduction(fish,shark);
+//		}
+//	}
+	private void handleReproduction(WatorCell notShark, WatorCell shark){
+		if (shark.canReproduce()){
+         	shark.setEnergy(energyMax);
+         	shark.setSharkDays(sharkBreedPeriod);
+         	notShark.setSharkDays(sharkBreedPeriod);
+         }else{
+         shark.toWater();
+         }
+	}
+//	private void waterToShark(WatorCell water, WatorCell shark){
+//		 if(water != null) {
+//             water.toShark();
+//             water.setEnergy(shark.getEnergy()-1);
+//             water.setSharkDays(shark.getSharkDays()-1);
+//             handleReproduction(water,shark);
+//         }
+//	}
+	private void sharkStays(WatorCell cell){
+		cell.setSharkDays(cell.getSharkDays()-1);
+		cell.setEnergy(cell.getEnergy()-1);	
 	}
 	
     private void moveShark(WatorCell cell){
-    	if (cell.inState(WatorCell.SHARK)){
-    		if (cell.getEnergy()==0){
+    	if (cell.is(WatorCell.SHARK)){
+    		if (cell.shouldDie()){
     			cell.toWater();
     		}else{
-    		Set<Cell> fish = new HashSet<Cell>();
-    		Set<Cell> water = new HashSet<Cell>();
-    		for (Cell neighbor : cell.getNeighbors()){
-    			if (neighbor.inState(WatorCell.FISH)){
-    				fish.add(neighbor);
-    			} else {
-    			    if(neighbor.inState(WatorCell.WATER)) {
-    			        water.add(neighbor);
-    			    }
-    			}
+    		WatorCell randomFish = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorCell.FISH));
+    		WatorCell randomWater = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorCell.WATER));
+    		sharkMovement(randomFish,cell);
+    		if (randomFish==null){
+    			sharkMovement(randomWater, cell);
     		}
-    		WatorCell randomFish = (WatorCell) pickRandomCell(fish);
-    		if (randomFish!=null){
-    		randomFish.toShark();
-    		randomFish.setEnergy(cell.getEnergy()+WatorCell.energyPerFish-1);
-    		randomFish.setSharkDays(cell.getSharkDays()-1);
-    		cell.toWater();
-    		}else{
-    		    WatorCell randomWater = (WatorCell) pickRandomCell(water);
-                if(randomWater != null) {
-                    randomWater.toShark();
-                    randomWater.setEnergy(cell.getEnergy()-1);
-                    randomWater.setSharkDays(cell.getSharkDays()-1);
-                    if (cell.canReproduce()){
-                    	cell.setEnergy(WatorCell.energyMax);
-                    	cell.setSharkDays(WatorCell.sharkReproductionPeriod);
-                    	randomWater.setSharkDays(WatorCell.sharkReproductionPeriod);
-                    }else{
-                    cell.toWater();
-                    }
-                }
-    			cell.setSharkDays(cell.getSharkDays()-1);
-    			cell.setEnergy(cell.getEnergy()-1);
-    		}	
+    		if (randomFish==null && randomWater==null){
+    			sharkStays(cell);
+    		}		
     	}
     	}
     }
     private void moveFish(WatorCell cell){
-    	if (cell.inState(WatorCell.FISH)){
-    		if (cell.getEnergy()==0){
-    			cell.toWater();
-    		}else{
-    		Set<Cell> water = new HashSet<Cell>();
-    		for (Cell neighbor : cell.getNeighbors()){
-    			if(neighbor.inState(WatorCell.WATER)) {
-    			        water.add(neighbor);
-    			    }
-    		}
-    		
-    		WatorCell randomWater = (WatorCell) pickRandomCell(water);
+        if (cell.is(WatorCell.FISH)){
+            List<Cell> water = new ArrayList<Cell>();
+            for (Cell neighbor : cell.getNeighbors()){
+                if(neighbor.is(WatorCell.WATER)) {
+                    water.add(neighbor);
+                }
+            }
+
+            WatorCell randomWater = (WatorCell) pickRandomCell(water);
             if(randomWater != null) {
              randomWater.toFish();
-                    randomWater.setEnergy(cell.getEnergy()-1);
                     randomWater.setFishDays(cell.getFishDays()-1);
                     if (cell.canReproduce()){
-                    	cell.setFishDays(WatorCell.fishReproductionPeriod);
-                    	randomWater.setFishDays(WatorCell.fishReproductionPeriod);
+                    	cell.setFishDays(fishBreedPeriod);
+                    	randomWater.setFishDays(fishBreedPeriod);
+                    	
                     }else{
                     cell.toWater();
-                    }
-             }else{
-    			cell.setFishDays(cell.getFishDays()-1);
-    			cell.setEnergy(cell.getEnergy()-1);
-    		}
-    	}
-    	}
-    }
-    
-    @Override
-    public void update() {
-    	for(int row = 0; row < getGrid().numRows(); row++) {
-	        for(int col = 0; col < getGrid().numCols(); col++) {
-	            moveShark((WatorCell) getGrid().get(row, col));
-	            }
-	     }
-    	getGrid().update();
-    	for(int row = 0; row < getGrid().numRows(); row++) {
-	        for(int col = 0; col < getGrid().numCols(); col++) {
-	            moveFish((WatorCell) getGrid().get(row, col));
-	            }
-	     }
-    }
 
+                }
+            }else{
+                cell.setFishDays(cell.getFishDays()-1);
+            }  
+        }
+    }
 }

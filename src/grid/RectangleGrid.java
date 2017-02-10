@@ -1,64 +1,46 @@
 package grid;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.Collection;
 
+import cell.CellConfig;
 import cell.CellGenerator;
 import cellsociety.Cell;
 import cellsociety.Grid;
 
+/**
+ * Grid that treats its cells as rectangles
+ * @author Mike Liu
+ *
+ */
 public class RectangleGrid extends Grid {
-		
-	public RectangleGrid(CellGenerator generator) {
-        super(generator);
-    }
-
-    private boolean isLeftEdge(int row, int col){
-		return (col == 0);
-	}
-	
-	private boolean isRightEdge(int row, int col){
-		return (col == numCols());
-	}
-	
-	private boolean isBottomEdge(int row, int col){
-		return (row == numRows());
-	}
-	
-	private boolean isTopEdge(int row, int col){
-		return (row == 0);
-	}
     
+    public static final NeighborOffset CARDINAL = new NeighborOffset(
+            Arrays.asList(-1, 0, 0, 1),
+            Arrays.asList(0, -1, 1, 0));
+    public static final NeighborOffset DIAGONAL = new NeighborOffset(
+            Arrays.asList(-1, -1, 1, 1),
+            Arrays.asList(-1, 1, -1, 1));
+    
+	private NeighborOffset cardinalOffset = CARDINAL, diagonalOffset = DIAGONAL;
+	
+	public RectangleGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {
+        super(row, col, cellConfig, generator);
+        cardinalOffset = CARDINAL;
+        diagonalOffset = DIAGONAL;
+        buildNeighborGraph(diagonal);
+    }
+	
     @Override
-    protected Set<Cell> findNeighbor(int row, int col) {
-        Set<Cell> neighbors = new HashSet<Cell>();
-        if (!isLeftEdge(row,col)){
-            neighbors.add(get(row,col-1));
+    protected Collection<Cell> findNeighbor(int row, int col, boolean diagonal) {
+        Collection<Cell> neighbors = findNeighbor(row, col, cardinalOffset);
+        for(int i = 0; i < cardinalOffset.length(); i++) {
         }
-        if (!isRightEdge(row,col)){
-            neighbors.add(get(row,col+1));
-        }
-        if (!isTopEdge(row,col)){
-            neighbors.add(get(row-1,col));
-        }
-        if (!isBottomEdge(row,col)){
-            neighbors.add(get(row+1,col));
-        }
-        if (!isLeftEdge(row,col) && !isTopEdge(row,col)){
-            neighbors.add(get(row-1,col-1));
-        }
-        if (!isRightEdge(row,col) && !isTopEdge(row,col)){
-            neighbors.add(get(row-1,col+1));
-        }
-        if (!isLeftEdge(row,col) && !isBottomEdge(row,col)){
-            neighbors.add(get(row+1,col-1));
-        }
-        if (!isRightEdge(row,col) && !isBottomEdge(row,col)){
-            neighbors.add(get(row+1,col+1));
+        if(diagonal) {
+            neighbors.addAll(findNeighbor(row, col, diagonalOffset));
         }
         return neighbors;
     }
-	
 }
 
 

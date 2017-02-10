@@ -1,10 +1,10 @@
 package model;
 
 import cell.GOLCell;
-import cell.WatorCell;
 import cellsociety.Cell;
 import cellsociety.Model;
 import grid.RectangleGrid;
+import util.CAData;
 
 /**
  * Model for Game of Life simulation
@@ -13,11 +13,12 @@ import grid.RectangleGrid;
  */
 public class GOLModel extends Model {
     
+    public static final String NAME = "gol";
     public static final int LOWER_THRESHOLD = 2;
     public static final int UPPER_THRESHOLD = 3;
     
-    public GOLModel() {
-        super(new RectangleGrid(WatorCell.getGenerator()));
+    public GOLModel(CAData data) {
+        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), GOLCell.getGenerator(), true));
     }
 
     @Override
@@ -33,14 +34,14 @@ public class GOLModel extends Model {
     private void changeState(GOLCell cell) {
         int count = 0;
         for(Cell c: cell.getNeighbors()) {
-            if(c.inState(GOLCell.LIVE)) {
+            if(c.is(GOLCell.LIVE)) {
                 count++;
             }
         }
-        if(cell.inState(GOLCell.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
+        if(cell.is(GOLCell.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
             cell.die();
         }
-        else if(cell.inState(GOLCell.DEAD) && count == UPPER_THRESHOLD) {
+        else if(cell.is(GOLCell.DEAD) && count == UPPER_THRESHOLD) {
             cell.spawn();
         }
     }

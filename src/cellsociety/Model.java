@@ -1,15 +1,14 @@
 package cellsociety;
 
-import cell.CellGenerator;
+import java.util.List;
+import java.util.Random;
 
 public abstract class Model {
-    
+    private Random rand = new Random();
     private Grid myGrid;
-    CellGenerator myGenerator;
     
     public Model(Grid grid) {
         myGrid = grid;
-        //TODO create grid based on xml data
     }
     
     public Grid getGrid() {
@@ -22,8 +21,31 @@ public abstract class Model {
     
     public abstract void update();
     
-    public static Model getModel() {
+    public void toRectangle() {
         //TODO
-        return null;
     }
+    
+    public void toTriangle() {
+        //TODO
+    }
+    
+    public void toHexagon() {
+        //TODO
+    }
+    
+    /**
+     * Picks a random cell from the list and removes it from the list
+     * Modifier
+     * @param cells
+     * @return
+     */
+    protected Cell pickRandomCell(List<Cell> cells){
+		if (cells.size()==0){
+			return null;
+		}
+		int i = rand.nextInt(cells.size());
+		Cell ret = cells.get(i);
+		cells.remove(i);
+		return ret;
+	}
 }

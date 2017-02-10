@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cellsociety.CAException;
 import cellsociety.Grid;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -16,26 +15,27 @@ import javafx.scene.shape.Shape;
  */
 public abstract class ShapeGenerator {
     
-    public static final String SQUARE = "square";
-    
-    public static ShapeGenerator getShapeGenerator(String shape) {
-        if(shape.toLowerCase().equals(SQUARE)) {
-            return new SquareGenerator();
-        }
-        throw new CAException(CAException.INVALID_SHAPE);
-    }
+    public static final Color STROKE = Color.BLACK;
+    public static final Color ALTERNATIVE_STROKE = Color.WHITE;
     
     public Collection<Shape> generate(double gridWidth, Grid grid) {
         List<Shape> shapes = new ArrayList<Shape>();
-        double width = gridWidth/grid.numCols();
+        double width = calculateWidth(gridWidth, grid.numCols());
         for(int row = 0; row < grid.numRows(); row++) {
             for(int col = 0; col < grid.numCols(); col++) {
-                shapes.add(getShape(row, col, width, grid.get(row, col).getColor()));
+                Shape shape = getShape(row, col, width);
+                Color color = grid.get(row, col).getColor();
+                shape.setStroke(color==ShapeGenerator.STROKE
+                        ? ShapeGenerator.ALTERNATIVE_STROKE : ShapeGenerator.STROKE);
+                shape.setFill(color);
+                shapes.add(shape);
             }
         }
         return shapes;
     }
     
+    protected abstract double calculateWidth(double gridWidth, int numCols);
+
     /**
      * Returns a shape that will be placed at (row, col) in the space
      * @param row - the row that the shape will be placed in
@@ -43,5 +43,5 @@ public abstract class ShapeGenerator {
      * @param color - the color of the shape
      * @return the shape that is produced for the given row, col and color
      */
-    protected abstract Shape getShape(int row, int col, double width, Color color);
+    protected abstract Shape getShape(int row, int col, double width);
 }

@@ -9,8 +9,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        GUI gui = new GUI();
-        gui.show(stage);
+        GUI gui = new GUI(stage);
+        gui.show();
     }
     
     public static void main(String[] args) {

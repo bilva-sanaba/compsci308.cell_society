@@ -1,5 +1,8 @@
 package cell;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cellsociety.CAException;
 import cellsociety.Cell;
 import javafx.scene.paint.Color;
@@ -10,35 +13,40 @@ import javafx.scene.paint.Color;
  *
  */
 public class WatorCell extends Cell {
+  
+    public static final CellState WATER = new CellState("Water", Color.BLUE);
+    public static final CellState FISH = new CellState("Fish", Color.BISQUE);
+    public static final CellState SHARK = new CellState("Shark", Color.GREY);
     
-    public static final CellState WATER = new CellState(0, Color.BLUE);
-    public static final CellState FISH = new CellState(1, Color.BISQUE);
-    public static final CellState SHARK = new CellState(2, Color.GREY);
-    public static final int energyMax=10;
-    public static final int sharkReproductionPeriod=10;
-    public static final int fishReproductionPeriod=5;
-    public static final int energyPerFish = 5;
-    
-    private int energy;
-    private int fishReproduction; 
-    private int sharkReproduction;
+    private int energy, fishReproduction, sharkReproduction;
     
     private WatorCell(CellState state) {
         super(state);
-        energy = energyMax;
-        fishReproduction = fishReproductionPeriod;  
-        sharkReproduction = sharkReproductionPeriod;
+//        energy = ENERGY_MAX;
+//        fishReproduction = FISH_BREED_PERIOD;  
+//        sharkReproduction = SHARK_BREED_PERIOD;
     }
-    
+    public List<Cell> getCertainNeighbors(CellState state){
+    	List<Cell> certainNeighbors = new ArrayList<Cell>();
+    	for (Cell neighbor : this.getNeighbors()){
+    		if (neighbor.is(state)){
+    			certainNeighbors.add(neighbor);
+    		}
+    	}
+    	return certainNeighbors;
+    }
     public int getEnergy(){
     	return energy;
     }
+    public boolean shouldDie(){
+		return this.getEnergy()==0;
+    }
     public boolean canReproduce(){
-		if (this.inState(WatorCell.SHARK)){
-			return (this.getSharkDays()==0);
+		if (this.is(WatorCell.SHARK)){
+			return (this.getSharkDays()<=0);
 		}
-		if (this.inState(WatorCell.FISH)){
-			return (this.getFishDays()==0);
+		if (this.is(WatorCell.FISH)){
+			return (this.getFishDays()<=0);
 		}
 		return false;
 	}
@@ -78,14 +86,19 @@ public class WatorCell extends Cell {
         return new CellGenerator() {
 
             @Override
+            public Cell getBasicCell() {
+                return new WatorCell(WATER);
+            }
+
+            @Override
             public Cell getCell(int state) {
-                if(WATER.equals(state)) {
+                if(state == 0) {
                     return new WatorCell(WATER);
                 }
-                else if(FISH.equals(state)) {
+                else if(state == 1) {
                     return new WatorCell(FISH);
                 }
-                else if(SHARK.equals(state)) {
+                else if(state == 2) {
                     return new WatorCell(SHARK);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Wa-Tor");

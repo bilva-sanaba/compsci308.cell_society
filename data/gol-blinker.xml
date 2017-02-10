@@ -1,0 +1,11 @@
+<data type="CA">
+	<sim>gol</sim>
+	<author>Mike Liu</author>
+	<row>10</row>
+	<col>10</col>
+	<cell>
+	    3 4 1
+	    4 4 1
+	    5 4 1
+	</cell>
+</data>

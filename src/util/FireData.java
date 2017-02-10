@@ -1,17 +1,38 @@
 package util;
 
-public class FireData extends XMLData {
-	private int probCatch;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 
+ * @author Justin Yang
+ * @author Mike Liu
+ *
+ */
+public class FireData extends CAData {
+    
+    public static final String NAME = "fire";
+    public static final double DEFAULT_PROB = 0.5;
+    public static final List<String> EXTRA_FIELDS = Arrays.asList(new String[] {
+            "prob"
+        });
 	
-	public FireData(int numRows, int numColumns) {
-		super(numRows, numColumns);
+	public FireData(Map<String, String> data) {
+		super(data);
 	}
 	
-	public int getProbCatch() {
-		return probCatch;
+	public double getProbCatch() {
+	    try {
+            return Double.parseDouble(getField(EXTRA_FIELDS.get(0)));
+        } catch(NullPointerException e) {
+            return DEFAULT_PROB;
+        }
 	}
-	
-	public void setProbCatch(int newProbCatch) {
-		probCatch = newProbCatch;
-	}
+
+    @Override
+    public Collection<String> getExtraField() {
+        return EXTRA_FIELDS;
+    }
 }
