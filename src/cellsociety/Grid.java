@@ -115,6 +115,16 @@ public abstract class Grid {
         return cells;
     }
     
+    public Grid switchGrid(String type) {
+        if(type.equals(GRID_TYPE.get(0))) {
+            return new FlatGrid(this);
+        }
+        else if(type.equals(GRID_TYPE.get(1))) {
+            return new ToroidalGrid(this);
+        }
+        throw new CAException(CAException.INVALID_GRID, type);
+    }
+    
     protected abstract void addNeighbor(int row, int col, Collection<Cell> neighbors);
 
     private void fillEmpty(CellGenerator generator) {
@@ -125,15 +135,5 @@ public abstract class Grid {
                 }
             }
         }
-    }
-    
-    public static Grid getGrid(Grid grid, String type) {
-        if(type.equals(GRID_TYPE.get(0))) {
-            return new FlatGrid(grid);
-        }
-        else if(type.equals(GRID_TYPE.get(1))) {
-            return new ToroidalGrid(grid);
-        }
-        throw new CAException(CAException.INVALID_GRID, type);
-    }
+    } 
 }

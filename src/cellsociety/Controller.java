@@ -6,9 +6,11 @@ import java.util.List;
 
 import cellsociety.handler.CellClickHandler;
 import cellsociety.handler.LoadHandler;
+import cellsociety.view.GraphView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
+import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import model.GOLModel;
 import model.SegregationModel;
@@ -38,18 +40,20 @@ public class Controller {
     public static final double MILLIS_PER_SECOND = 1000;
 
     private Timeline animation;
-    private Model model;
+    private Model myModel;
     private GridView gridView;
+    private GraphView graphView;
     
     public Controller(double gridWidth) {
         gridView = new GridView(gridWidth, new CellClickHandler() {
 
             @Override
             public void onClicked(int row, int col) {
-                model.click(row, col);
+                myModel.click(row, col);
                 gridView.update();
             }
         });
+        graphView = new GraphView();
         animation = getTimeline();
     }
     
@@ -58,15 +62,15 @@ public class Controller {
         try {
             CAData data = new XMLReader().readData(dataFile);
             ModelManager manager = chooseModel(data);
-            model = manager.getModel();
+            myModel = manager.getModel();
             handler.setModelInput(manager.getInput().getRoot());
         } catch(CAException e) {
-            model = null;
+            myModel = null;
             throw new CAException(e);
         }
         handler.resetChoices();
-        gridView.setModel(model);
-        gridView.update();
+        gridView.setModel(myModel);
+        graphView.setModel(myModel);
     }
 
     public void play() {
@@ -88,26 +92,31 @@ public class Controller {
     }
     
     public void setShape(int index) {
-        model.getGrid().setShape(index);
+        myModel.getGrid().setShape(index);
         gridView.setShape(index);
     }
     
     public void setGrid(String type) {
-        model.setGrid(type);
+        myModel.setGrid(type);
     }
     
     public boolean hasModel() {
-        return model != null;
+        return myModel != null;
     }
     
     public Parent getGridView() {
         return gridView;
     }
     
+    public Region getGraphView() {
+        return graphView.getChart();
+    }
+    
     private void update() {
         validateModel();
-        model.update();
+        myModel.update();
         gridView.update();
+        graphView.update();
     }
     
     private Timeline getTimeline() {

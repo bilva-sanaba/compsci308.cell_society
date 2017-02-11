@@ -87,6 +87,8 @@ public class GUI {
         BorderPane bp = new BorderPane();
         bp.setCenter(myController.getGridView());
         bp.setBottom(initInputPanel());
+        myController.getGraphView().setId("graph-view");
+        bp.setRight(myController.getGraphView());
         return bp;
     }
     

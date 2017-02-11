@@ -1,18 +1,22 @@
 package cellsociety;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import cell.Cell;
 
 public abstract class Model {
     
-    private Random rand;
     private Grid myGrid;
+    Map<String, Integer> myPopulation;
+    private Random myRand;
     
     public Model(Grid grid) {
         myGrid = grid;
-        rand = new Random();
+        myRand = new Random();
+        myPopulation = new HashMap<String, Integer>();
     }
     
     public Grid getGrid() {
@@ -20,11 +24,17 @@ public abstract class Model {
     }
     
     public void setGrid(String type) {
-        this.myGrid = Grid.getGrid(myGrid, type);
+        this.myGrid = myGrid.switchGrid(type);
     }
     
     public void click(int row, int col) {
         getGrid().get(row, col).rotateState();
+    }
+    
+    public Map<String, Integer> getPopulation() {
+        myPopulation.put("TEST", 1);
+        return myPopulation;
+        //TODO
     }
     
     public abstract void update();
@@ -39,7 +49,7 @@ public abstract class Model {
 		if (cells.size()==0){
 			return null;
 		}
-		int i = rand.nextInt(cells.size());
+		int i = myRand.nextInt(cells.size());
 		Cell ret = cells.get(i);
 		cells.remove(i);
 		return ret;

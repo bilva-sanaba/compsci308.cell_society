@@ -39,7 +39,8 @@ public class GridView extends ScrollPane {
     }
     
     public void setModel(Model model) {
-        this.myModel = model;
+        myModel = model;
+        update();
     }
     
     public void setShape(int index) {
@@ -55,6 +56,9 @@ public class GridView extends ScrollPane {
      * Updates the display
      */
     public void update() {
+        if(myModel == null) {
+            throw new CAException(CAException.NO_MODEL);
+        }
         root.getChildren().clear();
         root.getChildren().addAll(myGenerator.generate(getPrefWidth(), myModel.getGrid(), myHandler));
     }
