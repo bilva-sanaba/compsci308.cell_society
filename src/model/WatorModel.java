@@ -8,7 +8,7 @@ import cell.WatorCell;
 import cell.generator.WatorCellGenerator;
 import cell.state.WatorState;
 import cellsociety.Model;
-import grid.RectangleGrid;
+import grid.FlatGrid;
 import util.CAData;
 
 public class WatorModel extends Model {
@@ -21,7 +21,7 @@ public class WatorModel extends Model {
     private int fishEnergy= 5;
 
     public WatorModel(CAData data) {
-        super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator(), false));
+        super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator()), false);
         for(int row = 0; row < getGrid().numRows(); row++) {
             for(int col = 0; col < getGrid().numCols(); col++) {
                 if ((getGrid().get(row, col)).is(WatorState.FISH)){

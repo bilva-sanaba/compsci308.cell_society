@@ -1,19 +1,12 @@
-package grid;
+package grid.neighborfinder;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import cell.Cell;
-import cell.CellConfig;
-import cell.generator.CellGenerator;
-import cellsociety.Grid;
+import grid.Location;
+import grid.NeighborOffset;
 
-/**
- * Grid that treats its cells as Triangles
- * @author Mike Liu
- *
- */
-public class TriangleGrid extends Grid {
+public class TriangleFinder extends NeighborFinder {
     
     public static final NeighborOffset EVEN_CARDINAL = new NeighborOffset(
             Arrays.asList(-1, 0, 0),
@@ -30,21 +23,20 @@ public class TriangleGrid extends Grid {
     
     private NeighborOffset evenCardinalOffset, evenDiagonalOffset, oddCardinalOffset, oddDiagonalOffset;
     
-	public TriangleGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {
-        super(row, col, cellConfig, generator);
+    public TriangleFinder() {
         evenCardinalOffset = EVEN_CARDINAL;
         evenDiagonalOffset = EVEN_DIAGONAL;
         oddCardinalOffset = ODD_CARDINAL;
         oddDiagonalOffset = ODD_DIAGONAL;
-        buildNeighborGraph(diagonal);
     }
-	
+
     @Override
-    protected Collection<Cell> findNeighbor(int row, int col, boolean diagonal) {
+    public Collection<Location> findNeighbor(int row, int col, boolean diagonal) {
         if((row + col) % 2 == 0) {
             return findNeighbor(row, col, diagonal, evenCardinalOffset, evenDiagonalOffset);
         } else {
             return findNeighbor(row, col, diagonal, oddCardinalOffset, oddDiagonalOffset);
         }
     }
+
 }

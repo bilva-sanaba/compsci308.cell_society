@@ -10,7 +10,9 @@ import cell.Cell;
 import cell.CellConfig;
 import cell.generator.CellGenerator;
 import cell.state.CellState;
-import grid.NeighborOffset;
+import grid.Location;
+import grid.neighborfinder.NeighborFinder;
+import grid.neighborfinder.RectangleFinder;
 
 /**
  * Superclass of grid that contains cells in the simulation
@@ -20,7 +22,7 @@ import grid.NeighborOffset;
 public abstract class Grid {
 
     private Cell[][] sim;
-    private boolean isTorodial;
+    private NeighborFinder myFinder;
     
     public Grid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
         sim = new Cell[row][col];
@@ -28,6 +30,7 @@ public abstract class Grid {
             sim[config.getRow()][config.getCol()] = generator.getCell(config.getState());
         }
         fillEmpty(generator);
+        myFinder = new RectangleFinder();
     }
     
     public int numRows() {
@@ -53,11 +56,15 @@ public abstract class Grid {
     public void buildNeighborGraph(boolean diagonal) {
         for(int row = 0; row < sim.length; row++) {
             for(int col = 0; col < sim[0].length; col++) {
-                sim[row][col].setNeighbors(findNeighbor(row, col, diagonal));
+                Set<Cell> neighbors = new HashSet<Cell>();
+                for(Location loc: myFinder.findNeighbor(row, col, diagonal)) {
+                    addNeighbor(loc.getRow(), loc.getCol(), neighbors);
+                }
+                sim[row][col].setNeighbors(neighbors);
             }
         }
     }
-    
+
     public List<Cell> getCells(CellState state){
         List<Cell> cells = new ArrayList<Cell>();
         for (int row = 0; row < numRows(); row++) {
@@ -70,39 +77,7 @@ public abstract class Grid {
         return cells;
     }
     
-    /**
-     * Finds the neighbors of the cell at location (row, col)
-     * Implemented by subclasses only for the purpose of build neighbor graph
-     * Should not be called for other classes
-     * @param row - the row of grid that the cell is in
-     * @param col - the column of grid that the cell is in
-     * @return
-     */
-    protected abstract Collection<Cell> findNeighbor(int row, int col, boolean diagonal);
-    
-    protected Collection<Cell> findNeighbor(int row, int col, boolean diagonal,
-            NeighborOffset cardinalOffset, NeighborOffset diagonalOffset) {
-        Collection<Cell> neighbors = findNeighbor(row, col, cardinalOffset);
-        if(diagonal) {
-            neighbors.addAll(findNeighbor(row, col, diagonalOffset));
-        }
-        return neighbors;
-    }
-    
-    protected Collection<Cell> findNeighbor(int row, int col, NeighborOffset offset) {
-        Set<Cell> neighbors = new HashSet<Cell>();
-        for(int i = 0; i < offset.length(); i++) {
-            int r = row + offset.getRowOffset(i);
-            int c = col + offset.getColOffset(i);
-            if(inBounds(r, c)) {
-                neighbors.add(get(r, c));
-            }
-            else if(isTorodial) {
-                neighbors.add(get(r % numRows(), c % numCols()));
-            }
-        }
-        return neighbors;
-    }
+    protected abstract void addNeighbor(int row, int col, Collection<Cell> neighbors);
 
     private void fillEmpty(CellGenerator generator) {
         for(int i = 0; i < numRows(); i++) {
@@ -113,8 +88,4 @@ public abstract class Grid {
             }
         }
     }
-    
-	private boolean inBounds(int row, int col){
-		return row >=0 && row < numRows() && col >= 0 && col < numCols();
-	} 
 }

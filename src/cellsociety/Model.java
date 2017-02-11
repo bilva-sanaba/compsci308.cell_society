@@ -9,8 +9,9 @@ public abstract class Model {
     private Random rand = new Random();
     private Grid myGrid;
     
-    public Model(Grid grid) {
+    public Model(Grid grid, boolean diagonal) {
         myGrid = grid;
+        myGrid.buildNeighborGraph(diagonal);
     }
     
     public Grid getGrid() {

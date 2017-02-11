@@ -8,7 +8,7 @@ import cell.SegregationCell;
 import cell.generator.SegregationCellGenerator;
 import cell.state.SegregationState;
 import cellsociety.Model;
-import grid.RectangleGrid;
+import grid.FlatGrid;
 import util.CAData;
 import util.SegregationData;
 
@@ -21,7 +21,7 @@ public class SegregationModel extends Model {
 	private List<SegregationCell> empty;
 
 	public SegregationModel(CAData data) {
-		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator(), true));
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator()), true);
 		happyPercent = ((SegregationData)data).getThreshold();
 		empty = findEmptyCells();
 	}
