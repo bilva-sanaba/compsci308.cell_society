@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 import cell.CellConfig;
 import cellsociety.CAException;
@@ -40,9 +41,11 @@ public abstract class CAData {
 	public CAData(Map<String, String> data) {
 	    myData = data;
 	    myCellConfig = new ArrayList<CellConfig>();
-	    parseCellConfig(data.get(DATA_FIELDS.get(5)));
-	    //else find number listed and add that many cells with randomly generated positions checking cases for overlap
-	    //else use probability distribution to generate cell configs 
+	    if (data.containsKey(DATA_FIELDS.get(5))) {
+	    	parseCellConfig(data.get(DATA_FIELDS.get(5)));
+	    } else if (data.containsKey(DATA_FIELDS.get(7))) {
+	    	makeRandomCells(Integer.parseInt(data.get(DATA_FIELDS.get(7))));
+	    } else makeProbDistrCells(Integer.parseInt(data.get(DATA_FIELDS.get(6))));
 	}
 	
 	public void addExtraField(String field, String data) {
@@ -90,6 +93,37 @@ public abstract class CAData {
             }
         }
         sc.close();
+    }
+    
+    private void makeRandomCells(int numCells) {
+    	ArrayList<int[]> coordinateList = new ArrayList<int[]>();
+    	int[] coordinate = randomCoordinate();
+    	while (numCells > 0) {
+    		while (coordinateList.contains(coordinate)) {
+    			coordinate = randomCoordinate();
+    		}
+    		coordinateList.add(coordinate);
+    		coordinate = randomCoordinate();
+    		numCells -= 1;
+    	}
+    	if (getName().equals(GOLModel.NAME)) {
+    		for (int[] c : coordinateList) {
+    			myCellConfig.add(new CellConfig(c[0], c[1], 1));
+    		}
+    	} else for (int[] c : coordinateList) {
+    		myCellConfig.add(new CellConfig(c[0], c[1], ThreadLocalRandom.current().nextInt(1, 3)));
+    	}
+    }
+    
+    private int[] randomCoordinate() {
+    	return new int[]{
+				ThreadLocalRandom.current().nextInt(0, numRows()),
+				ThreadLocalRandom.current().nextInt(0, numCols())
+			};
+    }
+    
+    private void makeProbDistrCells(int prob) {
+    	// TODO: Decide on how to implement
     }
 	
 	public static CAData getModelData(Map<String, String> data) {
