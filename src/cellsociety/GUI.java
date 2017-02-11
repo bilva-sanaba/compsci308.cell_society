@@ -48,11 +48,10 @@ public class GUI {
     private FileChooser myChooser;
 
     public GUI(Stage stage) {
-        myStage = stage;
-        inputStage = new Stage();
-        inputStage.initOwner(myStage);
-        myController = new Controller(GRID_WIDTH);
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + PROPERTIES);
+        myStage = stage;
+        inputStage = createInputStage();
+        myController = new Controller(GRID_WIDTH);
         myRoot = createRoot();
         enableInput(!myController.hasModel());
         myStage.setTitle(TITLE);
@@ -63,6 +62,13 @@ public class GUI {
     
     public void show() {
         myStage.show();
+    }
+    
+    private Stage createInputStage() {
+        Stage stage = new Stage();
+        stage.initOwner(myStage);
+        stage.setTitle(myResources.getString("InputWindow"));
+        return stage;
     }
     
     private BorderPane createRoot() {
@@ -99,6 +105,7 @@ public class GUI {
                             Scene scene = new Scene(root);
                             scene.getStylesheets().add(DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
                             inputStage.setScene(scene);
+                            inputStage.sizeToScene();
                         }
                     });
                 }

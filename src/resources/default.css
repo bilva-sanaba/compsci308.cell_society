@@ -6,6 +6,7 @@
 }
 
 #model-input {
+    -fx-pref-width: 220;
     -fx-padding: 20;
     -fx-spacing: 10;
     -fx-alignment: center-left;

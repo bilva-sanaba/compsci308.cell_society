@@ -3,12 +3,15 @@ package cellsociety;
 import java.util.List;
 import java.util.Random;
 
+import cell.Cell;
+
 public abstract class Model {
     private Random rand = new Random();
     private Grid myGrid;
     
-    public Model(Grid grid) {
+    public Model(Grid grid, boolean diagonal) {
         myGrid = grid;
+        myGrid.buildNeighborGraph(diagonal);
     }
     
     public Grid getGrid() {
@@ -39,7 +42,7 @@ public abstract class Model {
      * @param cells
      * @return
      */
-    protected Cell pickRandomCell(List<Cell> cells){
+    protected Cell pickRandomCell(List<? extends Cell> cells){
 		if (cells.size()==0){
 			return null;
 		}
