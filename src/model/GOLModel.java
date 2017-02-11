@@ -5,7 +5,7 @@ import cell.GOLCell;
 import cell.generator.GOLCellGenerator;
 import cell.state.GOLState;
 import cellsociety.Model;
-import grid.FlatGrid;
+import grid.ToroidalGrid;
 import util.CAData;
 
 /**
@@ -20,7 +20,7 @@ public class GOLModel extends Model {
     public static final int UPPER_THRESHOLD = 3;
     
     public GOLModel(CAData data) {
-        super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new GOLCellGenerator()), true);
+        super(new ToroidalGrid(data.numRows(), data.numCols(), data.getCell(), new GOLCellGenerator()), true);
     }
 
     @Override
