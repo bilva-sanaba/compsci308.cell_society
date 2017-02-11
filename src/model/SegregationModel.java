@@ -21,7 +21,7 @@ public class SegregationModel extends Model {
 	private List<SegregationCell> empty;
 
 	public SegregationModel(CAData data) {
-		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator()), true);
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator(), true));
 		happyPercent = ((SegregationData)data).getThreshold();
 		empty = findEmptyCells();
 	}

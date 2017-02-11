@@ -6,35 +6,28 @@ import java.util.Random;
 import cell.Cell;
 
 public abstract class Model {
-    private Random rand = new Random();
+    
+    private Random rand;
     private Grid myGrid;
     
-    public Model(Grid grid, boolean diagonal) {
+    public Model(Grid grid) {
         myGrid = grid;
-        myGrid.buildNeighborGraph(diagonal);
+        rand = new Random();
     }
     
     public Grid getGrid() {
         return myGrid;
     }
     
-    protected void setGrid(Grid grid) {
-        this.myGrid = grid;
+    public void setGrid(String type) {
+        this.myGrid = Grid.getGrid(myGrid, type);
+    }
+    
+    public void click(int row, int col) {
+        getGrid().get(row, col).rotateState();
     }
     
     public abstract void update();
-    
-    public void toRectangle() {
-        //TODO
-    }
-    
-    public void toTriangle() {
-        //TODO
-    }
-    
-    public void toHexagon() {
-        //TODO
-    }
     
     /**
      * Picks a random cell from the list and removes it from the list

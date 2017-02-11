@@ -1,7 +1,10 @@
 package cellsociety;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
+import cellsociety.handler.CellClickHandler;
 import cellsociety.handler.LoadHandler;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,7 +17,6 @@ import model.manager.GOLManager;
 import model.manager.ModelManager;
 import model.manager.SegregationManager;
 import model.manager.WatorManager;
-import shapegenerator.HexagonGenerator;
 import util.CAData;
 import util.XMLReader;
 
@@ -24,6 +26,11 @@ import util.XMLReader;
  *
  */
 public class Controller {
+    
+    public static final List<String> SHAPE_CHOICES = Arrays.asList(
+            "Square",
+            "Triangle",
+            "Hexagon");
     
     public static final int MIN_SPEED = 1;
     public static final int MAX_SPEED = 20;
@@ -35,11 +42,19 @@ public class Controller {
     private GridView gridView;
     
     public Controller(double gridWidth) {
-        gridView = new GridView(gridWidth);
+        gridView = new GridView(gridWidth, new CellClickHandler() {
+
+            @Override
+            public void onClicked(int row, int col) {
+                model.click(row, col);
+                gridView.update();
+            }
+        });
         animation = getTimeline();
     }
     
     public void load(File dataFile, LoadHandler handler) {
+        animation.stop();
         try {
             CAData data = new XMLReader().readData(dataFile);
             ModelManager manager = chooseModel(data);
@@ -49,8 +64,8 @@ public class Controller {
             model = null;
             throw new CAException(e);
         }
+        handler.resetChoices();
         gridView.setModel(model);
-        gridView.setShape(new HexagonGenerator());
         gridView.update();
     }
 
@@ -70,6 +85,15 @@ public class Controller {
     
     public void setSpeed(int fps) {
         animation.setRate(fps/(double)DEFAULT_FPS);
+    }
+    
+    public void setShape(int index) {
+        model.getGrid().setShape(index);
+        gridView.setShape(index);
+    }
+    
+    public void setGrid(String type) {
+        model.setGrid(type);
     }
     
     public boolean hasModel() {

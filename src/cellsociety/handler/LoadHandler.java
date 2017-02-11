@@ -6,4 +6,5 @@ public interface LoadHandler {
 
     public void setModelInput(Region root);
     
+    public void resetChoices();
 }

@@ -1,7 +1,8 @@
 package util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,12 +13,19 @@ import java.util.Map;
  */
 public class WatorData extends CAData {
     
+    public static final List<String> EXTRA_FIELDS = Arrays.asList(new String[] {
+            "fishBreed",
+            "sharkBreed",
+            "fishEnergy",
+            "sharkEnergy"
+        });
+    
 	public WatorData(Map<String, String> data) {
 		super(data);
 	}
 
     @Override
     public Collection<String> getExtraField() {
-        return new ArrayList<String>();
+        return EXTRA_FIELDS;
     }
 }

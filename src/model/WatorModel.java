@@ -14,16 +14,17 @@ public class WatorModel extends Model {
     
     public static final String NAME = "wator";
     public static final int DEFAULT_FISH_BREED_PERIOD = 5;
+    public static final int DEFAULT_FISH_ENERGY = 5;
     public static final int DEFAULT_SHARK_BREED_PERIOD = 25;
-    public static final int DEFAULT_SHARK_INITIAL_ENERGY = 5;
-    public static final int DEFAULT_ENERGY_PER_FISH = 5;
+    public static final int DEFAULT_SHARK_ENERGY = 5;
 
-    private int energyMax=DEFAULT_SHARK_INITIAL_ENERGY;
+    private int energyMax=DEFAULT_SHARK_ENERGY;
     private int sharkBreedPeriod=DEFAULT_SHARK_BREED_PERIOD;
     private int fishBreedPeriod=DEFAULT_FISH_BREED_PERIOD;
-    private int fishEnergy= DEFAULT_ENERGY_PER_FISH;
+    private int fishEnergy= DEFAULT_FISH_ENERGY;
+    
 	public WatorModel(CAData data) {
-		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator()), false);
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator(), false));
 		for(int row = 0; row < getGrid().numRows(); row++) {
 			for(int col = 0; col < getGrid().numCols(); col++) {
 				initializeCellAttributes((WatorCell) getGrid().get(row, col));

@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
     
-    protected CellState myState, nextState;
+    private CellState myState, nextState;
     private Set<Cell> neighbors;
     
     public Cell(CellState state) {
