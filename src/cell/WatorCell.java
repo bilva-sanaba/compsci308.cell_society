@@ -18,7 +18,7 @@ public class WatorCell extends Cell {
     public static final CellState FISH = new CellState(1, Color.BISQUE);
     public static final CellState SHARK = new CellState(2, Color.GREY);
     
-    private int energy, fishReproduction, sharkReproduction;
+    private int energy,reproductionDaysLeft;
     
     private WatorCell(CellState state) {
         super(state);
@@ -42,34 +42,19 @@ public class WatorCell extends Cell {
 		return this.getEnergy()==0;
     }
     public boolean canReproduce(){
-		if (this.inState(WatorCell.SHARK)){
-			return (this.getSharkDays()<=0);
-		}
-		if (this.inState(WatorCell.FISH)){
-			return (this.getFishDays()<=0);
-		}
-		return false;
+		return this.getReproductionDays()==0;
 	}
     public void setEnergy(int newEnergy){
     	energy= newEnergy;
     }
     
-    public void setSharkDays(int daysTillReproduce ){
-    	sharkReproduction = daysTillReproduce;
+
+    public void setReproductionDays(int daysTillReproduce){
+    	reproductionDaysLeft = daysTillReproduce;
     }
-    
-    public void setFishDays(int daysTillReproduce ){
-    	fishReproduction = daysTillReproduce;
+    public int getReproductionDays(){
+    	return reproductionDaysLeft;
     }
-    
-    public int getSharkDays(){
-    	return sharkReproduction;
-    }
-    
-    public int getFishDays(){
-    	return fishReproduction;
-    }
-    
     public void toWater() {
         setNextState(WATER);
     }
@@ -80,6 +65,12 @@ public class WatorCell extends Cell {
     
     public void toShark() {
         setNextState(SHARK);
+    }
+    public void toState(CellState state){
+    	setNextState(state);
+    }
+    public CellState getState(){
+    	return myState;
     }
     
     public static CellGenerator getGenerator() {
