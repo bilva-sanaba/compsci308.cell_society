@@ -3,8 +3,13 @@ package cell;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import cellsociety.CAException;
+import cell.Cell;
+import cell.generator.CellGenerator;
 import cell.state.CellState;
 import cell.state.WatorState;
+
 
 /**
  * Cell for Wa-Tor simulation
@@ -12,14 +17,11 @@ import cell.state.WatorState;
  *
  */
 public class WatorCell extends Cell {
+        
+    private int energy,reproductionDaysLeft;
     
-    private int energy, fishReproduction, sharkReproduction;
-    
-    public WatorCell(WatorState state) {
+    public WatorCell(CellState state) {
         super(state);
-//        energy = ENERGY_MAX;
-//        fishReproduction = FISH_BREED_PERIOD;  
-//        sharkReproduction = SHARK_BREED_PERIOD;
     }
     public List<Cell> getCertainNeighbors(CellState state){
     	List<Cell> certainNeighbors = new ArrayList<Cell>();
@@ -37,34 +39,19 @@ public class WatorCell extends Cell {
 		return this.getEnergy()==0;
     }
     public boolean canReproduce(){
-		if (this.is(WatorState.SHARK)){
-			return (this.getSharkDays()<=0);
-		}
-		if (this.is(WatorState.FISH)){
-			return (this.getFishDays()<=0);
-		}
-		return false;
+		return this.getReproductionDays()==0;
 	}
     public void setEnergy(int newEnergy){
     	energy= newEnergy;
     }
     
-    public void setSharkDays(int daysTillReproduce ){
-    	sharkReproduction = daysTillReproduce;
+
+    public void setReproductionDays(int daysTillReproduce){
+    	reproductionDaysLeft = daysTillReproduce;
     }
-    
-    public void setFishDays(int daysTillReproduce ){
-    	fishReproduction = daysTillReproduce;
+    public int getReproductionDays(){
+    	return reproductionDaysLeft;
     }
-    
-    public int getSharkDays(){
-    	return sharkReproduction;
-    }
-    
-    public int getFishDays(){
-    	return fishReproduction;
-    }
-    
     public void toWater() {
         setNextState(WatorState.WATER);
     }
@@ -75,5 +62,35 @@ public class WatorCell extends Cell {
     
     public void toShark() {
         setNextState(WatorState.SHARK);
+    }
+    public void toState(CellState state){
+    	setNextState(state);
+    }
+    public CellState getState(){
+    	return myState;
+    }
+    
+    public static CellGenerator getGenerator() {
+        return new CellGenerator() {
+
+            @Override
+            public Cell getBasicCell() {
+                return new WatorCell(WatorState.WATER);
+            }
+
+            @Override
+            public Cell getCell(int state) {
+                if(WatorState.WATER.equals(state)) {
+                    return new WatorCell(WatorState.WATER);
+                }
+                else if(WatorState.FISH.equals(state)) {
+                    return new WatorCell(WatorState.FISH);
+                }
+                else if(WatorState.SHARK.equals(state)) {
+                    return new WatorCell(WatorState.SHARK);
+                }
+                throw new CAException(CAException.INVALID_CELL, "Wa-Tor");
+            }
+        };
     }
 }
