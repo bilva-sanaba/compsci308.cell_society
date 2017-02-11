@@ -66,9 +66,6 @@ public class WatorCell extends Cell {
     public void toState(CellState state){
     	setNextState(state);
     }
-    public CellState getState(){
-    	return myState;
-    }
     
     public static CellGenerator getGenerator() {
         return new CellGenerator() {

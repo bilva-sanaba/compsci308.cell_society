@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
     
-    protected CellState myState, nextState;
+    private CellState myState, nextState;
     private Set<Cell> neighbors;
     
     public Cell(CellState state) {
@@ -48,7 +48,9 @@ public abstract class Cell {
         this.neighbors.clear();
         this.neighbors.addAll(neighbors);
     }
-    
+    public CellState getState(){
+    	return myState;
+    }
     public Collection<Cell> getNeighbors() {
         return Collections.unmodifiableCollection(neighbors);
     }

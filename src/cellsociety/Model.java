@@ -1,6 +1,6 @@
 package cellsociety;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
 
 import cell.Cell;
@@ -42,13 +42,13 @@ public abstract class Model {
      * @param cells
      * @return
      */
-    protected Cell pickRandomCell(List<? extends Cell> cells){
+    protected Cell pickRandomCell(Collection<? extends Cell> cells){
 		if (cells.size()==0){
 			return null;
 		}
+		Cell[] c = cells.toArray(new Cell[cells.size()]);
 		int i = rand.nextInt(cells.size());
-		Cell ret = cells.get(i);
-		cells.remove(i);
+		Cell ret = c[i];
 		return ret;
 	}
 }

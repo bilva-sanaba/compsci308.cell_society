@@ -12,7 +12,7 @@ import util.CAData;
 
 public class WatorModel extends Model {
 	private int energyMax=5;
-	private int sharkBreedPeriod=25;
+	private int sharkBreedPeriod=35;
 	private int fishBreedPeriod=5;
 	private int fishEnergy= 5;
 	public static final String NAME = "wator";

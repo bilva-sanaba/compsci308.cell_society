@@ -14,6 +14,7 @@ import model.manager.GOLManager;
 import model.manager.ModelManager;
 import model.manager.SegregationManager;
 import model.manager.WatorManager;
+import shapegenerator.HexagonGenerator;
 import shapegenerator.SquareGenerator;
 import util.CAData;
 import util.XMLReader;
@@ -50,7 +51,7 @@ public class Controller {
             throw new CAException(e);
         }
         gridView.setModel(model);
-        gridView.setShape(new SquareGenerator());
+        gridView.setShape(new HexagonGenerator());
         gridView.update();
     }
 
