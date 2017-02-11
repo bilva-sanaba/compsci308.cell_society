@@ -1,9 +1,13 @@
 package model;
 
+
+
+import cell.Cell;
 import cell.WatorCell;
-import cellsociety.Cell;
+import cell.generator.WatorCellGenerator;
+import cell.state.WatorState;
 import cellsociety.Model;
-import grid.RectangleGrid;
+import grid.FlatGrid;
 import util.CAData;
 
 public class WatorModel extends Model {
@@ -14,7 +18,7 @@ public class WatorModel extends Model {
 	public static final String NAME = "wator";
 
 	public WatorModel(CAData data) {
-		super(new RectangleGrid(data.numRows(), data.numCols(), data.getCell(), WatorCell.getGenerator()));
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator()), false);
 		for(int row = 0; row < getGrid().numRows(); row++) {
 			for(int col = 0; col < getGrid().numCols(); col++) {
 				initializeCellAttributes((WatorCell) getGrid().get(row, col));
@@ -22,20 +26,20 @@ public class WatorModel extends Model {
 		}
 	}
 	private void initializeCellAttributes(WatorCell cell){
-		if (cell.inState(WatorCell.FISH)){
+		if (cell.is(WatorState.FISH)){
 			cell.setReproductionDays(fishBreedPeriod);
 		}
-		if (cell.inState(WatorCell.SHARK)){
+		if (cell.is(WatorState.SHARK)){
 			cell.setReproductionDays(sharkBreedPeriod);
 			cell.setEnergy(energyMax);
 		}
 	}
 	@Override
 	public void update() {
-		for (Cell shark : getCertainCells(WatorCell.SHARK)){
+		for (Cell shark : getGrid().getCells(WatorState.SHARK)){
 			updateGridCell((WatorCell) shark);
 		}
-		for(Cell fish : getCertainCells(WatorCell.FISH)){
+		 for (Cell fish : getGrid().getCells(WatorState.FISH)){
 			updateGridCell((WatorCell) fish);
 		}
 	}
@@ -44,14 +48,14 @@ public class WatorModel extends Model {
 		getGrid().update();
 	}
 	private void moveAnimal(WatorCell cell){
-		if (cell.inState(WatorCell.SHARK)){
+		if (cell.is(WatorState.SHARK)){
 			moveShark(cell);
 		}else{
 			moveToWater(cell);
 		}
 	}
 	private void moveToWater(WatorCell cell){
-		WatorCell randomWater = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorCell.WATER));
+		WatorCell randomWater = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorState.WATER));
 		if(randomWater != null) {
 			animalMovement(randomWater,cell);
 		}else{
@@ -62,7 +66,7 @@ public class WatorModel extends Model {
 		if (shouldDie(cell)){
 			cell.toWater();
 		}else{
-			WatorCell randomFish = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorCell.FISH));
+			WatorCell randomFish = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorState.FISH));
 			if (randomFish!=null){
 				animalMovement(randomFish,cell);
 			}else{
@@ -72,7 +76,7 @@ public class WatorModel extends Model {
 	}
 	private void animalMovement(WatorCell newCell, WatorCell movingCell){
 		if (newCell!=null){
-			if (movingCell.inState(WatorCell.SHARK)){
+			if (movingCell.is(WatorState.SHARK)){
 				updateEnergies(newCell, movingCell);
 			}
 			newCell.toState(movingCell.getState());
@@ -80,7 +84,7 @@ public class WatorModel extends Model {
 		}
 	}
 	private void updateEnergies(WatorCell newCell, WatorCell shark ){
-		if (newCell.inState(WatorCell.FISH)){
+		if (newCell.is(WatorState.FISH)){
 			newCell.setEnergy(shark.getEnergy()+fishEnergy-1);
 		}else{
 			newCell.setEnergy(shark.getEnergy()-1);
@@ -89,10 +93,10 @@ public class WatorModel extends Model {
 	private void handleReproduction(WatorCell replaced, WatorCell reproducing){
 		replaced.setReproductionDays(reproducing.getReproductionDays()-1);
 		if (reproducing.canReproduce()){
-			if (reproducing.inState(WatorCell.SHARK)){
+			if (reproducing.is(WatorState.SHARK)){
 				sharkReproduction(replaced, reproducing);
 			}
-			if (reproducing.inState(WatorCell.FISH)){
+			if (reproducing.is(WatorState.FISH)){
 				fishReproduction(replaced,reproducing);
 			}
 		}else{
@@ -110,7 +114,7 @@ public class WatorModel extends Model {
 	}
 	private void cellStays(WatorCell cell){
 		cell.setReproductionDays(cell.getReproductionDays()-1);
-		if (cell.inState(WatorCell.SHARK)){
+		if (cell.is(WatorState.SHARK)){
 			cell.setEnergy(cell.getEnergy()-1);	
 		}
 	}

@@ -1,11 +1,11 @@
-package cellsociety;
+package cell;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import cell.CellState;
+import cell.state.CellState;
 import javafx.scene.paint.Color;
 
 /**
@@ -24,24 +24,32 @@ public abstract class Cell {
         neighbors = new HashSet<Cell>();
     }
     
-    public boolean inState(CellState state) {
+    public boolean is(CellState state) {
         return myState.equals(state);
     }
     
-    public boolean hasSameState(Cell other) {
-        return myState == other.myState;
+    public void rotateState() {
+        myState = nextState = myState.rotate();
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        if(other == null || !(other instanceof Cell)) {
+            return false;
+        }
+        return myState.equals(((Cell)other).myState);
     }
     
     public Color getColor() {
         return myState.getColor();
     }
     
-    public void setNeighbors(Collection<? extends Cell> neighbors) {
+    public void setNeighbors(Collection<Cell> neighbors) {
         this.neighbors.clear();
         this.neighbors.addAll(neighbors);
     }
     
-    public Collection<? extends Cell> getNeighbors() {
+    public Collection<Cell> getNeighbors() {
         return Collections.unmodifiableCollection(neighbors);
     }
     

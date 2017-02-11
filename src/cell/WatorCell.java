@@ -1,11 +1,15 @@
 package cell;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import cellsociety.CAException;
-import cellsociety.Cell;
-import javafx.scene.paint.Color;
+import cell.Cell;
+import cell.generator.CellGenerator;
+import cell.state.CellState;
+import cell.state.WatorState;
+
 
 /**
  * Cell for Wa-Tor simulation
@@ -13,23 +17,16 @@ import javafx.scene.paint.Color;
  *
  */
 public class WatorCell extends Cell {
-    
-    public static final CellState WATER = new CellState(0, Color.BLUE);
-    public static final CellState FISH = new CellState(1, Color.BISQUE);
-    public static final CellState SHARK = new CellState(2, Color.GREY);
-    
+        
     private int energy,reproductionDaysLeft;
     
-    private WatorCell(CellState state) {
+    public WatorCell(CellState state) {
         super(state);
-//        energy = ENERGY_MAX;
-//        fishReproduction = FISH_BREED_PERIOD;  
-//        sharkReproduction = SHARK_BREED_PERIOD;
     }
-    public Set<Cell> getCertainNeighbors(CellState state){
-    	Set<Cell> certainNeighbors = new HashSet<Cell>();
+    public List<Cell> getCertainNeighbors(CellState state){
+    	List<Cell> certainNeighbors = new ArrayList<Cell>();
     	for (Cell neighbor : this.getNeighbors()){
-    		if (neighbor.inState(state)){
+    		if (neighbor.is(state)){
     			certainNeighbors.add(neighbor);
     		}
     	}
@@ -56,15 +53,15 @@ public class WatorCell extends Cell {
     	return reproductionDaysLeft;
     }
     public void toWater() {
-        setNextState(WATER);
+        setNextState(WatorState.WATER);
     }
     
     public void toFish() {
-        setNextState(FISH);
+        setNextState(WatorState.FISH);
     }
     
     public void toShark() {
-        setNextState(SHARK);
+        setNextState(WatorState.SHARK);
     }
     public void toState(CellState state){
     	setNextState(state);
@@ -78,19 +75,19 @@ public class WatorCell extends Cell {
 
             @Override
             public Cell getBasicCell() {
-                return new WatorCell(WATER);
+                return new WatorCell(WatorState.WATER);
             }
 
             @Override
             public Cell getCell(int state) {
-                if(WATER.equals(state)) {
-                    return new WatorCell(WATER);
+                if(WatorState.WATER.equals(state)) {
+                    return new WatorCell(WatorState.WATER);
                 }
-                else if(FISH.equals(state)) {
-                    return new WatorCell(FISH);
+                else if(WatorState.FISH.equals(state)) {
+                    return new WatorCell(WatorState.FISH);
                 }
-                else if(SHARK.equals(state)) {
-                    return new WatorCell(SHARK);
+                else if(WatorState.SHARK.equals(state)) {
+                    return new WatorCell(WatorState.SHARK);
                 }
                 throw new CAException(CAException.INVALID_CELL, "Wa-Tor");
             }
