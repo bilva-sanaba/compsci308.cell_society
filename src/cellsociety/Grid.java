@@ -11,8 +11,8 @@ import cell.CellConfig;
 import cell.generator.CellGenerator;
 import cell.state.CellState;
 import grid.Location;
+import grid.neighborfinder.HexagonFinder;
 import grid.neighborfinder.NeighborFinder;
-import grid.neighborfinder.RectangleFinder;
 
 /**
  * Superclass of grid that contains cells in the simulation
@@ -30,7 +30,7 @@ public abstract class Grid {
             sim[config.getRow()][config.getCol()] = generator.getCell(config.getState());
         }
         fillEmpty(generator);
-        myFinder = new RectangleFinder();
+        myFinder = new HexagonFinder();
     }
     
     public int numRows() {

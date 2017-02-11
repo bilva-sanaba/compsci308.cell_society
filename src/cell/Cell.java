@@ -24,6 +24,10 @@ public abstract class Cell {
         neighbors = new HashSet<Cell>();
     }
     
+    public CellState getState() {
+        return myState;
+    }
+    
     public boolean is(CellState state) {
         return myState.equals(state);
     }
