@@ -5,6 +5,7 @@ public class CAException extends RuntimeException {
     public static final String INVALID_MODEL = "The simulation %s is not defined";
     public static final String INVALID_GRID = "%s grid is not defined";
     public static final String INVALID_CELL_CONFIG = "Invalid cell configuration format";
+    public static final String INVALID_CELL_PROB = "Need probabilities for at least two cell types";
     public static final String INVALID_CELL = "Invalid cell state for %s model";
     public static final String INVALID_SHAPE = "Invalid shape";
     
