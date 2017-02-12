@@ -25,7 +25,7 @@ public abstract class ShapeGenerator {
         for(int row = 0; row < grid.numRows(); row++) {
             for(int col = 0; col < grid.numCols(); col++) {
                 Shape shape = getShape(row, col, width);
-                Color color = grid.get(row, col).getColor();
+                Color color = grid.get(row, col).getState().getColor();
                 shape.setStroke(color==ShapeGenerator.STROKE
                         ? ShapeGenerator.ALTERNATIVE_STROKE : ShapeGenerator.STROKE);
                 shape.setFill(color);

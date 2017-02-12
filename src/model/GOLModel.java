@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import cell.Cell;
 import cell.GOLCell;
 import cell.generator.GOLCellGenerator;
@@ -16,6 +20,10 @@ import util.CAData;
 public class GOLModel extends Model {
     
     public static final String NAME = "gol";
+    public static final List<String> DOCUMENTED_STATES = Arrays.asList(
+            GOLState.DEAD.toString(),
+            GOLState.LIVE.toString());
+    
     public static final int LOWER_THRESHOLD = 2;
     public static final int UPPER_THRESHOLD = 3;
     
@@ -25,12 +33,15 @@ public class GOLModel extends Model {
 
     @Override
     public void update() {
-        for(int row = 0; row < getGrid().numRows(); row++) {
-            for(int col = 0; col < getGrid().numCols(); col++) {
-                changeState((GOLCell)getGrid().get(row, col));
-            }
+        for(Cell cell: getGrid()) {
+            changeState((GOLCell)cell);
         }
         getGrid().update();
+    }
+    
+    @Override
+    protected Collection<String> getDocumentedStates() {
+        return DOCUMENTED_STATES;
     }
 
     private void changeState(GOLCell cell) {
@@ -42,9 +53,13 @@ public class GOLModel extends Model {
         }
         if(cell.is(GOLState.LIVE) && (count < LOWER_THRESHOLD || count > UPPER_THRESHOLD)) {
             cell.die();
+            addCount(GOLState.LIVE, -1);
+            addCount(GOLState.DEAD, 1);
         }
         else if(cell.is(GOLState.DEAD) && count == UPPER_THRESHOLD) {
             cell.spawn();
+            addCount(GOLState.DEAD, -1);
+            addCount(GOLState.LIVE, 1);
         }
     }
 }

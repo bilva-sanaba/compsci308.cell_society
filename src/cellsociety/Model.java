@@ -1,11 +1,13 @@
 package cellsociety;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import cell.Cell;
+import cell.state.CellState;
 
 public abstract class Model {
     
@@ -17,8 +19,14 @@ public abstract class Model {
         myGrid = grid;
         myRand = new Random();
         myPopulation = new HashMap<String, Integer>();
+        for(String key: getDocumentedStates()) {
+            myPopulation.put(key, 0);
+        }
+        for(Cell cell: getGrid()) {
+            addCount(cell.getState(), 1);
+        }
     }
-    
+
     public Grid getGrid() {
         return myGrid;
     }
@@ -32,9 +40,7 @@ public abstract class Model {
     }
     
     public Map<String, Integer> getPopulation() {
-        myPopulation.put("TEST", 1);
         return myPopulation;
-        //TODO
     }
     
     public abstract void update();
@@ -54,4 +60,22 @@ public abstract class Model {
 		cells.remove(i);
 		return ret;
 	}
+    
+    protected abstract Collection<String> getDocumentedStates();
+    
+    protected void addCount(String state, int num) {
+        if(myPopulation.containsKey(state)) {
+            myPopulation.put(state, myPopulation.get(state) + num);
+        }
+    }
+    
+    protected void addCount(CellState state, int num) {
+        addCount(state.toString(), num);
+    }
+    
+    protected void resetCount() {
+        for(String key: myPopulation.keySet()) {
+            myPopulation.put(key, 0);
+        }
+    }
 }

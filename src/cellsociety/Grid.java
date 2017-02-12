@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ import grid.neighborfinder.TriangleFinder;
  * @author Mike Liu
  * 
  */
-public abstract class Grid {
+public abstract class Grid implements Iterable<Cell> {
 
     public static final List<String> GRID_TYPE = Arrays.asList(
             "Finite",
@@ -123,6 +124,29 @@ public abstract class Grid {
             return new ToroidalGrid(this);
         }
         throw new CAException(CAException.INVALID_GRID, type);
+    }
+    
+    @Override
+    public Iterator<Cell> iterator() {
+        return new Iterator<Cell>() {
+
+            private int row, col;
+            
+            @Override
+            public boolean hasNext() {
+                return row < numRows() && col < numCols();
+            }
+
+            @Override
+            public Cell next() {
+                Cell cell = get(row, col++);
+                if(col >= numCols()) {
+                    col = 0;
+                    row++;
+                }
+                return cell;
+            }
+        };
     }
     
     protected abstract void addNeighbor(int row, int col, Collection<Cell> neighbors);
