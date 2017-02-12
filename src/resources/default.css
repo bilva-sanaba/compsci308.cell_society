@@ -11,3 +11,7 @@
     -fx-spacing: 10;
     -fx-alignment: center-left;
 }
+
+#graph-view {
+    -fx-pref-width: 600;
+}

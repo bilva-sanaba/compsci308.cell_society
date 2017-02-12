@@ -15,10 +15,10 @@ public class HexagonFinder extends NeighborFinder {
     
     public static final NeighborOffset EVEN = new NeighborOffset(
             Arrays.asList(-1, -1, 0, 0, 1, 1),
-            Arrays.asList(0, 1, -1, 1, 0, 1));
+            Arrays.asList(-1, 0, -1, 1, -1, 0));
     public static final NeighborOffset ODD = new NeighborOffset(
             Arrays.asList(-1, -1, 0, 0, 1, 1),
-            Arrays.asList(-1, 0, -1, 1, -1, 0));
+            Arrays.asList(0, 1, -1, 1, 0, 1));
     
     private NeighborOffset evenOffset, oddOffset;
     
@@ -34,6 +34,11 @@ public class HexagonFinder extends NeighborFinder {
         } else {
             return findNeighbor(row, col, oddOffset);
         }
+    }
+
+    @Override
+    public int numNeighbors(boolean diagonal) {
+        return evenOffset.length();
     }
 
 }

@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cell.state.CellState;
-import javafx.scene.paint.Color;
 
 /**
  * Superclass for individual cell in the grid
@@ -16,7 +15,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
     
-    protected CellState myState, nextState;
+    private CellState myState, nextState;
     private Set<Cell> neighbors;
     
     public Cell(CellState state) {
@@ -42,10 +41,6 @@ public abstract class Cell {
             return false;
         }
         return myState.equals(((Cell)other).myState);
-    }
-    
-    public Color getColor() {
-        return myState.getColor();
     }
     
     public void setNeighbors(Collection<Cell> neighbors) {

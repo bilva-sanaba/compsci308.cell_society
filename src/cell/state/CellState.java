@@ -14,6 +14,11 @@ public abstract class CellState {
         myColor = color;
     }
     
+    @Override
+    public String toString() {
+        return myState;
+    }
+    
     public Color getColor() {
         return myColor;
     }

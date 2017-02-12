@@ -9,8 +9,12 @@ import cellsociety.Grid;
 
 public class FlatGrid extends Grid {
 
-    public FlatGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
-        super(row, col, cellConfig, generator);
+    public FlatGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {
+        super(row, col, cellConfig, generator, diagonal);
+    }
+    
+    public FlatGrid(Grid grid) {
+        super(grid);
     }
 
     @Override
