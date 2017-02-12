@@ -69,6 +69,7 @@ public class SegregationModel extends Model {
 	                emptyCell.fillBlue();
 	            }
 	            cell.leave();
+	            empty.add(cell);
 		    }
 		}
 	}
