@@ -16,4 +16,12 @@ public class Location {
     public int getCol() {
         return myCol;
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        if(other == null || !(other instanceof Location)) {
+            return false;
+        }
+        return myRow == ((Location)other).myRow && myCol == ((Location)other).myCol;
+    }
 }

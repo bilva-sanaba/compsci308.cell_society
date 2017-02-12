@@ -137,7 +137,9 @@ public class GUI {
             inputStage.show();
             inputStage.setX(myStage.getX() + myStage.getWidth());
         });
-        otherButtons = Arrays.asList(play, pause, step, options);
+        Button zoomIn = createButton(myResources.getString("ZoomIn"), e -> myController.zoomIn());
+        Button zoomOut = createButton(myResources.getString("ZoomOut"), e -> myController.zoomOut());
+        otherButtons = Arrays.asList(play, pause, step, options, zoomIn, zoomOut);
     }
 
     private Button createButton(String label, EventHandler<ActionEvent> e) {

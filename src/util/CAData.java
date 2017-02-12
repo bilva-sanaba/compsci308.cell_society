@@ -1,8 +1,11 @@
 package util;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -31,30 +34,28 @@ public abstract class CAData {
             "row",
             "col",
             "cell",
-            "cellNumber",
-            "cellProbs"
+            "cellNum",
+            "cellProb"
         });
     
     private Map<String, String> myData;
+    private int numRow, numCol;
     private List<CellConfig> myCellConfig;
 	
 	public CAData(Map<String, String> data) {
 	    myData = data;
 	    myCellConfig = new ArrayList<CellConfig>();
-	    
-	    // TODO: Why do these if statements not select the right loading method?
-	    // makeRandomCells and makeProbDistrCells work when outside of the if statements, but not when inside
-	    // I think data.containsKey isn't working correctly
-	    
-	    // Debugging:
-//	    makeRandomCells(Integer.parseInt(data.get(DATA_FIELDS.get(6))));
-//	    makeProbDistrCells(data.get(DATA_FIELDS.get(7)));
-	    
-	    if (data.containsKey(DATA_FIELDS.get(5))) {
+	    numRow = parsePositiveInteger(DATA_FIELDS.get(3));
+	    numCol = parsePositiveInteger(DATA_FIELDS.get(4));
+	    if (data.containsKey(DATA_FIELDS.get(5)) && data.get(DATA_FIELDS.get(5)).length() != 0) {
 	    	parseCellConfig(data.get(DATA_FIELDS.get(5)));
-	    } else if (data.containsKey(DATA_FIELDS.get(6))) {
-	    	makeRandomCells(Integer.parseInt(data.get(DATA_FIELDS.get(6))));
-	    } else makeProbDistrCells(data.get(DATA_FIELDS.get(7)));
+	    }
+	    else if (data.containsKey(DATA_FIELDS.get(6)) && data.get(DATA_FIELDS.get(6)).length() != 0) {
+	    	parseCellNum(data.get(DATA_FIELDS.get(6)));
+	    }
+	    else if (data.containsKey(DATA_FIELDS.get(7)) && data.get(DATA_FIELDS.get(7)).length() != 0){
+	        parseCellProb(data.get(DATA_FIELDS.get(7)));
+	    }
 	}
 	
 	public void addExtraField(String field, String data) {
@@ -78,11 +79,11 @@ public abstract class CAData {
 	}
 	
 	public int numRows() {
-		return Integer.parseInt(myData.get(DATA_FIELDS.get(3)));
+		return numRow;
 	}
 	
 	public int numCols() {
-	    return Integer.parseInt(myData.get(DATA_FIELDS.get(4)));
+	    return numCol;
 	}
 	
 	public Collection<CellConfig> getCell() {
@@ -94,8 +95,33 @@ public abstract class CAData {
     private void parseCellConfig(String cellConfig) {
         Scanner sc = new Scanner(cellConfig);
         while(sc.hasNext()) {
+            int row, col, state;
             try {
-                myCellConfig.add(new CellConfig(sc.nextInt(), sc.nextInt(), sc.nextInt()));
+                row = sc.nextInt();
+                col = sc.nextInt();
+                state = sc.nextInt();
+                validateLocation(row, col);
+            } catch(NoSuchElementException e) {
+                sc.close();
+                throw new CAException(CAException.INVALID_CELL_CONFIG);
+            }
+            myCellConfig.add(new CellConfig(row, col, state));
+        }
+        sc.close();
+    }
+    
+    private void validateLocation(int row, int col) {
+        if(row < 0 || row >= numRows() || col < 0 || row > numCols()) {
+            throw new CAException(CAException.INVALID_LOCATION);
+        }
+    }
+
+    private void parseCellNum(String cellNum) {
+        Scanner sc = new Scanner(cellNum);
+        Deque<Integer> randomSeq = getRandomSeq(numRows() * numCols());
+        while(sc.hasNext()) {
+            try {
+                addRandomCells(sc.nextInt(), sc.nextInt(), randomSeq);
             } catch(NoSuchElementException e) {
                 sc.close();
                 throw new CAException(CAException.INVALID_CELL_CONFIG);
@@ -104,44 +130,25 @@ public abstract class CAData {
         sc.close();
     }
     
-    private void makeRandomCells(int numCells) {
-    	ArrayList<int[]> coordinateList = new ArrayList<int[]>();
-    	int[] coordinate = randomCoordinate();
-    	while (numCells > 0) {
-    		while (coordinateList.contains(coordinate)) {
-    			coordinate = randomCoordinate();
-    		}
-    		coordinateList.add(coordinate);
-    		coordinate = randomCoordinate();
-    		numCells -= 1;
-    	}
-    	if (getName().equals(GOLModel.NAME)) {
-    		for (int[] c : coordinateList) {
-    			myCellConfig.add(new CellConfig(c[0], c[1], 1));
-    		}
-    	} else for (int[] c : coordinateList) {
-    		myCellConfig.add(new CellConfig(c[0], c[1], ThreadLocalRandom.current().nextInt(1, 3)));
-    	}
-    }
-    
-    private int[] randomCoordinate() {
-    	return new int[]{
-				ThreadLocalRandom.current().nextInt(numRows()),
-				ThreadLocalRandom.current().nextInt(numCols())
-			};
-    }
-    
-    private void makeProbDistrCells(String probString) {
-    	Scanner sc = new Scanner(probString);
+    private void parseCellProb(String cellProb) {
+    	Scanner sc = new Scanner(cellProb);
     	ArrayList<Integer> probs = new ArrayList<Integer>();
-    	try {
-    		probs.add(sc.nextInt());
-    		probs.add(probs.get(0) + sc.nextInt());
-    	} catch (NoSuchElementException e) {
-    		sc.close();
-    		throw new CAException(CAException.INVALID_CELL_PROB);
+    	int total = 0;
+    	while(sc.hasNext()) {
+    	    int prob;
+    	    try {
+    	        prob = sc.nextInt();
+    	    } catch (NoSuchElementException e) {
+    	        sc.close();
+                throw new CAException(CAException.INVALID_CELL_CONFIG);
+    	    }
+    	    total += prob;
+    	    if(total > 100) {
+    	        sc.close();
+    	        throw new CAException(CAException.INVALID_CELL_PROB);
+    	    }
+            probs.add(total);
     	}
-    	if (sc.hasNextInt()) {probs.add(probs.get(1) + sc.nextInt());}
     	for (int i = 0; i < numRows(); i++) {
             for (int j = 0; j < numCols(); j++) {
                 myCellConfig.add(new CellConfig(i, j, randomCellType(probs)));
@@ -150,11 +157,39 @@ public abstract class CAData {
     	sc.close();
     }
     
-    private int randomCellType(ArrayList<Integer> probs) {
-    	int cellType = 0;
+    private int randomCellType(List<Integer> probs) {
     	int rand = ThreadLocalRandom.current().nextInt(100);
-    	while (rand >= probs.get(cellType)) cellType += 1;
-    	return cellType;
+    	for(int i = 0; i < probs.size(); i++) {
+    	    if(rand < probs.get(i)) {
+    	        return i;
+    	    }
+    	}
+    	return 0;
+    }
+    
+    private int parsePositiveInteger(String field) {
+        return Math.abs(Integer.parseInt(myData.get(field)));
+    }
+    
+    private Deque<Integer> getRandomSeq(int size) {
+        List<Integer> random = new ArrayList<Integer>();
+        for(int i = 0; i < size; i++) {
+            random.add(i);
+        }
+        Collections.shuffle(random);
+        return new ArrayDeque<Integer>(random);
+    }
+
+    private void addRandomCells(int state, int num, Deque<Integer> locations) {
+        for(int i = 0; i < num; i++) {
+            int location;
+            try {
+                location = locations.pop();
+            } catch(NoSuchElementException e) {
+                throw new CAException(CAException.INVALID_CELL_NUM);
+            }
+            myCellConfig.add(new CellConfig(location / numRows(), location % numRows(), state));
+        }
     }
 	
 	public static CAData getModelData(Map<String, String> data) {

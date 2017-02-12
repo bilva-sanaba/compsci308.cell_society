@@ -87,6 +87,14 @@ public class Controller {
         update();
     }
     
+    public void zoomIn() {
+        gridView.zoomIn();
+    }
+    
+    public void zoomOut() {
+        gridView.zoomOut();
+    }
+    
     public void setSpeed(int fps) {
         animation.setRate(fps/(double)DEFAULT_FPS);
     }

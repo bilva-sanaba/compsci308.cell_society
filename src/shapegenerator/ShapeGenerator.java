@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cellsociety.CAException;
 import cellsociety.Grid;
 import cellsociety.handler.CellClickHandler;
 import javafx.scene.paint.Color;
@@ -15,6 +16,10 @@ import javafx.scene.shape.Shape;
  *
  */
 public abstract class ShapeGenerator {
+    
+    public static final int SQUARE = 0;
+    public static final int TRIANGLE = 1;
+    public static final int HEXAGON = 2;
     
     public static final Color STROKE = Color.BLACK;
     public static final Color ALTERNATIVE_STROKE = Color.WHITE;
@@ -47,4 +52,18 @@ public abstract class ShapeGenerator {
      * @return the shape that is produced for the given row, col and color
      */
     protected abstract Shape getShape(int row, int col, double width);
+    
+    public static ShapeGenerator shapeGenerator(int type) {
+        if(type == SQUARE) {
+            return new SquareGenerator();
+        }
+        else if(type == TRIANGLE) {
+            return new TriangleGenerator();
+        }
+        else if(type == HEXAGON) {
+            return new HexagonGenerator();
+        } else {
+            throw new CAException(CAException.INVALID_SHAPE);
+        }
+    }
 }
