@@ -63,11 +63,9 @@ public class WatorCell extends Cell {
     public void toShark() {
         setNextState(WatorState.SHARK);
     }
-    public void toState(CellState state){
-    	setNextState(state);
-    }
-    public CellState getState(){
-    	return myState;
+    
+    public void toState(WatorCell cell){
+    	setNextState(cell.getState());
     }
     
     public static CellGenerator getGenerator() {

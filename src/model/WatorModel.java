@@ -2,6 +2,10 @@ package model;
 
 
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import cell.Cell;
 import cell.WatorCell;
 import cell.generator.WatorCellGenerator;
@@ -13,21 +17,24 @@ import util.CAData;
 public class WatorModel extends Model {
     
     public static final String NAME = "wator";
+    public static final List<String> DOCUMENTED_STATES = Arrays.asList(
+            WatorState.FISH.toString(),
+            WatorState.SHARK.toString());
+    
     public static final int DEFAULT_FISH_BREED_PERIOD = 5;
+    public static final int DEFAULT_FISH_ENERGY = 5;
     public static final int DEFAULT_SHARK_BREED_PERIOD = 25;
-    public static final int DEFAULT_SHARK_INITIAL_ENERGY = 5;
-    public static final int DEFAULT_ENERGY_PER_FISH = 5;
+    public static final int DEFAULT_SHARK_ENERGY = 5;
 
-    private int energyMax=DEFAULT_SHARK_INITIAL_ENERGY;
+    private int energyMax=DEFAULT_SHARK_ENERGY;
     private int sharkBreedPeriod=DEFAULT_SHARK_BREED_PERIOD;
     private int fishBreedPeriod=DEFAULT_FISH_BREED_PERIOD;
-    private int fishEnergy= DEFAULT_ENERGY_PER_FISH;
+    private int fishEnergy= DEFAULT_FISH_ENERGY;
+    
 	public WatorModel(CAData data) {
-		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator()), false);
-		for(int row = 0; row < getGrid().numRows(); row++) {
-			for(int col = 0; col < getGrid().numCols(); col++) {
-				initializeCellAttributes((WatorCell) getGrid().get(row, col));
-			}
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator(), true));
+		for(Cell cell: getGrid()) {
+		    initializeCellAttributes((WatorCell)cell);
 		}
 	}
 	private void initializeCellAttributes(WatorCell cell){
@@ -39,6 +46,35 @@ public class WatorModel extends Model {
 			cell.setEnergy(energyMax);
 		}
 	}
+	
+	public void setSharkEnergy(int energy) {
+	    energyMax = energy;
+	}
+	
+	public void setFishEnergy(int energy) {
+	    fishEnergy = energy;
+	}
+	
+	public void setSharkBreedPeriod(int period) {
+	    sharkBreedPeriod = period;
+	}
+	
+	public void setFishBreedPeriod(int period) {
+	    fishBreedPeriod = period;
+	}
+    
+	@Override
+    public void click(int row, int col) {
+	    WatorCell cell = (WatorCell)getGrid().get(row, col);
+        cell.rotateState();
+        if(cell.is(WatorState.SHARK)) {
+            sharkReproduction(cell, cell);
+        }
+        else if(cell.is(WatorState.FISH)) {
+            fishReproduction(cell, cell);
+        }
+    }
+	
 	@Override
 	public void update() {
 		for (Cell shark : getGrid().getCells(WatorState.SHARK)){
@@ -48,6 +84,10 @@ public class WatorModel extends Model {
 			updateGridCell((WatorCell) fish);
 		}
 	}
+    @Override
+    protected Collection<String> getDocumentedStates() {
+        return DOCUMENTED_STATES;
+    }
 	private void updateGridCell(WatorCell cell){
 		moveAnimal(cell);
 		getGrid().update();
@@ -70,6 +110,7 @@ public class WatorModel extends Model {
 	private void moveShark(WatorCell cell){
 		if (shouldDie(cell)){
 			cell.toWater();
+			addCount(cell.getState(), -1);
 		}else{
 			WatorCell randomFish = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorState.FISH));
 			if (randomFish!=null){
@@ -84,11 +125,13 @@ public class WatorModel extends Model {
 			if (movingCell.is(WatorState.SHARK)){
 				updateEnergies(newCell, movingCell);
 			}
-			newCell.toState(movingCell.getState());
+			newCell.toState(movingCell);
+			addCount(newCell.getState(), -1);
+			addCount(movingCell.getState(), +1);
 			handleReproduction(newCell, movingCell);
 		}
 	}
-	private void updateEnergies(WatorCell newCell, WatorCell shark ){
+	private void updateEnergies(WatorCell newCell, WatorCell shark){
 		if (newCell.is(WatorState.FISH)){
 			newCell.setEnergy(shark.getEnergy()+fishEnergy-1);
 		}else{
@@ -106,6 +149,7 @@ public class WatorModel extends Model {
 			}
 		}else{
 			reproducing.toWater();
+			addCount(reproducing.getState(), -1);
 		}
 	}
 	private void sharkReproduction(WatorCell notShark, WatorCell shark){

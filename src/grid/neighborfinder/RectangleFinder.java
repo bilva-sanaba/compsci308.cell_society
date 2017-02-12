@@ -32,4 +32,12 @@ public class RectangleFinder extends NeighborFinder {
         return findNeighbor(row, col, diagonal, cardinalOffset, diagonalOffset);
     }
 
+    @Override
+    public int numNeighbors(boolean diagonal) {
+        if(diagonal) {
+            return cardinalOffset.length() + diagonalOffset.length();
+        } else {
+            return cardinalOffset.length();
+        }
+    }
 }
