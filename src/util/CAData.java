@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 import cell.CellConfig;
 import cellsociety.CAException;
@@ -30,8 +31,8 @@ public abstract class CAData {
             "row",
             "col",
             "cell",
-            "cellPercent",
-            "cellNumber"
+            "cellNumber",
+            "cellProbs"
         });
     
     private Map<String, String> myData;
@@ -40,9 +41,20 @@ public abstract class CAData {
 	public CAData(Map<String, String> data) {
 	    myData = data;
 	    myCellConfig = new ArrayList<CellConfig>();
-	    parseCellConfig(data.get(DATA_FIELDS.get(5)));
-	    //else find number listed and add that many cells with randomly generated positions checking cases for overlap
-	    //else use probability distribution to generate cell configs 
+	    
+	    // TODO: Why do these if statements not select the right loading method?
+	    // makeRandomCells and makeProbDistrCells work when outside of the if statements, but not when inside
+	    // I think data.containsKey isn't working correctly
+	    
+	    // Debugging:
+//	    makeRandomCells(Integer.parseInt(data.get(DATA_FIELDS.get(6))));
+//	    makeProbDistrCells(data.get(DATA_FIELDS.get(7)));
+	    
+	    if (data.containsKey(DATA_FIELDS.get(5))) {
+	    	parseCellConfig(data.get(DATA_FIELDS.get(5)));
+	    } else if (data.containsKey(DATA_FIELDS.get(6))) {
+	    	makeRandomCells(Integer.parseInt(data.get(DATA_FIELDS.get(6))));
+	    } else makeProbDistrCells(data.get(DATA_FIELDS.get(7)));
 	}
 	
 	public void addExtraField(String field, String data) {
@@ -90,6 +102,59 @@ public abstract class CAData {
             }
         }
         sc.close();
+    }
+    
+    private void makeRandomCells(int numCells) {
+    	ArrayList<int[]> coordinateList = new ArrayList<int[]>();
+    	int[] coordinate = randomCoordinate();
+    	while (numCells > 0) {
+    		while (coordinateList.contains(coordinate)) {
+    			coordinate = randomCoordinate();
+    		}
+    		coordinateList.add(coordinate);
+    		coordinate = randomCoordinate();
+    		numCells -= 1;
+    	}
+    	if (getName().equals(GOLModel.NAME)) {
+    		for (int[] c : coordinateList) {
+    			myCellConfig.add(new CellConfig(c[0], c[1], 1));
+    		}
+    	} else for (int[] c : coordinateList) {
+    		myCellConfig.add(new CellConfig(c[0], c[1], ThreadLocalRandom.current().nextInt(1, 3)));
+    	}
+    }
+    
+    private int[] randomCoordinate() {
+    	return new int[]{
+				ThreadLocalRandom.current().nextInt(numRows()),
+				ThreadLocalRandom.current().nextInt(numCols())
+			};
+    }
+    
+    private void makeProbDistrCells(String probString) {
+    	Scanner sc = new Scanner(probString);
+    	ArrayList<Integer> probs = new ArrayList<Integer>();
+    	try {
+    		probs.add(sc.nextInt());
+    		probs.add(probs.get(0) + sc.nextInt());
+    	} catch (NoSuchElementException e) {
+    		sc.close();
+    		throw new CAException(CAException.INVALID_CELL_PROB);
+    	}
+    	if (sc.hasNextInt()) {probs.add(probs.get(1) + sc.nextInt());}
+    	for (int i = 0; i < numRows(); i++) {
+            for (int j = 0; j < numCols(); j++) {
+                myCellConfig.add(new CellConfig(i, j, randomCellType(probs)));
+            }
+        }
+    	sc.close();
+    }
+    
+    private int randomCellType(ArrayList<Integer> probs) {
+    	int cellType = 0;
+    	int rand = ThreadLocalRandom.current().nextInt(100);
+    	while (rand >= probs.get(cellType)) cellType += 1;
+    	return cellType;
     }
 	
 	public static CAData getModelData(Map<String, String> data) {
