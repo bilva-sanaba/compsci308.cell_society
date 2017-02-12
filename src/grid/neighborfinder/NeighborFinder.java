@@ -7,6 +7,11 @@ import java.util.Set;
 import grid.Location;
 import grid.NeighborOffset;
 
+/**
+ * Finds the neighbors of a location given by (row, col)
+ * @author Mike Liu
+ *
+ */
 public abstract class NeighborFinder {
 
     public abstract Collection<Location> findNeighbor(int row, int col, boolean diagonal);

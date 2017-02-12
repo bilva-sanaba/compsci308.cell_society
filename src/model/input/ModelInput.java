@@ -23,12 +23,15 @@ public abstract class ModelInput {
         myBox.getChildren().addAll(label, node);
     }
     
-    protected void addNumberField(String labelText, TextField textField, int defaultValue) {
-        textField.setText(Integer.toString(defaultValue));
+    protected void addNumberField(String labelText, int defaultValue, ValueSetter setter) {
+        TextField textField = new TextField(Integer.toString(defaultValue));
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 textField.setText(newValue.replaceAll("[^\\d]", ""));
             }
+        });
+        textField.setOnAction(e -> {
+            setter.set(Integer.parseInt(textField.getText()));
         });
         addElement(labelText, textField);
     }

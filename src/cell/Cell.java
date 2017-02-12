@@ -24,6 +24,10 @@ public abstract class Cell {
         neighbors = new HashSet<Cell>();
     }
     
+    public CellState getState() {
+        return myState;
+    }
+    
     public boolean is(CellState state) {
         return myState.equals(state);
     }
@@ -48,9 +52,7 @@ public abstract class Cell {
         this.neighbors.clear();
         this.neighbors.addAll(neighbors);
     }
-    public CellState getState(){
-    	return myState;
-    }
+
     public Collection<Cell> getNeighbors() {
         return Collections.unmodifiableCollection(neighbors);
     }

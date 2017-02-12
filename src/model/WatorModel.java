@@ -2,6 +2,8 @@ package model;
 
 
 
+import java.util.List;
+
 import cell.Cell;
 import cell.WatorCell;
 import cell.generator.WatorCellGenerator;
@@ -11,12 +13,17 @@ import grid.FlatGrid;
 import util.CAData;
 
 public class WatorModel extends Model {
-	private int energyMax=5;
-	private int sharkBreedPeriod=35;
-	private int fishBreedPeriod=5;
-	private int fishEnergy= 5;
-	public static final String NAME = "wator";
+    
+    public static final String NAME = "wator";
+    public static final int DEFAULT_FISH_BREED_PERIOD = 5;
+    public static final int DEFAULT_SHARK_BREED_PERIOD = 25;
+    public static final int DEFAULT_SHARK_INITIAL_ENERGY = 5;
+    public static final int DEFAULT_ENERGY_PER_FISH = 5;
 
+    private int energyMax=DEFAULT_SHARK_INITIAL_ENERGY;
+    private int sharkBreedPeriod=DEFAULT_SHARK_BREED_PERIOD;
+    private int fishBreedPeriod=DEFAULT_FISH_BREED_PERIOD;
+    private int fishEnergy= DEFAULT_ENERGY_PER_FISH;
 	public WatorModel(CAData data) {
 		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator()), false);
 		for(int row = 0; row < getGrid().numRows(); row++) {
@@ -66,11 +73,11 @@ public class WatorModel extends Model {
 		if (shouldDie(cell)){
 			cell.toWater();
 		}else{
-			WatorCell randomFish = (WatorCell) pickRandomCell(cell.getCertainNeighbors(WatorState.FISH));
-			if (randomFish!=null){
-				animalMovement(randomFish,cell);
-			}else{
-				moveToWater(cell);	
+			List<Cell> fishNeighbors = cell.getCertainNeighbors(WatorState.FISH);
+			if(fishNeighbors.size() == 0) {
+				moveToWater(cell);
+			} else {
+				animalMovement((WatorCell) pickRandomCell(fishNeighbors), cell);
 			}
 		}
 	}

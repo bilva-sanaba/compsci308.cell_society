@@ -6,6 +6,11 @@ import java.util.Collection;
 import grid.Location;
 import grid.NeighborOffset;
 
+/**
+ * Finds the neighbors of a location given by (row, col), treating the boundary as rectangle
+ * @author Mike Liu
+ *
+ */
 public class RectangleFinder extends NeighborFinder {
     
     public static final NeighborOffset CARDINAL = new NeighborOffset(
