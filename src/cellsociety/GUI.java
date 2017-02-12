@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cellsociety.handler.LoadHandler;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,9 +48,9 @@ public class GUI {
     private BorderPane myRoot;
     private Button load;
     private List<Button> otherButtons;
-    private Label speedLabel, shapeLabel, gridLabel;
+    private Label speedLabel, shapeLabel, gridLabel, neighborLabel;
     private Slider speedSlider;
-    private ChoiceBox<String> shapeChooser, gridChooser;
+    private ChoiceBox<String> shapeChooser, gridChooser, neighborChooser;
     private Controller myController;
     private ResourceBundle myResources;
     private FileChooser myChooser;
@@ -103,9 +104,14 @@ public class GUI {
         createSpeedChooser();
         createShapeChooser();
         createGridChooser();
+        createNeighborPatternChooser();
         HBox inputPanel = new HBox(load);
         inputPanel.getChildren().addAll(otherButtons);
-        inputPanel.getChildren().addAll(speedLabel, speedSlider, shapeLabel, shapeChooser, gridLabel, gridChooser);
+        inputPanel.getChildren().addAll(
+                speedLabel, speedSlider,
+                shapeLabel, shapeChooser,
+                gridLabel, gridChooser,
+                neighborLabel, neighborChooser);
         inputPanel.setId("input-panel");
         return inputPanel;
     }
@@ -148,6 +154,7 @@ public class GUI {
         speedSlider.setDisable(disable);
         shapeChooser.setDisable(disable);
         gridChooser.setDisable(disable);
+        neighborChooser.setDisable(disable);
     }
 
     private void createSpeedChooser() {
@@ -185,11 +192,22 @@ public class GUI {
     
     private void createGridChooser() {
         gridLabel = createLabel(myResources.getString("GridLabel"));
-        gridChooser = createChoiceBox(Grid.GRID_TYPE);
-        gridChooser.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    myController.setGrid(newValue.toString());
-                });
+        gridChooser = createChoiceBox(Grid.GRID_TYPE, (observable, oldValue, newValue) -> {
+            myController.setGrid(newValue.toString());
+            });
+    }
+    
+    private void createNeighborPatternChooser() {
+        neighborLabel = createLabel(myResources.getString("NeighborLabel"));
+        neighborChooser = createChoiceBox(Grid.NEIGHBOR_PATTERN, (observable, oldValue, newValue) -> {
+            myController.setNeighborPattern(newValue.toString());
+            });
+    }
+    
+    private ChoiceBox<String> createChoiceBox(List<String> items, ChangeListener<? super String> listener) {
+        ChoiceBox<String> cb = createChoiceBox(items);
+        cb.getSelectionModel().selectedItemProperty().addListener(listener);
+        return cb;
     }
     
     private ChoiceBox<String> createChoiceBox(List<String> items) {

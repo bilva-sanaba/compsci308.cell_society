@@ -44,4 +44,13 @@ public class TriangleFinder extends NeighborFinder {
         }
     }
 
+    @Override
+    public int numNeighbors(boolean diagonal) {
+        if(diagonal) {
+            return evenCardinalOffset.length() + evenDiagonalOffset.length();
+        } else {
+            return evenCardinalOffset.length();
+        }
+    }
+
 }

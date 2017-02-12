@@ -31,6 +31,9 @@ public abstract class Grid implements Iterable<Cell> {
     public static final List<String> GRID_TYPE = Arrays.asList(
             "Finite",
             "Toroidal");
+    public static final List<String> NEIGHBOR_PATTERN = Arrays.asList(
+            "Full",
+            "Cardinal");
     public static final List<NeighborFinder> NEIGHBOR_FINDER = Arrays.asList(
             new RectangleFinder(),
             new TriangleFinder(),
@@ -103,6 +106,10 @@ public abstract class Grid implements Iterable<Cell> {
             }
         }
     }
+    
+    public int numNeighbors() {
+        return myFinder.numNeighbors(isDiagonal);
+    }
 
     public List<Cell> getCells(CellState state){
         List<Cell> cells = new ArrayList<Cell>();
@@ -122,6 +129,16 @@ public abstract class Grid implements Iterable<Cell> {
         }
         else if(type.equals(GRID_TYPE.get(1))) {
             return new ToroidalGrid(this);
+        }
+        throw new CAException(CAException.INVALID_GRID, type);
+    }
+    
+    public void setNeighborPattern(String type) {
+        if(type.equals(NEIGHBOR_PATTERN.get(0))) {
+            setDiagonal(true);
+        }
+        else if(type.equals(NEIGHBOR_PATTERN.get(1))) {
+            setDiagonal(false);
         }
         throw new CAException(CAException.INVALID_GRID, type);
     }

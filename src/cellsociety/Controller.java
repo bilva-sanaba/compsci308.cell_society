@@ -100,6 +100,10 @@ public class Controller {
         myModel.setGrid(type);
     }
     
+    public void setNeighborPattern(String type) {
+        myModel.getGrid().setNeighborPattern(type);
+    }
+    
     public boolean hasModel() {
         return myModel != null;
     }

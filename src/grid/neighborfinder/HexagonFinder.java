@@ -36,4 +36,9 @@ public class HexagonFinder extends NeighborFinder {
         }
     }
 
+    @Override
+    public int numNeighbors(boolean diagonal) {
+        return evenOffset.length();
+    }
+
 }

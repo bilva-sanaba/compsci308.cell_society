@@ -16,6 +16,8 @@ public abstract class NeighborFinder {
 
     public abstract Collection<Location> findNeighbor(int row, int col, boolean diagonal);
     
+    public abstract int numNeighbors(boolean diagonal);
+    
     protected Collection<Location> findNeighbor(int row, int col, boolean diagonal,
             NeighborOffset cardinalOffset, NeighborOffset diagonalOffset) {
         Collection<Location> neighbors = findNeighbor(row, col, cardinalOffset);
