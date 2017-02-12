@@ -88,16 +88,14 @@ public abstract class Grid implements Iterable<Cell> {
     }
     
     public void update() {
-        for(int row = 0; row < numRows(); row++) {
-            for(int col = 0; col < numCols(); col++) {
-                sim[row][col].update();
-            }
+        for(Cell cell: this) {
+            cell.update();
         }
     }
     
     public void buildNeighborGraph() {
-        for(int row = 0; row < sim.length; row++) {
-            for(int col = 0; col < sim[0].length; col++) {
+        for(int row = 0; row < numRows(); row++) {
+            for(int col = 0; col < numCols(); col++) {
                 Set<Cell> neighbors = new HashSet<Cell>();
                 for(Location loc: myFinder.findNeighbor(row, col, isDiagonal)) {
                     addNeighbor(loc.getRow(), loc.getCol(), neighbors);
@@ -113,11 +111,9 @@ public abstract class Grid implements Iterable<Cell> {
 
     public List<Cell> getCells(CellState state){
         List<Cell> cells = new ArrayList<Cell>();
-        for (int row = 0; row < numRows(); row++) {
-            for (int col = 0; col < numCols(); col++) {
-                if (get(row, col).is(state)){
-                    cells.add(get(row, col));
-                }
+        for(Cell cell: this) {
+            if (cell.is(state)){
+                cells.add(cell);
             }
         }
         return cells;
