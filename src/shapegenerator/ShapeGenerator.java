@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cellsociety.Grid;
 import cellsociety.handler.CellClickHandler;
+import grid.Grid;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 

@@ -8,7 +8,6 @@ import cell.Cell;
 import cell.GOLCell;
 import cell.generator.GOLCellGenerator;
 import cell.state.GOLState;
-import cellsociety.Model;
 import grid.FlatGrid;
 import util.CAData;
 

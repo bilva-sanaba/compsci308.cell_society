@@ -1,6 +1,6 @@
 package model.manager;
 
-import cellsociety.Model;
+import model.Model;
 import model.input.ModelInput;
 
 /**

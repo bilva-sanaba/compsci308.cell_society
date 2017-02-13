@@ -1,4 +1,4 @@
-package cellsociety;
+package model;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Random;
 
 import cell.Cell;
 import cell.state.CellState;
+import grid.Grid;
 
 /**
  * Superclass for all simulation models

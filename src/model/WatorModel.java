@@ -7,7 +7,6 @@ import cell.Cell;
 import cell.WatorCell;
 import cell.generator.WatorCellGenerator;
 import cell.state.WatorState;
-import cellsociety.Model;
 import grid.FlatGrid;
 import util.CAData;
 

@@ -8,7 +8,6 @@ import cell.Cell;
 import cell.SegregationCell;
 import cell.generator.SegregationCellGenerator;
 import cell.state.SegregationState;
-import cellsociety.Model;
 import grid.FlatGrid;
 import util.CAData;
 import util.SegregationData;

@@ -5,7 +5,6 @@ import java.util.Collection;
 import cell.Cell;
 import cell.CellConfig;
 import cell.generator.CellGenerator;
-import cellsociety.Grid;
 
 /**
  * Grid with toroidal edges

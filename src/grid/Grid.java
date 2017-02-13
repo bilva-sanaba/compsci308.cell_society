@@ -1,4 +1,4 @@
-package cellsociety;
+package grid;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +12,7 @@ import cell.Cell;
 import cell.CellConfig;
 import cell.generator.CellGenerator;
 import cell.state.CellState;
-import grid.FlatGrid;
-import grid.Location;
-import grid.ToroidalGrid;
+import cellsociety.CAException;
 import grid.neighborfinder.HexagonFinder;
 import grid.neighborfinder.NeighborFinder;
 import grid.neighborfinder.RectangleFinder;

@@ -1,8 +1,10 @@
-package cellsociety;
+package cellsociety.view;
 
+import cellsociety.CAException;
 import cellsociety.handler.CellClickHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import model.Model;
 import shapegenerator.HexagonGenerator;
 import shapegenerator.ShapeGenerator;
 import shapegenerator.SquareGenerator;
