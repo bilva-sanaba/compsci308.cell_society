@@ -37,6 +37,7 @@ public class XMLReader {
         }
         return data;
 	}
+	
     private Element getRootElement (File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();
