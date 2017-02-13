@@ -152,7 +152,7 @@ public class Controller {
      * Sets the neighbor pattern of the simulation
      * @param type
      */
-    public void setNeighborPattern(String type) {
+    public void setNeighborPattern(int type) {
         myModel.getGrid().setNeighborPattern(type);
     }
     

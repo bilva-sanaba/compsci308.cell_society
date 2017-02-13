@@ -14,8 +14,8 @@ import cellsociety.Grid;
  */
 public class ToroidalGrid extends Grid {
 
-    public ToroidalGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {
-        super(row, col, cellConfig, generator, diagonal);
+    public ToroidalGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
+        super(row, col, cellConfig, generator);
     }
     
     public ToroidalGrid(Grid grid) {

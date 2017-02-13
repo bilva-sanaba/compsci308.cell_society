@@ -26,7 +26,7 @@ public class GOLModel extends Model {
     public static final double UPPER_THRESHOLD = .375;
     
     public GOLModel(CAData data) {
-        super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new GOLCellGenerator(), true));
+        super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new GOLCellGenerator()));
     }
 
     @Override

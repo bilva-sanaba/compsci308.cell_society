@@ -35,7 +35,7 @@ public class WatorModel extends Model {
     private int fishEnergy= DEFAULT_FISH_ENERGY;
     
 	public WatorModel(CAData data) {
-		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator(), true));
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new WatorCellGenerator()));
 		for(Cell cell: getGrid()) {
 		    initializeCellAttributes((WatorCell)cell);
 		}

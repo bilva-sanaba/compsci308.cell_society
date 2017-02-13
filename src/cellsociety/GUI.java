@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cellsociety.handler.LoadHandler;
+import grid.neighborfinder.NeighborFinder;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -203,30 +204,31 @@ public class GUI {
 
     private void createShapeChooser() {
         shapeLabel = createLabel(myResources.getString("ShapeLabel"));
-        shapeChooser = createChoiceBox(Controller.SHAPE_CHOICES);
-        shapeChooser.getSelectionModel().selectedIndexProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    myController.setShape(newValue.intValue());
-                });
+        shapeChooser = createChoiceBox(Controller.SHAPE_CHOICES, (observable, oldValue, newValue) -> {
+            myController.setShape(newValue.intValue());
+            });
     }
     
     private void createGridChooser() {
         gridLabel = createLabel(myResources.getString("GridLabel"));
-        gridChooser = createChoiceBox(Grid.GRID_TYPE, (observable, oldValue, newValue) -> {
-            myController.setGrid(newValue.toString());
-            });
+        gridChooser = createChoiceBox(Grid.GRID_TYPE);
+        gridChooser.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    myController.setGrid(newValue.toString());
+                });
     }
     
     private void createNeighborPatternChooser() {
         neighborLabel = createLabel(myResources.getString("NeighborLabel"));
-        neighborChooser = createChoiceBox(Grid.NEIGHBOR_PATTERN, (observable, oldValue, newValue) -> {
-            myController.setNeighborPattern(newValue.toString());
-            });
+        neighborChooser = createChoiceBox(NeighborFinder.NEIGHBOR_PATTERN,
+                (observable, oldValue, newValue) -> {
+                    myController.setNeighborPattern(newValue.intValue());
+                    });
     }
     
-    private ChoiceBox<String> createChoiceBox(List<String> items, ChangeListener<? super String> listener) {
+    private ChoiceBox<String> createChoiceBox(List<String> items, ChangeListener<? super Number> listener) {
         ChoiceBox<String> cb = createChoiceBox(items);
-        cb.getSelectionModel().selectedItemProperty().addListener(listener);
+        cb.getSelectionModel().selectedIndexProperty().addListener(listener);
         return cb;
     }
     
