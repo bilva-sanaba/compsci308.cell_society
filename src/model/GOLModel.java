@@ -30,6 +30,11 @@ public class GOLModel extends Model {
     }
 
     @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
     public void update() {
         for(Cell cell: getGrid()) {
             changeState((GOLCell)cell);

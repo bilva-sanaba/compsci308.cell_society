@@ -26,7 +26,7 @@ public class SegregationData extends CAData {
 	public double getThreshold() {
 	    try {
 	        return Double.parseDouble(getField(EXTRA_FIELDS.get(0)));
-	    } catch(NullPointerException e) {
+	    } catch(NumberFormatException e) {
 	        return SegregationModel.DEFAULT_THRESHOLD;
 	    }
 	}

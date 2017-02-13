@@ -25,4 +25,14 @@ public class WatorState extends CellState {
     protected List<WatorState> getStates() {
         return STATES;
     }
+
+    @Override
+    public int toInt() {
+        for(int i = 0; i < STATES.size(); i++) {
+            if(this.equals(STATES.get(i))) {
+                return i;
+            }
+        }
+        return 0;
+    }
 }

@@ -123,6 +123,7 @@ public class GUI {
         load = createButton(myResources.getString("LoadButton"), e -> {
             myController.pause();
             try {
+                myChooser.setTitle(myResources.getString("OpenFile"));
                 File dataFile = myChooser.showOpenDialog(myStage);
                 if(dataFile != null) {
                     myController.load(dataFile, new MyLoadHandler());
@@ -142,9 +143,21 @@ public class GUI {
             inputStage.show();
             inputStage.setX(myStage.getX() + myStage.getWidth());
         });
+        Button save = createButton(myResources.getString("SaveButton"), e -> {
+            myController.pause();
+            try {
+                myChooser.setTitle(myResources.getString("SaveFile"));
+                File dataFile = myChooser.showSaveDialog(myStage);
+                if(dataFile != null) {
+                    myController.save(dataFile);
+                }
+            } catch(CAException ce) {
+                showError(ce.getMessage());
+            }
+        });
         Button zoomIn = createButton(myResources.getString("ZoomIn"), e -> myController.zoomIn());
         Button zoomOut = createButton(myResources.getString("ZoomOut"), e -> myController.zoomOut());
-        otherButtons = Arrays.asList(play, pause, step, options, zoomIn, zoomOut);
+        otherButtons = Arrays.asList(play, pause, step, options, save, zoomIn, zoomOut);
     }
 
     private Button createButton(String label, EventHandler<ActionEvent> e) {
@@ -225,7 +238,6 @@ public class GUI {
 
     private FileChooser makeFileChooser(String extensionAccepted) {
         FileChooser result = new FileChooser();
-        result.setTitle("Open Data File");
         result.setInitialDirectory(new File(System.getProperty("user.dir")));
         result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
         return result;

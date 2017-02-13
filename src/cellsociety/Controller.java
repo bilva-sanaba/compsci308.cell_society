@@ -21,6 +21,7 @@ import model.manager.SegregationManager;
 import model.manager.WatorManager;
 import util.CAData;
 import util.XMLReader;
+import util.XMLWriter;
 
 /**
  * Regulates the simulation and coordinates model and view
@@ -98,6 +99,14 @@ public class Controller {
     public void step() {
         pause();
         update();
+    }
+    
+    public void save(File dataFile) {
+        try {
+            new XMLWriter().saveData(myModel, dataFile);
+        } catch(CAException e) {
+            throw new CAException(e);
+        }
     }
     
     /**

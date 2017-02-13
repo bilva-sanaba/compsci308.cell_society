@@ -37,6 +37,11 @@ public class SegregationModel extends Model {
 		checkHappiness();
 	}
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
     private List<SegregationCell> findEmptyCells() {
 	    List<SegregationCell> empty = new ArrayList<SegregationCell>();
 	    for(Cell cell: getGrid()) {

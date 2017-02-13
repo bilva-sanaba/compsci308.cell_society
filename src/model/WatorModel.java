@@ -41,6 +41,12 @@ public class WatorModel extends Model {
 		    initializeCellAttributes((WatorCell)cell);
 		}
 	}
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+    
 	private void initializeCellAttributes(WatorCell cell){
 		if (cell.is(WatorState.FISH)){
 			cell.setReproductionDays(fishBreedPeriod);
