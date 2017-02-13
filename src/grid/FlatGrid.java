@@ -10,7 +10,7 @@ import cellsociety.Grid;
 /**
  * Flat grid with finite edge
  * @author Mike Liu
- *
+ * @author Bilva Sanaba
  */
 public class FlatGrid extends Grid {
 

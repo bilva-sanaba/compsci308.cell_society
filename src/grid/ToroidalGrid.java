@@ -10,7 +10,7 @@ import cellsociety.Grid;
 /**
  * Grid with toroidal edges
  * @author Mike Liu
- *
+ * @author Bilva Sanaba
  */
 public class ToroidalGrid extends Grid {
 

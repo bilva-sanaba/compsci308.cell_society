@@ -32,6 +32,7 @@ public class HexagonFinder extends NeighborFinder {
     }
     public void toKnight(){
     	evenOffset = KNIGHT;
+    	oddOffset = KNIGHT;
     }
     @Override
     public Collection<Location> findNeighbor(int row, int col, boolean diagonal) {

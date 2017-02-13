@@ -2,7 +2,6 @@ package cellsociety;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -12,6 +11,7 @@ import cell.state.CellState;
 /**
  * Superclass for all simulation models
  * @author Mike Liu
+ * @author Bilva Sanaba
  *
  */
 public abstract class Model {
