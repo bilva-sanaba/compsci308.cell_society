@@ -7,6 +7,11 @@ import cell.CellConfig;
 import cell.generator.CellGenerator;
 import cellsociety.Grid;
 
+/**
+ * Grid with toroidal edges
+ * @author Mike Liu
+ *
+ */
 public class ToroidalGrid extends Grid {
 
     public ToroidalGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {

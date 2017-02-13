@@ -1,5 +1,10 @@
 package cell;
 
+/**
+ * Data class for the configuration of a single cell
+ * @author Mike Liu
+ *
+ */
 public class CellConfig {
     
     private int myRow, myCol, myState;

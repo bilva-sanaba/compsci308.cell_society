@@ -4,6 +4,11 @@ import cell.SegregationCell;
 import cell.state.SegregationState;
 import cellsociety.CAException;
 
+/**
+ * Generates cells for Segregation simulation
+ * @author Mike Liu
+ *
+ */
 public class SegregationCellGenerator implements CellGenerator {
 
     @Override

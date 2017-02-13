@@ -5,6 +5,11 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * State constants for Segregation simulation
+ * @author Mike Liu
+ *
+ */
 public class SegregationState extends CellState {
     
     public static final SegregationState EMPTY = new SegregationState("Empty", Color.WHITE);

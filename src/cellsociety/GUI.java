@@ -68,6 +68,9 @@ public class GUI {
         myChooser = makeFileChooser(DATA_FILE_EXTENSION);
     }
     
+    /**
+     * Displays the whole program
+     */
     public void show() {
         myStage.show();
     }
@@ -123,6 +126,8 @@ public class GUI {
                 File dataFile = myChooser.showOpenDialog(myStage);
                 if(dataFile != null) {
                     myController.load(dataFile, new MyLoadHandler());
+                    shapeChooser.getSelectionModel().selectFirst();
+                    gridChooser.getSelectionModel().selectFirst();
                 }
             } catch(CAException ce) {
                 showError(ce.getMessage());
@@ -137,7 +142,9 @@ public class GUI {
             inputStage.show();
             inputStage.setX(myStage.getX() + myStage.getWidth());
         });
-        otherButtons = Arrays.asList(play, pause, step, options);
+        Button zoomIn = createButton(myResources.getString("ZoomIn"), e -> myController.zoomIn());
+        Button zoomOut = createButton(myResources.getString("ZoomOut"), e -> myController.zoomOut());
+        otherButtons = Arrays.asList(play, pause, step, options, zoomIn, zoomOut);
     }
 
     private Button createButton(String label, EventHandler<ActionEvent> e) {
@@ -240,12 +247,5 @@ public class GUI {
             inputStage.setScene(scene);
             inputStage.sizeToScene();
         }
-
-        @Override
-        public void resetChoices() {
-            shapeChooser.getSelectionModel().selectFirst();
-            gridChooser.getSelectionModel().selectFirst();
-        }
-        
     }
 }

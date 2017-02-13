@@ -1,0 +1,8 @@
+<data type="CA">
+	<sim>segregation</sim>
+	<author>Mike Liu</author>
+	<row>20</row>
+	<col>20</col>
+	<cellProb>50 25 25</cellProb>
+	<threshold>0.5</threshold>
+</data>

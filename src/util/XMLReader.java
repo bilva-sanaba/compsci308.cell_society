@@ -62,12 +62,20 @@ public class XMLReader {
             return nodeList.item(0).getTextContent();
         }
         else {
-            // FIXME: empty string or null, is it an error to not find the text value?
-            return "";
+            return handleMissingTag(tagName);
         }
     }
 	
-	private static DocumentBuilder getDocumentBuilder() {
+	private String handleMissingTag(String tagName) {
+	    if(tagName.equals(CAData.DATA_FIELDS.get(0))
+	            || tagName.equals(CAData.DATA_FIELDS.get(3))
+	            || tagName.equals(CAData.DATA_FIELDS.get(4))) {
+	        throw new CAException(CAException.MISSING_FIELD, tagName);
+	    }
+        return "";
+    }
+	
+    private static DocumentBuilder getDocumentBuilder() {
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		} catch(ParserConfigurationException e) {

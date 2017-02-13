@@ -14,6 +14,12 @@ import grid.FlatGrid;
 import util.CAData;
 import util.SegregationData;
 
+/**
+ * Model for Game of Life simulation
+ * @author Bilva Sanaba
+ * @author Mike Liu
+ *
+ */
 public class SegregationModel extends Model {
 
 	public static final String NAME = "segregation";
@@ -69,6 +75,7 @@ public class SegregationModel extends Model {
 	                emptyCell.fillBlue();
 	            }
 	            cell.leave();
+	            empty.add(cell);
 		    }
 		}
 	}

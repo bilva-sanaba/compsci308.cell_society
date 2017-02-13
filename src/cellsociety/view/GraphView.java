@@ -9,6 +9,11 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
+/**
+ * Displays the population graph of the simulation
+ * @author Mike Liu
+ *
+ */
 public class GraphView {
     
     public static final int DEFAULT_DOMAIN = 50;
@@ -29,17 +34,28 @@ public class GraphView {
         myChart = new LineChart<Number, Number>(myXAxis, myYAxis);
         mySeries = new HashMap<String, XYChart.Series<Number, Number>>();
     }
-    
+
+    /**
+     * Sets the model that is displayed
+     * @param model - model to be displayed
+     */
     public void setModel(Model model) {
         myModel = model;
         reset();
         update();
     }
     
+    /**
+     * Returns the line chart representing the population graph
+     * @return
+     */
     public LineChart<Number, Number> getChart() {
         return myChart;
     }
 
+    /**
+     * Updates the display
+     */
     public void update() {
         if(myModel == null) {
             throw new CAException(CAException.NO_MODEL);

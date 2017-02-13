@@ -2,4 +2,8 @@
 	<sim>wator</sim>
 	<row>20</row>
 	<col>20</col>
-	<cellNumber>100</cellNumber></data>
+	<cellNum>
+        1 60
+        2 10
+    </cellNum>
+</data>
