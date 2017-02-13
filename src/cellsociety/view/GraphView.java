@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cellsociety.CAException;
-import cellsociety.Model;
+import cellsociety.model.Model;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;

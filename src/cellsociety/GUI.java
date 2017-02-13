@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import cellsociety.grid.Grid;
+import cellsociety.grid.neighborfinder.NeighborFinder;
 import cellsociety.handler.LoadHandler;
-import grid.neighborfinder.NeighborFinder;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

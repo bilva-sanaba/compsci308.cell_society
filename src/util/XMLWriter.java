@@ -18,9 +18,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import cellsociety.CAException;
-import cellsociety.Grid;
-import cellsociety.Model;
+import cellsociety.grid.Grid;
+import cellsociety.model.Model;
 
+/**
+ * 
+ * @author Mike Liu
+ * @author Justin Yang
+ *
+ */
 public class XMLWriter {
 	
 	public static final String TYPE_ATTRIBUTE = "type";
