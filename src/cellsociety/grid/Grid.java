@@ -147,6 +147,7 @@ public abstract class Grid implements Iterable<Cell> {
      */
     public void setNeighborPattern(int type) {
         myFinder.setNeighborPattern(type);
+        buildNeighborGraph();
     }
     
     @Override
