@@ -61,7 +61,10 @@ public abstract class Model {
      * @param col
      */
     public void click(int row, int col) {
-        getGrid().get(row, col).rotateState();
+        Cell cell = getGrid().get(row, col);
+        addCount(cell.getState(), -1);
+        cell.rotateState();
+        addCount(cell.getState(), 1);
     }
     
     /**
