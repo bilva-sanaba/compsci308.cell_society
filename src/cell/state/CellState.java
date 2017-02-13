@@ -57,4 +57,6 @@ public abstract class CellState {
     }
     
     protected abstract List<? extends CellState> getStates();
+    
+    public abstract int toInt();
 }

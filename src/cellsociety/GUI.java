@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cellsociety.handler.LoadHandler;
+import grid.neighborfinder.NeighborFinder;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -123,6 +124,7 @@ public class GUI {
         load = createButton(myResources.getString("LoadButton"), e -> {
             myController.pause();
             try {
+                myChooser.setTitle(myResources.getString("OpenFile"));
                 File dataFile = myChooser.showOpenDialog(myStage);
                 if(dataFile != null) {
                     myController.load(dataFile, new MyLoadHandler());
@@ -142,9 +144,21 @@ public class GUI {
             inputStage.show();
             inputStage.setX(myStage.getX() + myStage.getWidth());
         });
+        Button save = createButton(myResources.getString("SaveButton"), e -> {
+            myController.pause();
+            try {
+                myChooser.setTitle(myResources.getString("SaveFile"));
+                File dataFile = myChooser.showSaveDialog(myStage);
+                if(dataFile != null) {
+                    myController.save(dataFile);
+                }
+            } catch(CAException ce) {
+                showError(ce.getMessage());
+            }
+        });
         Button zoomIn = createButton(myResources.getString("ZoomIn"), e -> myController.zoomIn());
         Button zoomOut = createButton(myResources.getString("ZoomOut"), e -> myController.zoomOut());
-        otherButtons = Arrays.asList(play, pause, step, options, zoomIn, zoomOut);
+        otherButtons = Arrays.asList(play, pause, step, options, save, zoomIn, zoomOut);
     }
 
     private Button createButton(String label, EventHandler<ActionEvent> e) {
@@ -190,30 +204,31 @@ public class GUI {
 
     private void createShapeChooser() {
         shapeLabel = createLabel(myResources.getString("ShapeLabel"));
-        shapeChooser = createChoiceBox(Controller.SHAPE_CHOICES);
-        shapeChooser.getSelectionModel().selectedIndexProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    myController.setShape(newValue.intValue());
-                });
+        shapeChooser = createChoiceBox(Controller.SHAPE_CHOICES, (observable, oldValue, newValue) -> {
+            myController.setShape(newValue.intValue());
+            });
     }
     
     private void createGridChooser() {
         gridLabel = createLabel(myResources.getString("GridLabel"));
-        gridChooser = createChoiceBox(Grid.GRID_TYPE, (observable, oldValue, newValue) -> {
-            myController.setGrid(newValue.toString());
-            });
+        gridChooser = createChoiceBox(Grid.GRID_TYPE);
+        gridChooser.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    myController.setGrid(newValue.toString());
+                });
     }
     
     private void createNeighborPatternChooser() {
         neighborLabel = createLabel(myResources.getString("NeighborLabel"));
-        neighborChooser = createChoiceBox(Grid.NEIGHBOR_PATTERN, (observable, oldValue, newValue) -> {
-            myController.setNeighborPattern(newValue.toString());
-            });
+        neighborChooser = createChoiceBox(NeighborFinder.NEIGHBOR_PATTERN,
+                (observable, oldValue, newValue) -> {
+                    myController.setNeighborPattern(newValue.intValue());
+                    });
     }
     
-    private ChoiceBox<String> createChoiceBox(List<String> items, ChangeListener<? super String> listener) {
+    private ChoiceBox<String> createChoiceBox(List<String> items, ChangeListener<? super Number> listener) {
         ChoiceBox<String> cb = createChoiceBox(items);
-        cb.getSelectionModel().selectedItemProperty().addListener(listener);
+        cb.getSelectionModel().selectedIndexProperty().addListener(listener);
         return cb;
     }
     
@@ -225,7 +240,6 @@ public class GUI {
 
     private FileChooser makeFileChooser(String extensionAccepted) {
         FileChooser result = new FileChooser();
-        result.setTitle("Open Data File");
         result.setInitialDirectory(new File(System.getProperty("user.dir")));
         result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
         return result;

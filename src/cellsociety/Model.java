@@ -31,6 +31,12 @@ public abstract class Model {
             addCount(cell.getState(), 1);
         }
     }
+    
+    /**
+     * Returns the name of the model
+     * @return
+     */
+    public abstract String getName();
 
     /**
      * Returns the grid of the model

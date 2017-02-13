@@ -29,10 +29,16 @@ public class SegregationModel extends Model {
 	private double happyPercent;
 
 	public SegregationModel(CAData data) {
-		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator(), true));
+		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator()));
 		happyPercent = ((SegregationData)data).getThreshold();
 		checkHappiness();
 	}
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
 	/**
 	 * Updates the threshold needed for a cell to move.
 	 * @param threshold

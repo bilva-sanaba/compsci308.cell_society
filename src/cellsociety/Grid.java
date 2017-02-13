@@ -22,7 +22,7 @@ import grid.neighborfinder.TriangleFinder;
 
 /**
  * Superclass of grid that contains cells in the simulation
- * Treat cells as rectangles by default
+ * Treat cells as rectangles with full neighbors by default
  * @author Mike Liu
  * 
  */
@@ -31,21 +31,16 @@ public abstract class Grid implements Iterable<Cell> {
     public static final List<String> GRID_TYPE = Arrays.asList(
             "Finite",
             "Toroidal");
-    public static final List<String> NEIGHBOR_PATTERN = Arrays.asList(
-            "Full",
-            "Cardinal");
     public static final List<NeighborFinder> NEIGHBOR_FINDER = Arrays.asList(
-            new RectangleFinder(),
-            new TriangleFinder(),
-            new HexagonFinder());
+            new RectangleFinder(true),
+            new TriangleFinder(true),
+            new HexagonFinder(true));
 
     private Cell[][] sim;
-    private boolean isDiagonal;
     private NeighborFinder myFinder;
     
-    public Grid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {
+    public Grid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator) {
         sim = new Cell[row][col];
-        isDiagonal = diagonal;
         for(CellConfig config: cellConfig) {
             sim[config.getRow()][config.getCol()] = generator.getCell(config.getState());
         }
@@ -56,7 +51,6 @@ public abstract class Grid implements Iterable<Cell> {
     
     public Grid(Grid other) {
         sim = other.sim;
-        isDiagonal = other.isDiagonal;
         myFinder = other.myFinder;
         buildNeighborGraph();
     }
@@ -88,21 +82,14 @@ public abstract class Grid implements Iterable<Cell> {
     }
     
     /**
-     * Sets if the grid should consider diagonal neighbors
-     * @param diagonal
-     */
-    public void setDiagonal(boolean diagonal) {
-        isDiagonal = diagonal;
-        buildNeighborGraph();
-    }
-    
-    /**
      * Sets the shape of the cells in the grid
      * @param index - refer to NEIGHBOR_FINDER for the available shapes
      */
     public void setShape(int index) {
         try {
-            myFinder = NEIGHBOR_FINDER.get(index);
+            NeighborFinder newFinder = NEIGHBOR_FINDER.get(index);
+            newFinder.setNeighborPattern(myFinder.getPattern());
+            myFinder = newFinder;
         } catch(IndexOutOfBoundsException e) {
             throw new CAException(CAException.INVALID_SHAPE);
         }
@@ -123,7 +110,7 @@ public abstract class Grid implements Iterable<Cell> {
      * @return the number of neighbors of a middle cell
      */
     public int numNeighbors() {
-        return myFinder.numNeighbors(isDiagonal);
+        return myFinder.numNeighbors();
     }
 
     /**
@@ -158,16 +145,10 @@ public abstract class Grid implements Iterable<Cell> {
     
     /**
      * Sets the neighbor pattern to the specified type
-     * @param type - refer to NEIGHBOR_PATTERN for the available patterns
+     * @param type - refer to NeighborFinder.NEIGHBOR_PATTERN for the available patterns
      */
-    public void setNeighborPattern(String type) {
-        if(type.equals(NEIGHBOR_PATTERN.get(0))) {
-            setDiagonal(true);
-        }
-        else if(type.equals(NEIGHBOR_PATTERN.get(1))) {
-            setDiagonal(false);
-        }
-        throw new CAException(CAException.INVALID_GRID, type);
+    public void setNeighborPattern(int type) {
+        myFinder.setNeighborPattern(type);
     }
     
     @Override
@@ -197,7 +178,7 @@ public abstract class Grid implements Iterable<Cell> {
         for(int row = 0; row < numRows(); row++) {
             for(int col = 0; col < numCols(); col++) {
                 Set<Cell> neighbors = new HashSet<Cell>();
-                for(Location loc: myFinder.findNeighbor(row, col, isDiagonal)) {
+                for(Location loc: myFinder.findNeighbor(row, col)) {
                     addNeighbor(loc.getRow(), loc.getCol(), neighbors);
                 }
                 sim[row][col].setNeighbors(neighbors);

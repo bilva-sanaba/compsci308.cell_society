@@ -1,6 +1,6 @@
 #input-panel {
     -fx-pref-height: 80;
-    -fx-spacing: 20;
+    -fx-spacing: 15;
     -fx-background-color: black;
     -fx-alignment: center;
 }

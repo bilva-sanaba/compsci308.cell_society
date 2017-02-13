@@ -19,10 +19,9 @@ import model.manager.GOLManager;
 import model.manager.ModelManager;
 import model.manager.SegregationManager;
 import model.manager.WatorManager;
-import shapegenerator.HexagonGenerator;
-import shapegenerator.SquareGenerator;
 import util.CAData;
 import util.XMLReader;
+import util.XMLWriter;
 
 /**
  * Regulates the simulation and coordinates model and view
@@ -102,6 +101,14 @@ public class Controller {
         update();
     }
     
+    public void save(File dataFile) {
+        try {
+            new XMLWriter().saveData(myModel, dataFile);
+        } catch(CAException e) {
+            throw new CAException(e);
+        }
+    }
+    
     /**
      * Zooms in the display
      */
@@ -145,7 +152,7 @@ public class Controller {
      * Sets the neighbor pattern of the simulation
      * @param type
      */
-    public void setNeighborPattern(String type) {
+    public void setNeighborPattern(int type) {
         myModel.getGrid().setNeighborPattern(type);
     }
     
