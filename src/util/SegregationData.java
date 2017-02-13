@@ -23,6 +23,10 @@ public class SegregationData extends CAData {
 		super(data);
 	}
 	
+	/**
+	 * Returns the threshold parameter used in segregation simulation
+	 * @return
+	 */
 	public double getThreshold() {
 	    try {
 	        return Double.parseDouble(getField(EXTRA_FIELDS.get(0)));

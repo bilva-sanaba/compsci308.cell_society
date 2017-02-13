@@ -58,40 +58,82 @@ public abstract class CAData {
 	    }
 	}
 	
+	/**
+	 * Add new key value entry in myData Map
+	 * @param field
+	 * @param data
+	 */
 	public void addExtraField(String field, String data) {
 	    myData.put(field, data);
 	}
 	
+	/**
+	 * Returns the string in Map associated with field key
+	 * @param field
+	 * @return
+	 */
 	protected String getField(String field) {
 	    return myData.get(field);
 	}
 	
+	/**
+	 * Returns the name of the simulation
+	 * @return
+	 */
 	public String getName() {
 		return myData.get(DATA_FIELDS.get(0));
 	}
 	
+	/**
+	 * Returns the title of the simulation
+	 * @return
+	 */
 	public String getTitle() {
 		return myData.get(DATA_FIELDS.get(1));
 	}
 	
+	/**
+	 * Returns the author of the xml file
+	 * @return
+	 */
 	public String getAuthor() {
 	    return myData.get(DATA_FIELDS.get(2));
 	}
 	
+	/**
+	 * Returns the number of rows the simulation will have
+	 * @return
+	 */
 	public int numRows() {
 		return numRow;
 	}
 	
+	/**
+	 * Returns the number of columns the simulation will have
+	 * @return
+	 */
 	public int numCols() {
 	    return numCol;
 	}
 	
+	/**
+	 * Returns a list of the initial cells that were configured
+	 * @return
+	 */
 	public Collection<CellConfig> getCell() {
 	    return myCellConfig;
 	}
 	
+	/**
+	 * Returns a list of strings that identify parameters specific to the particular model
+	 * @return
+	 */
 	public abstract Collection<String> getExtraField();
     
+    /**
+     * Parses the string from the cell tag, makes specific new cells, and adds them to a list
+     * @param cellConfig
+     */
     private void parseCellConfig(String cellConfig) {
         Scanner sc = new Scanner(cellConfig);
         while(sc.hasNext()) {
@@ -110,12 +152,21 @@ public abstract class CAData {
         sc.close();
     }
     
+    /**
+     * Check if cell is being placed in a valid location in the grid
+     * @param row
+     * @param col
+     */
     private void validateLocation(int row, int col) {
         if(row < 0 || row >= numRows() || col < 0 || row > numCols()) {
             throw new CAException(CAException.INVALID_LOCATION);
         }
     }
 
+    /**
+     * Make a user-defined number of each type of cell in random locations
+     * @param cellNum
+     */
     private void parseCellNum(String cellNum) {
         Scanner sc = new Scanner(cellNum);
         Deque<Integer> randomSeq = getRandomSeq(numRows() * numCols());
@@ -130,6 +181,10 @@ public abstract class CAData {
         sc.close();
     }
     
+    /**
+     * Make cells in random locations and according to a distribution on the type of cell
+     * @param cellProb
+     */
     private void parseCellProb(String cellProb) {
     	Scanner sc = new Scanner(cellProb);
     	ArrayList<Integer> probs = new ArrayList<Integer>();
@@ -157,6 +212,11 @@ public abstract class CAData {
     	sc.close();
     }
     
+    /**
+     * Returns a random cell type
+     * @param probs
+     * @return
+     */
     private int randomCellType(List<Integer> probs) {
     	int rand = ThreadLocalRandom.current().nextInt(100);
     	for(int i = 0; i < probs.size(); i++) {
@@ -167,10 +227,20 @@ public abstract class CAData {
     	return 0;
     }
     
+    /**
+     * Returns the positive integer contained in a string
+     * @param field
+     * @return
+     */
     private int parsePositiveInteger(String field) {
         return Math.abs(Integer.parseInt(myData.get(field)));
     }
     
+    /**
+     * Returns a sequence of random integers
+     * @param size
+     * @return
+     */
     private Deque<Integer> getRandomSeq(int size) {
         List<Integer> random = new ArrayList<Integer>();
         for(int i = 0; i < size; i++) {
@@ -180,6 +250,12 @@ public abstract class CAData {
         return new ArrayDeque<Integer>(random);
     }
 
+    /**
+     * Adds random types of cells at random locations specified in a queue
+     * @param state
+     * @param num
+     * @param locations
+     */
     private void addRandomCells(int state, int num, Deque<Integer> locations) {
         for(int i = 0; i < num; i++) {
             int location;
@@ -192,6 +268,11 @@ public abstract class CAData {
         }
     }
 	
+	/**
+	 * Create a data subclass corresponding to the appropriate simulation
+	 * @param data
+	 * @return
+	 */
 	public static CAData getModelData(Map<String, String> data) {
 	    String name = data.get(DATA_FIELDS.get(0)).toLowerCase();
 	    if(name.equals(SegregationModel.NAME)) {
