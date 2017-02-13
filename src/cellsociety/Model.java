@@ -9,6 +9,11 @@ import java.util.Random;
 import cell.Cell;
 import cell.state.CellState;
 
+/**
+ * Superclass for all simulation models
+ * @author Mike Liu
+ *
+ */
 public abstract class Model {
     
     private Grid myGrid;
@@ -27,22 +32,42 @@ public abstract class Model {
         }
     }
 
+    /**
+     * Returns the grid of the model
+     * @return
+     */
     public Grid getGrid() {
         return myGrid;
     }
     
+    /**
+     * Sets the grid of the model to the specified type
+     * @param type - refer to Grid.GRID_TYPE for available types
+     */
     public void setGrid(String type) {
         this.myGrid = myGrid.switchGrid(type);
     }
     
+    /**
+     * Notifies the model that the cell at position (row, col) is clicked
+     * @param row
+     * @param col
+     */
     public void click(int row, int col) {
         getGrid().get(row, col).rotateState();
     }
     
+    /**
+     * Returns the population map of the model
+     * @return
+     */
     public Map<String, Integer> getPopulation() {
         return myPopulation;
     }
     
+    /**
+     * Updates the simulation
+     */
     public abstract void update();
     
     /**
@@ -61,6 +86,11 @@ public abstract class Model {
 		return ret;
 	}
     
+    /**
+     * Returns the states that needs to be kept track of
+     * Helper method implemented by subclasses
+     * @return
+     */
     protected abstract Collection<String> getDocumentedStates();
     
     protected void addCount(String state, int num) {

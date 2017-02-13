@@ -1,5 +1,10 @@
 package grid;
 
+/**
+ * Data class for a location
+ * @author Mike Liu
+ *
+ */
 public class Location {
 
     private int myRow, myCol;

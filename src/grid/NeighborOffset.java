@@ -4,6 +4,11 @@ import java.util.List;
 
 import cellsociety.CAException;
 
+/**
+ * Data class for neighbor offsets
+ * @author Mike Liu
+ *
+ */
 public class NeighborOffset {
     
     private List<Integer> myRowOffset, myColOffset;

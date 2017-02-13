@@ -19,7 +19,7 @@ import model.SegregationModel;
 import model.WatorModel;
 
 /**
- * 
+ * Data class of the information needed to initialize a simulation model
  * @author Justin Yang
  * @author Mike Liu
  *

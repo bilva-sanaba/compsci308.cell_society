@@ -7,6 +7,11 @@ import cell.CellConfig;
 import cell.generator.CellGenerator;
 import cellsociety.Grid;
 
+/**
+ * Flat grid with finite edge
+ * @author Mike Liu
+ *
+ */
 public class FlatGrid extends Grid {
 
     public FlatGrid(int row, int col, Collection<CellConfig> cellConfig, CellGenerator generator, boolean diagonal) {

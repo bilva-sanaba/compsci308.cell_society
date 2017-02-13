@@ -2,6 +2,12 @@ package cell;
 
 import cell.state.SegregationState;
 
+/**
+ * Cell for Segregation Simulation
+ * @author Bilva Sanaba
+ * @author Mike Liu
+ *
+ */
 public class SegregationCell extends Cell{
     
     private boolean unhappy;

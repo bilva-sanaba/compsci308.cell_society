@@ -13,6 +13,7 @@ import cell.state.WatorState;
 
 /**
  * Cell for Wa-Tor simulation
+ * @author Bilva Sanaba
  * @author Mike Liu
  *
  */

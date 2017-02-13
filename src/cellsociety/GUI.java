@@ -68,6 +68,9 @@ public class GUI {
         myChooser = makeFileChooser(DATA_FILE_EXTENSION);
     }
     
+    /**
+     * Displays the whole program
+     */
     public void show() {
         myStage.show();
     }
@@ -123,6 +126,8 @@ public class GUI {
                 File dataFile = myChooser.showOpenDialog(myStage);
                 if(dataFile != null) {
                     myController.load(dataFile, new MyLoadHandler());
+                    shapeChooser.getSelectionModel().selectFirst();
+                    gridChooser.getSelectionModel().selectFirst();
                 }
             } catch(CAException ce) {
                 showError(ce.getMessage());
@@ -242,12 +247,5 @@ public class GUI {
             inputStage.setScene(scene);
             inputStage.sizeToScene();
         }
-
-        @Override
-        public void resetChoices() {
-            shapeChooser.getSelectionModel().selectFirst();
-            gridChooser.getSelectionModel().selectFirst();
-        }
-        
     }
 }

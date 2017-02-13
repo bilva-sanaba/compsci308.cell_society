@@ -57,6 +57,11 @@ public class Controller {
         animation = getTimeline();
     }
     
+    /**
+     * Loads dataFile and attempts to initialize the simulation
+     * @param dataFile
+     * @param handler
+     */
     public void load(File dataFile, LoadHandler handler) {
         animation.stop();
         try {
@@ -68,58 +73,100 @@ public class Controller {
             myModel = null;
             throw new CAException(e);
         }
-        handler.resetChoices();
         gridView.setModel(myModel);
         graphView.setModel(myModel);
     }
 
+    /**
+     * Starts the animation
+     */
     public void play() {
         validateModel();
         animation.play();
     }
-    
+
+    /**
+     * Pauses the animation
+     */
     public void pause() {
         animation.pause();
     }
-    
+
+    /**
+     * Steps through the simulation
+     */
     public void step() {
         pause();
         update();
     }
     
+    /**
+     * Zooms in the display
+     */
     public void zoomIn() {
         gridView.zoomIn();
     }
-    
+
+    /**
+     * Zooms out the display
+     */
     public void zoomOut() {
         gridView.zoomOut();
     }
     
+    /**
+     * Sets the speed of the animation
+     * @param fps - frames per second of the animation
+     */
     public void setSpeed(int fps) {
         animation.setRate(fps/(double)DEFAULT_FPS);
     }
     
+    /**
+     * Sets the cell shape of the simulation
+     * @param index
+     */
     public void setShape(int index) {
         myModel.getGrid().setShape(index);
         gridView.setShape(index);
     }
     
+    /**
+     * Sets the grid type of the simulation
+     * @param type
+     */
     public void setGrid(String type) {
         myModel.setGrid(type);
     }
     
+    /**
+     * Sets the neighbor pattern of the simulation
+     * @param type
+     */
     public void setNeighborPattern(String type) {
         myModel.getGrid().setNeighborPattern(type);
     }
     
+    /**
+     * Returns whether this controller has a valid model
+     * @return
+     */
     public boolean hasModel() {
         return myModel != null;
     }
     
+    /**
+     * Returns the display of the grid
+     * @return
+     */
     public Parent getGridView() {
         return gridView;
     }
     
+    /**
+     * Returns the display of the population of different states
+     * @return
+     */
     public Region getGraphView() {
         return graphView.getChart();
     }

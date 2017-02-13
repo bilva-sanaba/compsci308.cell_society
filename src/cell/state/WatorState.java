@@ -5,6 +5,11 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * State constants for Wator simulation
+ * @author Mike Liu
+ *
+ */
 public class WatorState extends CellState {
     
     public static final WatorState WATER = new WatorState("Water", Color.BLUE);

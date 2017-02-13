@@ -1,5 +1,10 @@
 package cellsociety;
 
+/**
+ * The exception for this program
+ * @author Mike Liu
+ *
+ */
 public class CAException extends RuntimeException {
 
     public static final String INVALID_MODEL = "The simulation %s is not defined";
