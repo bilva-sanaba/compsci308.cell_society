@@ -23,6 +23,10 @@ public class FireData extends CAData {
 		super(data);
 	}
 	
+	/**
+	 * Returns the probability parameter used in fire simulation
+	 * @return
+	 */
 	public double getProbCatch() {
 	    try {
             return Double.parseDouble(getField(EXTRA_FIELDS.get(0)));

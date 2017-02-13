@@ -38,6 +38,11 @@ public class XMLReader {
         return data;
 	}
 	
+    /**
+     * Returns the root element in the xml file
+     * @param xmlFile
+     * @return
+     */
     private Element getRootElement (File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();
@@ -49,14 +54,32 @@ public class XMLReader {
         }
     }
     
+    /**
+     * Returns false if the file is not a type this parser can read
+     * @param root
+     * @param type
+     * @return
+     */
     private boolean isValidFile (Element root, String type) {
         return getAttribute(root, TYPE_ATTRIBUTE).equals(type);
     }
     
+    /**
+     * Returns a particular attribute of an element
+     * @param e
+     * @param attributeName
+     * @return
+     */
     private String getAttribute (Element e, String attributeName) {
         return e.getAttribute(attributeName);
     }
     
+    /**
+     * Returns the string contained within a particular tag
+     * @param e
+     * @param tagName
+     * @return
+     */
     private String getTextValue (Element e, String tagName) {
         NodeList nodeList = e.getElementsByTagName(tagName);
         if (nodeList != null && nodeList.getLength() > 0) {
@@ -67,6 +90,11 @@ public class XMLReader {
         }
     }
 	
+	/**
+	 * Throws exception if the tag does not contain a field
+	 * @param tagName
+	 * @return
+	 */
 	private String handleMissingTag(String tagName) {
 	    if(tagName.equals(CAData.DATA_FIELDS.get(0))
 	            || tagName.equals(CAData.DATA_FIELDS.get(3))
@@ -76,6 +104,10 @@ public class XMLReader {
         return "";
     }
 	
+    /**
+     * Returns the DocumentBuilder used to parse the XML file
+     * @return
+     */
     private static DocumentBuilder getDocumentBuilder() {
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder();
