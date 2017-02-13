@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +14,7 @@ import util.CAData;
 import util.SegregationData;
 
 /**
- * Model for Game of Life simulation
+ * Model for Segregation simulation
  * @author Bilva Sanaba
  * @author Mike Liu
  *
@@ -28,12 +27,10 @@ public class SegregationModel extends Model {
 	public static final double DEFAULT_THRESHOLD = .3;
 
 	private double happyPercent;
-	private List<SegregationCell> empty;
 
 	public SegregationModel(CAData data) {
 		super(new FlatGrid(data.numRows(), data.numCols(), data.getCell(), new SegregationCellGenerator(), true));
 		happyPercent = ((SegregationData)data).getThreshold();
-		empty = findEmptyCells();
 		checkHappiness();
 	}
 
@@ -42,20 +39,17 @@ public class SegregationModel extends Model {
         return NAME;
     }
 
-    private List<SegregationCell> findEmptyCells() {
-	    List<SegregationCell> empty = new ArrayList<SegregationCell>();
-	    for(Cell cell: getGrid()) {
-	        if(cell.is(SegregationState.EMPTY)) {
-                empty.add((SegregationCell)cell);
-            }
-	    }
-        return empty;
-    }
-
+	/**
+	 * Updates the threshold needed for a cell to move.
+	 * @param threshold
+	 */
     public void setThreshold(double threshold) {
 	    happyPercent = threshold;
 	}
 
+    /**
+     * Updates the simulation by moving all unhappy cells and then placing the appropriate number and type of moved cells in random locations
+     */
 	@Override
 	public void update() {
 	    for(Cell cell: getGrid()) {
@@ -72,8 +66,9 @@ public class SegregationModel extends Model {
 	
 	private void moveUnhappy(SegregationCell cell) {
 		if (cell.isUnhappy()){
+			List<Cell> empty = getGrid().getCells(SegregationState.EMPTY);
 		    if(empty.size() > 0) {
-		        SegregationCell emptyCell = (SegregationCell)pickRandomCell(empty);
+		        SegregationCell emptyCell = (SegregationCell) pickRandomCell(empty);
 	            if (cell.is(SegregationState.RED)) {
 	                emptyCell.fillRed();
 	            } else {

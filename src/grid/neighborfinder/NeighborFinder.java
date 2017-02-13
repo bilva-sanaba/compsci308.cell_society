@@ -64,4 +64,5 @@ public abstract class NeighborFinder {
         }
         return neighbors;
     }
+    public abstract void toKnight();
 }

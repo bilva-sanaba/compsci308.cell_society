@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 /**
  * State constants for Wator simulation
  * @author Mike Liu
- *
+ * @author Bilva Sanaba
  */
 public class WatorState extends CellState {
     

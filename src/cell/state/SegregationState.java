@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 /**
  * State constants for Segregation simulation
  * @author Mike Liu
- *
+ * @author Bilva Sanaba
  */
 public class SegregationState extends CellState {
     
