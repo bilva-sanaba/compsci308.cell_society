@@ -11,6 +11,7 @@ import cell.state.CellState;
  * Superclass for individual cell in the grid
  * Keeps track of state and color
  * @author Mike Liu
+ * @author Bilva Sanaba
  *
  */
 public abstract class Cell {

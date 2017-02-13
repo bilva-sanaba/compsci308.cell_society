@@ -10,13 +10,13 @@ public class WatorInput extends ModelInput {
         super();
         myModel = model;
         addNumberField("Fish breed period", WatorModel.DEFAULT_FISH_BREED_PERIOD, value -> {
-            myModel.setFishBreedPeriod(value);
+            myModel.updateFishBreedPeriod(value);
         });
         addNumberField("Shark breed period", WatorModel.DEFAULT_SHARK_BREED_PERIOD, value -> {
-            myModel.setSharkBreedPeriod(value);
+            myModel.updateSharkBreedPeriod(value);
         });
         addNumberField("Shark initial energy", WatorModel.DEFAULT_SHARK_ENERGY, value -> {
-            myModel.setSharkEnergy(value);
+            myModel.updateSharkEnergy(value);
         });
         addNumberField("Energy per fish", WatorModel.DEFAULT_FISH_ENERGY, value -> {
             myModel.setFishEnergy(value);

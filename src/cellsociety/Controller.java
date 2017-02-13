@@ -19,6 +19,8 @@ import model.manager.GOLManager;
 import model.manager.ModelManager;
 import model.manager.SegregationManager;
 import model.manager.WatorManager;
+import shapegenerator.HexagonGenerator;
+import shapegenerator.SquareGenerator;
 import util.CAData;
 import util.XMLReader;
 

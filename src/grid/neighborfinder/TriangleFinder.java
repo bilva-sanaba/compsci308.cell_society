@@ -9,7 +9,7 @@ import grid.NeighborOffset;
 /**
  * Finds the neighbors of a location given by (row, col), treating the boundary as triangle
  * @author Mike Liu
- *
+ * @author Bilva Sanaba
  */
 public class TriangleFinder extends NeighborFinder {
     
@@ -25,6 +25,9 @@ public class TriangleFinder extends NeighborFinder {
     public static final NeighborOffset ODD_DIAGONAL = new NeighborOffset(
             Arrays.asList(-1, -1, -1, 0, 0, 1, 1, 1, 1),
             Arrays.asList(-1, 0, 1, -2, 2, -2, -1, 1, 2));
+    public static final NeighborOffset KNIGHT = new NeighborOffset(
+    		Arrays.asList(-2,-2,-1,-1,1,1,2,2),
+    		Arrays.asList(-1,1,-2,2,-2,2,-1,1));
     
     private NeighborOffset evenCardinalOffset, evenDiagonalOffset, oddCardinalOffset, oddDiagonalOffset;
     
@@ -34,7 +37,12 @@ public class TriangleFinder extends NeighborFinder {
         oddCardinalOffset = ODD_CARDINAL;
         oddDiagonalOffset = ODD_DIAGONAL;
     }
-
+    public void toKnight(){
+    	evenCardinalOffset = KNIGHT;
+        evenDiagonalOffset = KNIGHT;
+        oddCardinalOffset = KNIGHT;
+        oddDiagonalOffset = KNIGHT;
+    }
     @Override
     public Collection<Location> findNeighbor(int row, int col, boolean diagonal) {
         if((row + col) % 2 == 0) {
