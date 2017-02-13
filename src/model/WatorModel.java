@@ -12,7 +12,7 @@ import grid.FlatGrid;
 import util.CAData;
 
 /**
- * Model for Game of Life simulation
+ * Model for Wa-Tor simulation
  * @author Bilva Sanaba
  * @author Mike Liu
  *
@@ -40,6 +40,10 @@ public class WatorModel extends Model {
 		    initializeCellAttributes((WatorCell)cell);
 		}
 	}
+	/**
+	 * Takes a cell and set its parameters to the defaults settings
+	 * @param cell
+	 */
 	private void initializeCellAttributes(WatorCell cell){
 		if (cell.is(WatorState.FISH)){
 			cell.setReproductionDays(fishBreedPeriod);
@@ -50,16 +54,35 @@ public class WatorModel extends Model {
 		}
 	}
 	
-	public void setSharkEnergy(int energy) {
-	    energyMax = energy;
+	private void setSharkEnergy(WatorCell shark) {
+		shark.setEnergy(Math.min(shark.getEnergy(),energyMax));
 	}
 	
-	public void setFishEnergy(int energy) {
-	    fishEnergy = energy;
+	/**
+	 * Changes the energy in a shark when spawned. Updates all sharks, to this energy if they have more energy.   
+	 * @param energy
+	 */
+	public void updateSharkEnergy(int energy){
+		energyMax = energy;
+		 for (Cell shark : getGrid().getCells(WatorState.SHARK)){
+		    	setSharkEnergy((WatorCell) shark);
+		    }
 	}
+	/**
+	 * Changes the energy a shark gains when it eats a fish. 
+	 * @param energy
+	 */
+	public void setFishEnergy(int energy){
+		fishEnergy = energy;
+	}
+
 	private void setSharkBreedPeriod(WatorCell shark){
 		shark.setReproductionDays(Math.min(shark.getReproductionDays(),sharkBreedPeriod));
 	}
+	/**
+	 * Changes the days it takes for a shark to reproduce. Sharks reproduction days left are lowered if appropriate
+	 * @param period
+	 */
 	public void updateSharkBreedPeriod(int period) {
 	    sharkBreedPeriod = period;
 	    for (Cell shark : getGrid().getCells(WatorState.SHARK)){
@@ -69,13 +92,19 @@ public class WatorModel extends Model {
 	private void setFishBreedPeriod(WatorCell fish){
 		fish.setReproductionDays(Math.min(fish.getReproductionDays(),fishBreedPeriod));
 	}
+	/**
+	 * Changes the days it takes for a fish to reproduce. Fish reproduction days left are lowered if appropriate
+	 * @param period
+	 */
 	public void updateFishBreedPeriod(int period) {
 	    fishBreedPeriod = period;
 	    for (Cell fish : getGrid().getCells(WatorState.FISH)){
 	    	setFishBreedPeriod((WatorCell) fish);
 	    }
 	}
-    
+    /**
+     * Method called when a cell is clicked. Cell state is rotated, and the new state is initialized with appropriate cell attributes
+     */
 	@Override
     public void click(int row, int col) {
 		WatorCell cell = (WatorCell)getGrid().get(row, col);
@@ -83,12 +112,11 @@ public class WatorModel extends Model {
 		super.click(row,col);
 		if (!cell.is(WatorState.WATER)){
 			addCount(cell.getState(),+1);}
-        if(cell.is(WatorState.SHARK)) {
-            sharkReproduction(cell, cell);}
-        else if(cell.is(WatorState.FISH)) {
-            fishReproduction(cell, cell);}
+        initializeCellAttributes(cell);
     }
-	
+	/**
+	 * Updates the simulation by moving all sharks to  appropriate locations and then all fish. 
+	 */
 	@Override
 	public void update() {
 		for (Cell shark : getGrid().getCells(WatorState.SHARK)){

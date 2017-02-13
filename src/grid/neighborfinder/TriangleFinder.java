@@ -9,7 +9,7 @@ import grid.NeighborOffset;
 /**
  * Finds the neighbors of a location given by (row, col), treating the boundary as triangle
  * @author Mike Liu
- *
+ * @author Bilva Sanaba
  */
 public class TriangleFinder extends NeighborFinder {
     

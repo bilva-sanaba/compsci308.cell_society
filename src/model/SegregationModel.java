@@ -14,7 +14,7 @@ import util.CAData;
 import util.SegregationData;
 
 /**
- * Model for Game of Life simulation
+ * Model for Segregation simulation
  * @author Bilva Sanaba
  * @author Mike Liu
  *
@@ -33,11 +33,17 @@ public class SegregationModel extends Model {
 		happyPercent = ((SegregationData)data).getThreshold();
 		checkHappiness();
 	}
-
+	/**
+	 * Updates the threshold needed for a cell to move.
+	 * @param threshold
+	 */
     public void setThreshold(double threshold) {
 	    happyPercent = threshold;
 	}
 
+    /**
+     * Updates the simulation by moving all unhappy cells and then placing the appropriate number and type of moved cells in random locations
+     */
 	@Override
 	public void update() {
 	    for(Cell cell: getGrid()) {
