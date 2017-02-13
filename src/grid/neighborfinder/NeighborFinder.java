@@ -14,10 +14,32 @@ import grid.NeighborOffset;
  */
 public abstract class NeighborFinder {
 
+    /**
+     * Returns the neighbors (in the form of a collection of locations) of the cell at (row, col)
+     * @param row
+     * @param col
+     * @param diagonal - whether diagonal neighbors are included
+     * @return
+     */
     public abstract Collection<Location> findNeighbor(int row, int col, boolean diagonal);
     
+    /**
+     * Returns the number of neighbors considered
+     * @param diagonal - whether diagonal neighbors are included
+     * @return
+     */
     public abstract int numNeighbors(boolean diagonal);
     
+    /**
+     * Returns the neighbors of cell at (row, col) according to the given offsets
+     * Helper method commonly needed by subclasses
+     * @param row
+     * @param col
+     * @param diagonal - whether diagonal neighbors are included
+     * @param cardinalOffset
+     * @param diagonalOffset
+     * @return
+     */
     protected Collection<Location> findNeighbor(int row, int col, boolean diagonal,
             NeighborOffset cardinalOffset, NeighborOffset diagonalOffset) {
         Collection<Location> neighbors = findNeighbor(row, col, cardinalOffset);
@@ -27,6 +49,14 @@ public abstract class NeighborFinder {
         return neighbors;
     }
     
+    /**
+     * Returns the neighbors of cell at (row, col) according to the given offset
+     * Helper method commonly needed by subclasses
+     * @param row
+     * @param col
+     * @param offset
+     * @return
+     */
     protected Collection<Location> findNeighbor(int row, int col, NeighborOffset offset) {
         Set<Location> neighbors = new HashSet<Location>();
         for(int i = 0; i < offset.length(); i++) {

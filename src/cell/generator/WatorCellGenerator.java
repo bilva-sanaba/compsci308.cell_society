@@ -4,6 +4,11 @@ import cell.WatorCell;
 import cell.state.WatorState;
 import cellsociety.CAException;
 
+/**
+ * Generates cells for Wator simulation
+ * @author Mike Liu
+ *
+ */
 public class WatorCellGenerator implements CellGenerator {
 
     @Override

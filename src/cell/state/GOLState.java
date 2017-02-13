@@ -5,6 +5,11 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * State constants for Game Of Life simulation
+ * @author Mike Liu
+ *
+ */
 public class GOLState extends CellState {
     
     public static final GOLState DEAD = new GOLState("Dead", Color.BLACK);

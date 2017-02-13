@@ -19,6 +19,14 @@ public abstract class ShapeGenerator {
     public static final Color STROKE = Color.BLACK;
     public static final Color ALTERNATIVE_STROKE = Color.WHITE;
     
+    /**
+     * Generates a collection of shapes for the specified grid
+     * The shapes generated will have the on clicked event handler specified by handler
+     * @param gridWidth - the total width that the shapes are adapted to
+     * @param grid
+     * @param handler - the on clicked event handler attached to the shapes
+     * @return
+     */
     public Collection<Shape> generate(double gridWidth, Grid grid, CellClickHandler handler) {
         List<Shape> shapes = new ArrayList<Shape>();
         double width = calculateWidth(gridWidth, grid.numCols());
@@ -37,6 +45,13 @@ public abstract class ShapeGenerator {
         return shapes;
     }
     
+    /**
+     * Calculates the width of a single cell
+     * Helper method implemented by subclasses
+     * @param gridWidth
+     * @param numCols
+     * @return
+     */
     protected abstract double calculateWidth(double gridWidth, int numCols);
 
     /**

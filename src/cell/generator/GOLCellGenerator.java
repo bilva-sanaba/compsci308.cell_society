@@ -4,6 +4,11 @@ import cell.GOLCell;
 import cell.state.GOLState;
 import cellsociety.CAException;
 
+/**
+ * Generates cells for Game of Life simulation
+ * @author Mike Liu
+ *
+ */
 public class GOLCellGenerator implements CellGenerator {
 
     @Override

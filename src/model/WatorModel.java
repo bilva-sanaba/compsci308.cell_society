@@ -1,12 +1,8 @@
 package model;
 
-
-
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import cell.Cell;
 import cell.WatorCell;
 import cell.generator.WatorCellGenerator;
@@ -15,6 +11,12 @@ import cellsociety.Model;
 import grid.FlatGrid;
 import util.CAData;
 
+/**
+ * Model for Game of Life simulation
+ * @author Bilva Sanaba
+ * @author Mike Liu
+ *
+ */
 public class WatorModel extends Model {
     
     public static final String NAME = "wator";

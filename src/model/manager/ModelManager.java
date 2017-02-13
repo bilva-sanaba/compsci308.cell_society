@@ -3,6 +3,11 @@ package model.manager;
 import cellsociety.Model;
 import model.input.ModelInput;
 
+/**
+ * Constructs a simulation model and its corresponding input
+ * @author Mike Liu
+ *
+ */
 public abstract class ModelManager {
 
     Model myModel;

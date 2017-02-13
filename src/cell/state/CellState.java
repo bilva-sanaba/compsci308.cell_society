@@ -4,6 +4,11 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * The state of a cell
+ * @author Mike Liu
+ *
+ */
 public abstract class CellState {
     
     private String myState;
@@ -35,6 +40,11 @@ public abstract class CellState {
         return equals(((CellState)other).myState);
     }
     
+    /**
+     * Returns a new state
+     * Deterministic behavior
+     * @return
+     */
     public CellState rotate() {
         List<? extends CellState> states = getStates();
         int len = states.size();
