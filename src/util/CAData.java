@@ -12,11 +12,11 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-import cell.CellConfig;
 import cellsociety.CAException;
-import model.GOLModel;
-import model.SegregationModel;
-import model.WatorModel;
+import cellsociety.cell.CellConfig;
+import cellsociety.model.GOLModel;
+import cellsociety.model.SegregationModel;
+import cellsociety.model.WatorModel;
 
 /**
  * Data class of the information needed to initialize a simulation model

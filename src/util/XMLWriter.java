@@ -18,8 +18,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import cellsociety.CAException;
-import grid.Grid;
-import model.Model;
+import cellsociety.grid.Grid;
+import cellsociety.model.Model;
 
 /**
  * 

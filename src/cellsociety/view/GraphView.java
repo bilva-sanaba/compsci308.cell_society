@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cellsociety.CAException;
+import cellsociety.model.Model;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import model.Model;
 
 /**
  * Displays the population graph of the simulation

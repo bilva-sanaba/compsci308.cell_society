@@ -2,13 +2,13 @@ package cellsociety.view;
 
 import cellsociety.CAException;
 import cellsociety.handler.CellClickHandler;
+import cellsociety.model.Model;
+import cellsociety.view.shapegenerator.HexagonGenerator;
+import cellsociety.view.shapegenerator.ShapeGenerator;
+import cellsociety.view.shapegenerator.SquareGenerator;
+import cellsociety.view.shapegenerator.TriangleGenerator;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
-import model.Model;
-import shapegenerator.HexagonGenerator;
-import shapegenerator.ShapeGenerator;
-import shapegenerator.SquareGenerator;
-import shapegenerator.TriangleGenerator;
 
 /**
  * Displays the animation of the simulation
