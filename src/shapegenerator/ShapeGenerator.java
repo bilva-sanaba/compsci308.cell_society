@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import cellsociety.Grid;
+import cellsociety.handler.CellClickHandler;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
@@ -18,16 +19,18 @@ public abstract class ShapeGenerator {
     public static final Color STROKE = Color.BLACK;
     public static final Color ALTERNATIVE_STROKE = Color.WHITE;
     
-    public Collection<Shape> generate(double gridWidth, Grid grid) {
+    public Collection<Shape> generate(double gridWidth, Grid grid, CellClickHandler handler) {
         List<Shape> shapes = new ArrayList<Shape>();
         double width = calculateWidth(gridWidth, grid.numCols());
         for(int row = 0; row < grid.numRows(); row++) {
             for(int col = 0; col < grid.numCols(); col++) {
                 Shape shape = getShape(row, col, width);
-                Color color = grid.get(row, col).getColor();
+                Color color = grid.get(row, col).getState().getColor();
                 shape.setStroke(color==ShapeGenerator.STROKE
                         ? ShapeGenerator.ALTERNATIVE_STROKE : ShapeGenerator.STROKE);
                 shape.setFill(color);
+                final int frow = row, fcol = col;
+                shape.setOnMouseClicked(e -> handler.onClicked(frow, fcol));
                 shapes.add(shape);
             }
         }
