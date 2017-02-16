@@ -1,5 +1,6 @@
 package cellsociety.grid;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cellsociety.CAException;
@@ -17,8 +18,14 @@ public class NeighborOffset {
         if(rowOffset.size() != colOffset.size()) {
             throw new CAException(CAException.MISMATCH_OFFSET);
         }
-        myRowOffset = rowOffset;
-        myColOffset = colOffset;
+        myRowOffset = new ArrayList<Integer>(rowOffset);
+        myColOffset = new ArrayList<Integer>(colOffset);
+    }
+    
+    public NeighborOffset(NeighborOffset other, List<Integer> rowOffset, List<Integer> colOffset) {
+        this(rowOffset, colOffset);
+        myRowOffset.addAll(other.myRowOffset);
+        myColOffset.addAll(other.myColOffset);
     }
     
     public int getRowOffset(int i) {

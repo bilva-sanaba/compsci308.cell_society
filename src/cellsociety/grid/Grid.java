@@ -30,9 +30,9 @@ public abstract class Grid implements Iterable<Cell> {
             "Finite",
             "Toroidal");
     public static final List<NeighborFinder> NEIGHBOR_FINDER = Arrays.asList(
-            new RectangleFinder(true),
-            new TriangleFinder(true),
-            new HexagonFinder(true));
+            new RectangleFinder(),
+            new TriangleFinder(),
+            new HexagonFinder());
 
     private Cell[][] sim;
     private NeighborFinder myFinder;
@@ -180,7 +180,7 @@ public abstract class Grid implements Iterable<Cell> {
                 for(Location loc: myFinder.findNeighbor(row, col)) {
                     addNeighbor(loc.getRow(), loc.getCol(), neighbors);
                 }
-                sim[row][col].setNeighbors(neighbors);
+                get(row, col).setNeighbors(neighbors);
             }
         }
     }

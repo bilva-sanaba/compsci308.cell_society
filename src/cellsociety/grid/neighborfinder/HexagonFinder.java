@@ -2,6 +2,7 @@ package cellsociety.grid.neighborfinder;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import cellsociety.grid.Location;
 import cellsociety.grid.NeighborOffset;
@@ -25,23 +26,19 @@ public class HexagonFinder extends NeighborFinder {
     public static final NeighborOffset KNIGHT_ODD = new NeighborOffset(
             Arrays.asList(-2, -1, -1, 1, 1, 2),
             Arrays.asList(0, -1, 2, -1, 2, 0));
-    
+    private static final List<NeighborOffset> EVEN_OFFSETS = Arrays.asList(
+            EVEN,
+            EVEN,
+            KNIGHT_EVEN);
+    private static final List<NeighborOffset> ODD_OFFSETS = Arrays.asList(
+            ODD,
+            ODD,
+            KNIGHT_ODD);
     
     private NeighborOffset evenOffset, oddOffset;
     
-    public HexagonFinder(boolean diagonal) {
-        super(diagonal);
-    }
-
-    @Override
-    public void toNormal() {
-        evenOffset = EVEN;
-        oddOffset = ODD;
-    }
-    
-    public void toKnight(){
-    	evenOffset = KNIGHT_EVEN;
-    	oddOffset = KNIGHT_ODD;
+    public HexagonFinder() {
+        super();
     }
     
     @Override
@@ -56,6 +53,12 @@ public class HexagonFinder extends NeighborFinder {
     @Override
     public int numNeighbors() {
         return evenOffset.length();
+    }
+
+    @Override
+    protected void setOffset(int type) {
+        evenOffset = EVEN_OFFSETS.get(type);
+        oddOffset = ODD_OFFSETS.get(type);
     }
 
 }
