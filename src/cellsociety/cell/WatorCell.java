@@ -6,6 +6,7 @@ import java.util.List;
 import cellsociety.cell.Cell;
 import cellsociety.cell.state.CellState;
 import cellsociety.cell.state.WatorState;
+import cellsociety.model.WatorModelParameters;
 
 
 /**
@@ -34,15 +35,42 @@ public class WatorCell extends Cell {
     	return energy;
     }
     public boolean shouldDie(){
-		return this.getEnergy()==0;
+		return this.getEnergy()<=0;
     }
     public boolean canReproduce(){
-		return this.getReproductionDays()==0;
+		return this.getReproductionDays()<=0;
 	}
     public void setEnergy(int newEnergy){
     	energy= newEnergy;
-    }   
-
+    }  
+    public void lowerReproductionDays(){
+    	reproductionDaysLeft = reproductionDaysLeft-1;
+    }
+    public void lowerEnergy(){
+    	if (this.is(WatorState.SHARK)){
+    		energy = energy-1;
+    	}
+    }
+    public void lowerEnergy(int decrement){
+    	energy = energy-decrement;
+    }
+    public void increaseEnergy(int increment){
+    	energy = energy + increment;
+    }
+    public void resetEnergy(WatorModelParameters data){
+    	if (this.is(WatorState.SHARK)){
+    		energy = data.getEnergyMax();
+    	}
+    }
+    public void resetReproductionDays(WatorModelParameters data){
+    	if (this.is(WatorState.SHARK)){
+    		reproductionDaysLeft = data.getSharkBreedPeriod();
+    	}else { 
+    		if (this.is(WatorState.FISH)){
+    			reproductionDaysLeft = data.getFishBreedPeriod();
+    		}
+    	}
+    }
     public void setReproductionDays(int daysTillReproduce){
     	reproductionDaysLeft = daysTillReproduce;
     }

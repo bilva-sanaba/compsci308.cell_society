@@ -112,6 +112,9 @@ public abstract class Model {
     protected void addCount(CellState state, int num) {
         addCount(state.toString(), num);
     }
+    protected void setCount(CellState state, int num){
+    	myPopulation.replace(state.toString(),num);
+    }
     
     protected void resetCount() {
         for(String key: myPopulation.keySet()) {

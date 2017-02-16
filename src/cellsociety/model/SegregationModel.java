@@ -103,6 +103,7 @@ public class SegregationModel extends Model {
 					}
 				}
 			}
+			if (numberOfNeighbors==0){return true;}
 			return (numberOfNeighbors>0 && numberSameNeighbors/numberOfNeighbors < happyPercent); 
 		}
 		return false;

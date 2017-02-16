@@ -1,6 +1,7 @@
 package cellsociety.model.input;
 
 import cellsociety.model.WatorModel;
+import cellsociety.model.WatorModelParameters;
 
 public class WatorInput extends ModelInput {
     
@@ -9,17 +10,17 @@ public class WatorInput extends ModelInput {
     public WatorInput(WatorModel model) {
         super();
         myModel = model;
-        addNumberField("Fish breed period", WatorModel.DEFAULT_FISH_BREED_PERIOD, value -> {
+        addNumberField("Fish breed period", WatorModelParameters.DEFAULT_FISH_BREED_PERIOD, value -> {
             myModel.updateFishBreedPeriod(value);
         });
-        addNumberField("Shark breed period", WatorModel.DEFAULT_SHARK_BREED_PERIOD, value -> {
+        addNumberField("Shark breed period", WatorModelParameters.DEFAULT_SHARK_BREED_PERIOD, value -> {
             myModel.updateSharkBreedPeriod(value);
         });
-        addNumberField("Shark initial energy", WatorModel.DEFAULT_SHARK_ENERGY, value -> {
+        addNumberField("Shark initial energy", WatorModelParameters.DEFAULT_SHARK_ENERGY, value -> {
             myModel.updateSharkEnergy(value);
         });
-        addNumberField("Energy per fish", WatorModel.DEFAULT_FISH_ENERGY, value -> {
-            myModel.setFishEnergy(value);
+        addNumberField("Energy per fish", WatorModelParameters.DEFAULT_FISH_ENERGY, value -> {
+            myModel.getParameters().setFishEnergy(value);
         });
     }
 }
