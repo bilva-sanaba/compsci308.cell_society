@@ -161,7 +161,7 @@ public abstract class CAData {
      * @param col
      */
     private void validateLocation(int row, int col) {
-        if(row < 0 || row >= numRows() || col < 0 || row > numCols()) {
+        if(row < 0 || row >= numRows() || col < 0 || col >= numCols()) {
             throw new CAException(CAException.INVALID_LOCATION);
         }
     }
