@@ -16,10 +16,8 @@ import cellsociety.cell.Cell;
 import cellsociety.cell.CellConfig;
 import cellsociety.cell.generator.CellGenerator;
 import cellsociety.cell.state.CellState;
-import cellsociety.grid.neighborfinder.HexagonFinder;
 import cellsociety.grid.neighborfinder.NeighborFinder;
-import cellsociety.grid.neighborfinder.RectangleFinder;
-import cellsociety.grid.neighborfinder.TriangleFinder;
+import cellsociety.grid.neighborfinder.NeighborFinderFactory;
 
 /**
  * Superclass of grid that contains cells in the simulation
@@ -32,10 +30,6 @@ public abstract class Grid implements Iterable<Cell> {
     public static final List<String> GRID_TYPE = Arrays.asList(
             "Finite",
             "Toroidal");
-    public static final List<NeighborFinder> NEIGHBOR_FINDER = Arrays.asList(
-            new RectangleFinder(),
-            new TriangleFinder(),
-            new HexagonFinder());
 
     private Cell[][] sim;
     private NeighborFinder myFinder;
@@ -46,7 +40,7 @@ public abstract class Grid implements Iterable<Cell> {
             sim[config.getRow()][config.getCol()] = generator.getCell(config.getState());
         }
         fillEmpty(generator);
-        myFinder = NEIGHBOR_FINDER.get(0);
+        myFinder = new NeighborFinderFactory().newNeighborFinder(NeighborFinderFactory.RECTANGLE);
         buildNeighborGraph();
     }
     
@@ -87,13 +81,9 @@ public abstract class Grid implements Iterable<Cell> {
      * @param index - refer to NEIGHBOR_FINDER for the available shapes
      */
     public void setShape(int index) {
-        try {
-            NeighborFinder newFinder = NEIGHBOR_FINDER.get(index);
-            newFinder.setNeighborPattern(myFinder.getPattern());
-            myFinder = newFinder;
-        } catch(IndexOutOfBoundsException e) {
-            throw new CAException(CAException.INVALID_SHAPE);
-        }
+        NeighborFinder newFinder = new NeighborFinderFactory().newNeighborFinder(index);
+        newFinder.setNeighborPattern(myFinder.getPattern());
+        myFinder = newFinder;
         buildNeighborGraph();
     }
     
