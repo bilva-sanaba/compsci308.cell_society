@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Justin Yang
+
 package util;
 
 import java.util.ArrayDeque;
