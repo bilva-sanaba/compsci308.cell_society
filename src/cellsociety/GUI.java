@@ -20,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -91,7 +92,10 @@ public class GUI {
      */
     private BorderPane createRoot() {
         BorderPane bp = new BorderPane();
-        bp.setCenter(myController.getGridView());
+        ScrollPane cp = new ScrollPane();
+        cp.setPrefWidth(GRID_WIDTH);
+        cp.setContent(myController.getGridView());
+        bp.setCenter(cp);
         bp.setBottom(initInputPanel());
         myController.getGraphView().setId("graph-view");
         bp.setRight(myController.getGraphView());

@@ -3,12 +3,9 @@ package cellsociety.view;
 import cellsociety.CAException;
 import cellsociety.handler.CellClickHandler;
 import cellsociety.model.Model;
-import cellsociety.view.shapegenerator.HexagonGenerator;
 import cellsociety.view.shapegenerator.ShapeGenerator;
-import cellsociety.view.shapegenerator.SquareGenerator;
-import cellsociety.view.shapegenerator.TriangleGenerator;
+import cellsociety.view.shapegenerator.ShapeGeneratorFactory;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
 
 /**
  * Displays the animation of the simulation
@@ -16,15 +13,11 @@ import javafx.scene.control.ScrollPane;
  * @author Mike Liu
  *
  */
-public class GridView extends ScrollPane {
-    
-    public static final int SQUARE = 0;
-    public static final int TRIANGLE = 1;
-    public static final int HEXAGON = 2;
+public class GridView {
     
     public static final double ZOOM_RATE = 0.8;
     
-    private Group root;
+    private Group myRoot;
     private Model myModel;
     private double gridWidth;
     private CellClickHandler myHandler;
@@ -32,12 +25,14 @@ public class GridView extends ScrollPane {
     
     public GridView(double width, CellClickHandler handler) {
         super();
-        setPrefWidth(width);
         gridWidth = width;
-        root = new Group();
-        setContent(root);
+        myRoot = new Group();
         myHandler = handler;
-        myGenerator = getShapeGenerator(0);
+        myGenerator = new ShapeGeneratorFactory().newShapeGenerator(ShapeGeneratorFactory.SQUARE);
+    }
+    
+    public Group getRoot() {
+        return myRoot;
     }
     
     /**
@@ -70,7 +65,7 @@ public class GridView extends ScrollPane {
      * @param type - refer to the constants for the available types
      */
     public void setShape(int type) {
-        myGenerator = getShapeGenerator(type);
+        myGenerator = new ShapeGeneratorFactory().newShapeGenerator(type);
         update();
     }
     
@@ -81,21 +76,7 @@ public class GridView extends ScrollPane {
         if(myModel == null) {
             throw new CAException(CAException.NO_MODEL);
         }
-        root.getChildren().clear();
-        root.getChildren().addAll(myGenerator.generate(gridWidth, myModel.getGrid(), myHandler));
-    }
-    
-    private ShapeGenerator getShapeGenerator(int type) {
-        if(type == SQUARE) {
-            return new SquareGenerator();
-        }
-        else if(type == TRIANGLE) {
-            return new TriangleGenerator();
-        }
-        else if(type == HEXAGON) {
-            return new HexagonGenerator();
-        } else {
-            throw new CAException(CAException.INVALID_SHAPE);
-        }
+        myRoot.getChildren().clear();
+        myRoot.getChildren().addAll(myGenerator.generate(gridWidth, myModel.getGrid(), myHandler));
     }
 }

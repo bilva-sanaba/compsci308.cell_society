@@ -171,7 +171,7 @@ public class Controller {
      * @return
      */
     public Parent getGridView() {
-        return gridView;
+        return gridView.getRoot();
     }
     
     /**
