@@ -2,7 +2,7 @@
 // BILVA SANABA
 
 // This code allows the Program to run the WatorModel. 
-// The class extends Model which is important because in another class, an instance of Model is created based on CAData
+// The class extends Model which is important because in  another class, an instance of Model is created based on CAData
 // and that instance of model is what is updated allowing the simulation to run.This code is well designed for several reasons.
 // First, it follows consistent naming conventions throughout. It also has its default parameters stored in a private
 // instance of a class called WatorModelParameters. This allows default settings to be changed without affecting 
