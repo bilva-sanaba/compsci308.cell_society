@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Mike Liu
+
 package cellsociety.grid;
 
 import java.util.ArrayList;
